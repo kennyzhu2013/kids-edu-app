@@ -1,0 +1,110 @@
+{
+  "schemaVersion": 1,
+  "id": "life-starter-04",
+  "packId": "life-starter",
+  "title": "情绪脸谱",
+  "order": 4,
+  "ageBand": [
+    "A",
+    "B",
+    "C"
+  ],
+  "vocab": [
+    "开心",
+    "生气",
+    "难过",
+    "害怕"
+  ],
+  "audioIntro": "asset:audio/life-starter-04-intro",
+  "introScript": "笑眯眯是开心，皱眉是生气，掉眼泪是难过，发抖是害怕。",
+  "introScriptZh": "笑眯眯是开心，皱眉是生气，掉眼泪是难过，发抖是害怕。",
+  "listenTitle": "情绪脸谱",
+  "listenVisual": "脸",
+  "steps": [
+    {
+      "id": "q1",
+      "type": "tap",
+      "promptAudio": "asset:audio/q1",
+      "promptText": "笑眯眯是什么心情？",
+      "promptSpeak": "开心",
+      "choices": [
+        {
+          "id": "sad",
+          "label": "难过",
+          "visual": "难"
+        },
+        {
+          "id": "happy",
+          "label": "开心",
+          "visual": "开"
+        },
+        {
+          "id": "angry",
+          "label": "生气",
+          "visual": "气"
+        }
+      ],
+      "answer": "happy"
+    },
+    {
+      "id": "q2",
+      "type": "tap",
+      "promptAudio": "asset:audio/q2",
+      "promptText": "掉眼泪是什么心情？",
+      "promptSpeak": "难过",
+      "choices": [
+        {
+          "id": "scared",
+          "label": "害怕",
+          "visual": "怕"
+        },
+        {
+          "id": "angry",
+          "label": "生气",
+          "visual": "气"
+        },
+        {
+          "id": "sad",
+          "label": "难过",
+          "visual": "难"
+        }
+      ],
+      "answer": "sad"
+    },
+    {
+      "id": "q3",
+      "type": "tap",
+      "promptAudio": "asset:audio/q3",
+      "promptText": "玩具坏了，更像哪种心情？",
+      "promptSpeak": "玩具坏了",
+      "choices": [
+        {
+          "id": "happy",
+          "label": "开心",
+          "visual": "开"
+        },
+        {
+          "id": "sad",
+          "label": "难过",
+          "visual": "难"
+        },
+        {
+          "id": "angry",
+          "label": "生气",
+          "visual": "气"
+        }
+      ],
+      "answer": "sad",
+      "ages": [
+        "B",
+        "C"
+      ]
+    }
+  ],
+  "rewardStars": 3,
+  "rewardCopy": "情绪小专家！心暖暖！",
+  "rewardCopyZh": "情绪小专家！心暖暖！",
+  "assetsNote": "没有实拍素材。图用色块和字块代替，旁白用浏览器语音。",
+  "nextLevelId": "life-starter-05",
+  "aDiff": "识别心情"
+}

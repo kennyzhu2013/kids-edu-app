@@ -14,11 +14,19 @@ import { cn } from "@/lib/utils";
 
 type TodayPayload = {
   streakDays: number;
-  continueLevel: { id: string; title: string; minutes: number; status: "todo" | "done" };
+  continueLevel: {
+    id: string;
+    title: string;
+    minutes: number;
+    status: "todo" | "done";
+    subject: string;
+    progress: number;
+  } | null;
   tasks: Array<{
     id: string;
     title: string;
     minutes: number;
+    subject?: string;
     status: "todo" | "done" | "locked";
     href: string;
   }>;
@@ -73,25 +81,28 @@ export function TodayScreen() {
     );
   }
 
-  const done = data.continueLevel.status === "done";
+  const current = data.continueLevel;
+  const done = current?.status === "done";
+  const progress = Math.round((current?.progress ?? 0) * 100);
   return (
     <Screen tabs>
       <div className="px-5 pt-8">
         <h1 className="text-3xl font-black">嗨，{child.nickname}</h1>
         <p className="mt-1 font-bold text-muted-foreground">已连学 {data.streakDays} 天</p>
-        <section className="mt-6 rounded-[28px] bg-white p-5 shadow-sm">
-          <h2 className="text-2xl font-black">继续：{data.continueLevel.title}</h2>
-          <p className="mt-1 text-sm font-bold text-muted-foreground">英语 · 约{data.continueLevel.minutes}分钟</p>
-          <div className="mt-4 h-3 overflow-hidden rounded-full bg-muted" aria-hidden>
-            <div className="h-full rounded-full bg-primary" style={{ width: done ? "100%" : "18%" }} />
-          </div>
-          <BigButton
-            className="mt-4"
-            onClick={() => router.push(`/play/${data.continueLevel.id}?run=${Date.now()}`)}
-          >
-            {done ? "再玩一次" : "开始挑战"}
-          </BigButton>
-        </section>
+        {current ? (
+          <section className="mt-6 rounded-[28px] bg-white p-5 shadow-sm">
+            <h2 className="text-2xl font-black">{done ? "再玩：" : "继续："}{current.title}</h2>
+            <p className="mt-1 text-sm font-bold text-muted-foreground">
+              {current.subject} · 约{current.minutes}分钟
+            </p>
+            <div className="mt-4 h-3 overflow-hidden rounded-full bg-muted" aria-hidden>
+              <div className="h-full rounded-full bg-primary" style={{ width: `${progress}%` }} />
+            </div>
+            <BigButton className="mt-4" onClick={() => router.push(`/play/${current.id}?run=${Date.now()}`)}>
+              {done ? "再玩一次" : "开始挑战"}
+            </BigButton>
+          </section>
+        ) : null}
         <h2 className="mt-8 text-lg font-black">今日任务</h2>
         <ul className="mt-3 grid gap-3">
           {data.tasks.map((task) => (
@@ -110,7 +121,9 @@ export function TodayScreen() {
                 </span>
                 <span className="min-w-0 flex-1">
                   <span className="block truncate font-black">{task.title}</span>
-                  <span className="text-sm text-muted-foreground">约{task.minutes}分钟</span>
+                  <span className="text-sm text-muted-foreground">
+                    {task.subject ? `${task.subject} · ` : ""}约{task.minutes}分钟
+                  </span>
                 </span>
                 {task.status === "locked" ? (
                   <LockBadge />

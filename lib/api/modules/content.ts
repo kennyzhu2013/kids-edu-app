@@ -52,7 +52,7 @@ export function getPack(id: string, url: URL) {
   return jsonOk({
     pack: { ...pack, coverUrl: null },
     levels,
-    unlockRule: "英语启蒙 5 关都可以直接玩。其它课包仍锁着，广告和会员还是桩。",
+    unlockRule: "四科启蒙课包都可以直接玩。未购买的课包以后仍会锁着，广告和会员还是桩。",
   });
 }
 

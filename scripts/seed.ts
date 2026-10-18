@@ -6,17 +6,20 @@ async function main() {
   const level = levels[0];
   const game = loadColorMatch();
 
-  const levelIds = new Set(catalog.levels.map((item) => item.id));
-  if (levels.length !== 5) {
-    throw new Error("英语启蒙需要 5 关可玩夹具");
+  const fixtures = new Map(levels.map((item) => [item.id, item]));
+  const playableOutlines = catalog.levels.filter((item) => item.playable);
+  if (playableOutlines.length < 20) {
+    throw new Error("四科启蒙至少要有 20 关可玩大纲");
   }
-  for (const item of levels) {
-    if (!levelIds.has(item.id)) throw new Error(`目录里没有 ${item.id}`);
-    const outline = catalog.levels.find((row) => row.id === item.id);
-    if (!outline?.playable) throw new Error(`${item.id} 在目录里还不可玩`);
+  for (const outline of playableOutlines) {
+    const item = fixtures.get(outline.id);
+    if (!item) throw new Error(`${outline.id} 标了可玩，但没有夹具`);
     if (item.steps.filter((step) => step.type !== "speak").length < 2) {
       throw new Error(`${item.id} 至少要有两道可点的题`);
     }
+  }
+  for (const item of levels) {
+    if (!catalog.levels.some((row) => row.id === item.id)) throw new Error(`目录里没有 ${item.id}`);
   }
   if (!catalog.games.some((item) => item.gameId === game.gameId && item.playable)) {
     throw new Error("目录里没有可玩的颜色配对");

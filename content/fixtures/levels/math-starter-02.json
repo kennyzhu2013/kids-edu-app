@@ -1,0 +1,105 @@
+{
+  "schemaVersion": 1,
+  "id": "math-starter-02",
+  "packId": "math-starter",
+  "title": "多少比较",
+  "order": 2,
+  "ageBand": [
+    "A",
+    "B",
+    "C"
+  ],
+  "vocab": [
+    "更多",
+    "更少",
+    "一样多"
+  ],
+  "audioIntro": "asset:audio/math-starter-02-intro",
+  "introScript": "左边有好多，右边少一点。哪边更多？哪边更少？",
+  "introScriptZh": "左边有好多，右边少一点。哪边更多？哪边更少？",
+  "listenTitle": "多少比较",
+  "listenVisual": "多少",
+  "steps": [
+    {
+      "id": "q1",
+      "type": "tap",
+      "promptAudio": "asset:audio/q1",
+      "promptText": "哪边更多？点数量多的一边",
+      "promptSpeak": "更多",
+      "choices": [
+        {
+          "id": "few",
+          "label": "2 个苹果",
+          "visual": "少"
+        },
+        {
+          "id": "many",
+          "label": "5 个苹果",
+          "visual": "多"
+        },
+        {
+          "id": "mid",
+          "label": "3 个苹果",
+          "visual": "中"
+        }
+      ],
+      "answer": "many"
+    },
+    {
+      "id": "q2",
+      "type": "tap",
+      "promptAudio": "asset:audio/q2",
+      "promptText": "哪边更少？点数量少的一边",
+      "promptSpeak": "更少",
+      "choices": [
+        {
+          "id": "few",
+          "label": "1 颗星",
+          "visual": "少"
+        },
+        {
+          "id": "many",
+          "label": "4 颗星",
+          "visual": "多"
+        },
+        {
+          "id": "mid",
+          "label": "3 颗星",
+          "visual": "中"
+        }
+      ],
+      "answer": "few"
+    },
+    {
+      "id": "q3",
+      "type": "tap",
+      "promptAudio": "asset:audio/q3",
+      "promptText": "这两边一样多吗？",
+      "promptSpeak": "一样多",
+      "choices": [
+        {
+          "id": "yes",
+          "label": "一样多",
+          "visual": "同"
+        },
+        {
+          "id": "no",
+          "label": "不一样",
+          "visual": "异"
+        },
+        {
+          "id": "idk",
+          "label": "不知道",
+          "visual": "问"
+        }
+      ],
+      "answer": "yes"
+    }
+  ],
+  "rewardStars": 3,
+  "rewardCopy": "厉害！你会比较啦！",
+  "rewardCopyZh": "厉害！你会比较啦！",
+  "assetsNote": "没有实拍素材。图用色块和字块代替，旁白用浏览器语音。",
+  "nextLevelId": "math-starter-03",
+  "aDiff": "比较多少"
+}

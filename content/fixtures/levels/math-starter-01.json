@@ -1,0 +1,107 @@
+{
+  "schemaVersion": 1,
+  "id": "math-starter-01",
+  "packId": "math-starter",
+  "title": "数数1-5",
+  "order": 1,
+  "ageBand": [
+    "A",
+    "B",
+    "C"
+  ],
+  "vocab": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+  ],
+  "audioIntro": "asset:audio/math-starter-01-intro",
+  "introScript": "一起来数一数。这里有三颗苹果，再找四颗星星。",
+  "introScriptZh": "一起来数一数。这里有三颗苹果，再找四颗星星。",
+  "listenTitle": "数数1-5",
+  "listenVisual": "numbers",
+  "steps": [
+    {
+      "id": "q1",
+      "type": "tap",
+      "promptAudio": "asset:audio/q1",
+      "promptText": "听「三」，点 3 个苹果",
+      "promptSpeak": "三",
+      "choices": [
+        {
+          "id": "two",
+          "label": "2 个",
+          "visual": "2"
+        },
+        {
+          "id": "three",
+          "label": "3 个",
+          "visual": "3"
+        },
+        {
+          "id": "five",
+          "label": "5 个",
+          "visual": "5"
+        }
+      ],
+      "answer": "three"
+    },
+    {
+      "id": "q2",
+      "type": "tap",
+      "promptAudio": "asset:audio/q2",
+      "promptText": "听「四」，点 4 颗星",
+      "promptSpeak": "四",
+      "choices": [
+        {
+          "id": "s3",
+          "label": "3 颗",
+          "visual": "3"
+        },
+        {
+          "id": "s5",
+          "label": "5 颗",
+          "visual": "5"
+        },
+        {
+          "id": "s4",
+          "label": "4 颗",
+          "visual": "4"
+        }
+      ],
+      "answer": "s4"
+    },
+    {
+      "id": "q3",
+      "type": "tap",
+      "promptAudio": "asset:audio/q3",
+      "promptText": "听「五」，点数字 5",
+      "promptSpeak": "五",
+      "choices": [
+        {
+          "id": "n3",
+          "label": "3",
+          "visual": "3"
+        },
+        {
+          "id": "n5",
+          "label": "5",
+          "visual": "5"
+        },
+        {
+          "id": "n4",
+          "label": "4",
+          "visual": "4"
+        }
+      ],
+      "answer": "n5"
+    }
+  ],
+  "rewardStars": 3,
+  "rewardCopy": "真棒！数数小达人！",
+  "rewardCopyZh": "真棒！数数小达人！",
+  "assetsNote": "没有实拍素材。图用色块和字块代替，旁白用浏览器语音。",
+  "nextLevelId": "math-starter-02",
+  "aDiff": "听数点数量"
+}

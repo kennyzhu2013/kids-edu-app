@@ -96,13 +96,13 @@ export function LevelPlayer({ levelId }: { levelId: string }) {
       <LockedLevel
         onAd={() => void watchAd(levelId)}
         onMember={() => router.push(`/membership?from=${encodeURIComponent(`/play/${levelId}`)}`)}
-        onBack={() => router.push("/courses/eng-starter")}
+        onBack={() => router.push("/courses")}
       />
     );
   }
   if (!level) return <LoadingScreen label="准备这一关…" />;
   if (steps.length === 0) {
-    return <PlayerNotice title="这一关还没有题目" body="内容还是空的。回课程看看别的关。" href="/courses/eng-starter" action="回课程" />;
+    return <PlayerNotice title="这一关还没有题目" body="内容还是空的。回课程看看别的关。" href="/courses" action="回课程" />;
   }
 
   const totalDots = 1 + steps.length;
@@ -330,10 +330,10 @@ export function LevelPlayer({ levelId }: { levelId: string }) {
       {phase === "pack-done" ? (
         <div className="flex flex-1 flex-col items-center justify-center text-center">
           <StarResult stars={3} />
-          <h1 className="mt-4 text-3xl font-black">英语启蒙玩完啦</h1>
-          <p className="mt-3 text-muted-foreground">五关都可以再玩。其它学科还锁着。</p>
+          <h1 className="mt-4 text-3xl font-black">这一包玩完啦</h1>
+          <p className="mt-3 text-muted-foreground">五关都可以再玩。</p>
           <div className="mt-8 w-full space-y-3">
-            <BigButton href="/courses/eng-starter">回课程</BigButton>
+            <BigButton href={`/courses/${level.packId}`}>回课程</BigButton>
             <BigButton variant="secondary" href="/today">
               回今日
             </BigButton>

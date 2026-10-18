@@ -1,0 +1,133 @@
+{
+  "schemaVersion": 1,
+  "id": "math-starter-03",
+  "packId": "math-starter",
+  "title": "形状",
+  "order": 3,
+  "ageBand": [
+    "A",
+    "B",
+    "C"
+  ],
+  "vocab": [
+    "圆形",
+    "方形",
+    "三角形"
+  ],
+  "audioIntro": "asset:audio/math-starter-03-intro",
+  "introScript": "圆圆的像皮球，方方的像积木，尖尖的是三角形。",
+  "introScriptZh": "圆圆的像皮球，方方的像积木，尖尖的是三角形。",
+  "listenTitle": "形状",
+  "listenVisual": "形状",
+  "steps": [
+    {
+      "id": "q1",
+      "type": "tap",
+      "promptAudio": "asset:audio/q1",
+      "promptText": "听「圆形」，点圆",
+      "promptSpeak": "圆形",
+      "choices": [
+        {
+          "id": "sq",
+          "label": "方形",
+          "visual": "方"
+        },
+        {
+          "id": "ci",
+          "label": "圆形",
+          "visual": "圆"
+        },
+        {
+          "id": "tr",
+          "label": "三角形",
+          "visual": "角"
+        }
+      ],
+      "answer": "ci"
+    },
+    {
+      "id": "q2",
+      "type": "tap",
+      "promptAudio": "asset:audio/q2",
+      "promptText": "听「方形」，点方",
+      "promptSpeak": "方形",
+      "choices": [
+        {
+          "id": "sq",
+          "label": "方形",
+          "visual": "方"
+        },
+        {
+          "id": "tr",
+          "label": "三角形",
+          "visual": "角"
+        },
+        {
+          "id": "ci",
+          "label": "圆形",
+          "visual": "圆"
+        }
+      ],
+      "answer": "sq"
+    },
+    {
+      "id": "q3",
+      "type": "tap",
+      "promptAudio": "asset:audio/q3",
+      "promptText": "听「三角形」，点三角",
+      "promptSpeak": "三角形",
+      "choices": [
+        {
+          "id": "ci",
+          "label": "圆形",
+          "visual": "圆"
+        },
+        {
+          "id": "tr",
+          "label": "三角形",
+          "visual": "角"
+        },
+        {
+          "id": "sq",
+          "label": "方形",
+          "visual": "方"
+        }
+      ],
+      "answer": "tr"
+    },
+    {
+      "id": "q4",
+      "type": "tap",
+      "promptAudio": "asset:audio/q4",
+      "promptText": "车轮是什么形状？",
+      "promptSpeak": "圆形",
+      "choices": [
+        {
+          "id": "sq",
+          "label": "方形",
+          "visual": "方"
+        },
+        {
+          "id": "ci",
+          "label": "圆形",
+          "visual": "圆"
+        },
+        {
+          "id": "tr",
+          "label": "三角形",
+          "visual": "角"
+        }
+      ],
+      "answer": "ci",
+      "ages": [
+        "C"
+      ]
+    }
+  ],
+  "rewardStars": 3,
+  "rewardCopy": "形状小专家！",
+  "rewardCopyZh": "形状小专家！",
+  "assetsNote": "没有实拍素材。图用色块和字块代替，旁白用浏览器语音。",
+  "nextLevelId": "math-starter-04",
+  "aDiff": "听名字找形状"
+}

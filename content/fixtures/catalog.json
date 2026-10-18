@@ -1,9 +1,25 @@
 {
   "subjects": [
-    { "id": "lang", "name": "语言", "tab": "语言" },
-    { "id": "math", "name": "数学", "tab": "数学" },
-    { "id": "eng", "name": "英语", "tab": "英语" },
-    { "id": "life", "name": "认知", "tab": "认知" }
+    {
+      "id": "lang",
+      "name": "语言",
+      "tab": "语言"
+    },
+    {
+      "id": "math",
+      "name": "数学",
+      "tab": "数学"
+    },
+    {
+      "id": "eng",
+      "name": "英语",
+      "tab": "英语"
+    },
+    {
+      "id": "life",
+      "name": "认知",
+      "tab": "认知"
+    }
   ],
   "packs": [
     {
@@ -23,7 +39,7 @@
       "summary": "数数、比较、形状、大小长短和分类。",
       "levelCount": 5,
       "ageRange": "3–6岁",
-      "access": "locked",
+      "access": "trial",
       "accent": "#4aa3ff"
     },
     {
@@ -33,7 +49,7 @@
       "summary": "分水果、买东西、排队、整点和整理玩具。",
       "levelCount": 5,
       "ageRange": "3–6岁",
-      "access": "locked",
+      "access": "trial",
       "accent": "#7c6cf0"
     },
     {
@@ -43,7 +59,7 @@
       "summary": "身体家人、动物、颜色、食物和象形字。",
       "levelCount": 5,
       "ageRange": "3–6岁",
-      "access": "locked",
+      "access": "trial",
       "accent": "#ff6b8a"
     },
     {
@@ -53,42 +69,598 @@
       "summary": "穿衣、洗手、交通、情绪和安全。",
       "levelCount": 5,
       "ageRange": "3–6岁",
-      "access": "locked",
+      "access": "trial",
       "accent": "#2fba8a"
     }
   ],
   "levels": [
-    { "id": "eng-starter-01", "packId": "eng-starter", "order": 1, "title": "Hello & Bye", "goal": "听懂并点选问候动作", "vocab": ["Hello", "Bye-bye", "Hi"], "rewardCopy": "Great job!", "types": ["listen", "tap"], "minutes": 2, "playable": true },
-    { "id": "eng-starter-02", "packId": "eng-starter", "order": 2, "title": "Colors", "goal": "认识 red / yellow / blue / green", "vocab": ["red", "yellow", "blue", "green"], "rewardCopy": "Great job! You know your colors!", "types": ["listen", "tap"], "minutes": 2, "playable": true },
-    { "id": "eng-starter-03", "packId": "eng-starter", "order": 3, "title": "Animals", "goal": "认识 cat / dog / bird / fish", "vocab": ["cat", "dog", "bird", "fish"], "rewardCopy": "Amazing! Animal friend!", "types": ["listen", "tap", "speak"], "minutes": 2, "playable": true },
-    { "id": "eng-starter-04", "packId": "eng-starter", "order": 4, "title": "Numbers 1-5", "goal": "认识 one–five，听数点数量", "vocab": ["one", "two", "three", "four", "five"], "rewardCopy": "Super! You can count!", "types": ["listen", "tap", "count-tap"], "minutes": 2, "playable": true },
-    { "id": "eng-starter-05", "packId": "eng-starter", "order": 5, "title": "Body", "goal": "认识 eyes / nose / mouth / hands", "vocab": ["eyes", "nose", "mouth", "hands"], "rewardCopy": "Wonderful! Body star!", "types": ["listen", "tap", "speak"], "minutes": 2, "playable": true },
-    { "id": "math-starter-01", "packId": "math-starter", "order": 1, "title": "数数1-5", "goal": "听数并点选对应数量", "vocab": ["1", "2", "3", "4", "5"], "rewardCopy": "真棒！数数小达人！", "types": ["listen", "tap", "drag", "count-tap"], "minutes": 2, "playable": false },
-    { "id": "math-starter-02", "packId": "math-starter", "order": 2, "title": "多少比较", "goal": "理解更多、更少", "vocab": ["更多", "更少", "一样多"], "rewardCopy": "厉害！你会比较啦！", "types": ["listen", "tap", "scenario-choice"], "minutes": 2, "playable": false },
-    { "id": "math-starter-03", "packId": "math-starter", "order": 3, "title": "形状", "goal": "认识圆、方、三角", "vocab": ["圆形", "方形", "三角形"], "rewardCopy": "形状小专家！", "types": ["listen", "tap"], "minutes": 2, "playable": false },
-    { "id": "math-starter-04", "packId": "math-starter", "order": 4, "title": "大小长短", "goal": "理解大/小、长/短", "vocab": ["大", "小", "长", "短"], "rewardCopy": "了不起！大小长短都懂啦！", "types": ["tap", "drag", "sort"], "minutes": 2, "playable": false },
-    { "id": "math-starter-05", "packId": "math-starter", "order": 5, "title": "分类", "goal": "按属性把一样的放一起", "vocab": ["分类", "圆形", "颜色"], "rewardCopy": "分类小能手！", "types": ["drag", "sort", "tap"], "minutes": 2, "playable": false },
-    { "id": "math-life-01", "packId": "math-life", "order": 1, "title": "分水果", "goal": "理解一样多与简单均分", "vocab": ["一样多", "分", "每人"], "rewardCopy": "分得公平！均分小达人！", "types": ["tap", "scenario-choice", "count-tap"], "minutes": 2, "playable": false },
-    { "id": "math-life-02", "packId": "math-life", "order": 2, "title": "买东西", "goal": "比较价钱，判断够不够", "vocab": ["元", "更贵", "够不够"], "rewardCopy": "会买东西啦！小管家！", "types": ["tap", "scenario-choice"], "minutes": 2, "playable": false },
-    { "id": "math-life-03", "packId": "math-life", "order": 3, "title": "排队几号", "goal": "认识第几", "vocab": ["第1", "第2", "第3"], "rewardCopy": "排队小能手！", "types": ["tap"], "minutes": 2, "playable": false },
-    { "id": "math-life-04", "packId": "math-life", "order": 4, "title": "几点钟整点", "goal": "认识整点", "vocab": ["几点", "整点", "短针"], "rewardCopy": "时间小达人！几点都知道！", "types": ["tap", "listen"], "minutes": 2, "playable": false },
-    { "id": "math-life-05", "packId": "math-life", "order": 5, "title": "整理玩具", "goal": "按形状和大小整理", "vocab": ["圆形盒", "大", "小"], "rewardCopy": "整理小能手！房间好整齐！", "types": ["drag", "sort", "tap"], "minutes": 2, "playable": false },
-    { "id": "lang-starter-01", "packId": "lang-starter", "order": 1, "title": "身体与家人", "goal": "听懂身体部位与家人称呼", "vocab": ["眼睛", "鼻子", "嘴巴", "手", "爸爸", "妈妈"], "rewardCopy": "说得好！认字小芽芽！", "types": ["listen", "tap"], "minutes": 2, "playable": false },
-    { "id": "lang-starter-02", "packId": "lang-starter", "order": 2, "title": "动物", "goal": "认识猫狗鸟鱼和叫声", "vocab": ["猫", "狗", "鸟", "鱼"], "rewardCopy": "动物王国通关！", "types": ["listen", "tap", "speak"], "minutes": 2, "playable": false },
-    { "id": "lang-starter-03", "packId": "lang-starter", "order": 3, "title": "颜色", "goal": "认识红黄蓝绿", "vocab": ["红", "黄", "蓝", "绿"], "rewardCopy": "颜色都认识啦！", "types": ["listen", "tap"], "minutes": 2, "playable": false },
-    { "id": "lang-starter-04", "packId": "lang-starter", "order": 4, "title": "食物", "goal": "认识米饭、苹果、牛奶、面包", "vocab": ["米饭", "苹果", "牛奶", "面包"], "rewardCopy": "真香！美食家！", "types": ["listen", "tap", "speak"], "minutes": 2, "playable": false },
-    { "id": "lang-starter-05", "packId": "lang-starter", "order": 5, "title": "象形字", "goal": "从图画感受到汉字", "vocab": ["日", "月", "山", "水", "火"], "rewardCopy": "汉字小考古家！", "types": ["listen", "tap", "drag"], "minutes": 2, "playable": false },
-    { "id": "life-starter-01", "packId": "life-starter", "order": 1, "title": "天气与穿衣", "goal": "按天气选帽子、伞或棉袄", "vocab": ["晴", "雨", "热", "冷"], "rewardCopy": "穿对啦！天气小精灵！", "types": ["tap", "scenario-choice"], "minutes": 2, "playable": false },
-    { "id": "life-starter-02", "packId": "life-starter", "order": 2, "title": "洗手步骤", "goal": "湿手、搓皂、冲洗、擦干", "vocab": ["湿手", "搓皂", "冲洗", "擦干"], "rewardCopy": "双手香香！卫生小标兵！", "types": ["tap", "sort", "scenario-choice"], "minutes": 2, "playable": false },
-    { "id": "life-starter-03", "packId": "life-starter", "order": 3, "title": "交通工具", "goal": "认识汽车、公交、自行车、飞机", "vocab": ["汽车", "公交车", "自行车", "飞机"], "rewardCopy": "出发咯！交通小达人！", "types": ["listen", "tap", "drag", "scenario-choice"], "minutes": 2, "playable": false },
-    { "id": "life-starter-04", "packId": "life-starter", "order": 4, "title": "情绪脸谱", "goal": "识别开心、生气、难过、害怕", "vocab": ["开心", "生气", "难过", "害怕"], "rewardCopy": "情绪小专家！心暖暖！", "types": ["tap", "listen", "scenario-choice"], "minutes": 2, "playable": false },
-    { "id": "life-starter-05", "packId": "life-starter", "order": 5, "title": "安全", "goal": "红灯停、不跟陌生人、过马路牵手", "vocab": ["红灯", "停", "陌生人"], "rewardCopy": "安全小卫士贴纸！你真棒！", "types": ["tap", "scenario-choice"], "minutes": 2, "playable": false }
+    {
+      "id": "eng-starter-01",
+      "packId": "eng-starter",
+      "order": 1,
+      "title": "Hello & Bye",
+      "goal": "听懂并点选问候动作",
+      "vocab": [
+        "Hello",
+        "Bye-bye",
+        "Hi"
+      ],
+      "rewardCopy": "Great job!",
+      "types": [
+        "listen",
+        "tap"
+      ],
+      "minutes": 2,
+      "playable": true
+    },
+    {
+      "id": "eng-starter-02",
+      "packId": "eng-starter",
+      "order": 2,
+      "title": "Colors",
+      "goal": "认识 red / yellow / blue / green",
+      "vocab": [
+        "red",
+        "yellow",
+        "blue",
+        "green"
+      ],
+      "rewardCopy": "Great job! You know your colors!",
+      "types": [
+        "listen",
+        "tap"
+      ],
+      "minutes": 2,
+      "playable": true
+    },
+    {
+      "id": "eng-starter-03",
+      "packId": "eng-starter",
+      "order": 3,
+      "title": "Animals",
+      "goal": "认识 cat / dog / bird / fish",
+      "vocab": [
+        "cat",
+        "dog",
+        "bird",
+        "fish"
+      ],
+      "rewardCopy": "Amazing! Animal friend!",
+      "types": [
+        "listen",
+        "tap",
+        "speak"
+      ],
+      "minutes": 2,
+      "playable": true
+    },
+    {
+      "id": "eng-starter-04",
+      "packId": "eng-starter",
+      "order": 4,
+      "title": "Numbers 1-5",
+      "goal": "认识 one–five，听数点数量",
+      "vocab": [
+        "one",
+        "two",
+        "three",
+        "four",
+        "five"
+      ],
+      "rewardCopy": "Super! You can count!",
+      "types": [
+        "listen",
+        "tap",
+        "count-tap"
+      ],
+      "minutes": 2,
+      "playable": true
+    },
+    {
+      "id": "eng-starter-05",
+      "packId": "eng-starter",
+      "order": 5,
+      "title": "Body",
+      "goal": "认识 eyes / nose / mouth / hands",
+      "vocab": [
+        "eyes",
+        "nose",
+        "mouth",
+        "hands"
+      ],
+      "rewardCopy": "Wonderful! Body star!",
+      "types": [
+        "listen",
+        "tap",
+        "speak"
+      ],
+      "minutes": 2,
+      "playable": true
+    },
+    {
+      "id": "math-starter-01",
+      "packId": "math-starter",
+      "order": 1,
+      "title": "数数1-5",
+      "goal": "听数并点选对应数量",
+      "vocab": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "rewardCopy": "真棒！数数小达人！",
+      "types": [
+        "listen",
+        "tap",
+        "drag",
+        "count-tap"
+      ],
+      "minutes": 2,
+      "playable": true
+    },
+    {
+      "id": "math-starter-02",
+      "packId": "math-starter",
+      "order": 2,
+      "title": "多少比较",
+      "goal": "理解更多、更少",
+      "vocab": [
+        "更多",
+        "更少",
+        "一样多"
+      ],
+      "rewardCopy": "厉害！你会比较啦！",
+      "types": [
+        "listen",
+        "tap",
+        "scenario-choice"
+      ],
+      "minutes": 2,
+      "playable": true
+    },
+    {
+      "id": "math-starter-03",
+      "packId": "math-starter",
+      "order": 3,
+      "title": "形状",
+      "goal": "认识圆、方、三角",
+      "vocab": [
+        "圆形",
+        "方形",
+        "三角形"
+      ],
+      "rewardCopy": "形状小专家！",
+      "types": [
+        "listen",
+        "tap"
+      ],
+      "minutes": 2,
+      "playable": true
+    },
+    {
+      "id": "math-starter-04",
+      "packId": "math-starter",
+      "order": 4,
+      "title": "大小长短",
+      "goal": "理解大/小、长/短",
+      "vocab": [
+        "大",
+        "小",
+        "长",
+        "短"
+      ],
+      "rewardCopy": "了不起！大小长短都懂啦！",
+      "types": [
+        "tap",
+        "drag",
+        "sort"
+      ],
+      "minutes": 2,
+      "playable": true
+    },
+    {
+      "id": "math-starter-05",
+      "packId": "math-starter",
+      "order": 5,
+      "title": "分类",
+      "goal": "按属性把一样的放一起",
+      "vocab": [
+        "分类",
+        "圆形",
+        "颜色"
+      ],
+      "rewardCopy": "分类小能手！",
+      "types": [
+        "drag",
+        "sort",
+        "tap"
+      ],
+      "minutes": 2,
+      "playable": true
+    },
+    {
+      "id": "math-life-01",
+      "packId": "math-life",
+      "order": 1,
+      "title": "分水果",
+      "goal": "理解一样多与简单均分",
+      "vocab": [
+        "一样多",
+        "分",
+        "每人"
+      ],
+      "rewardCopy": "分得公平！均分小达人！",
+      "types": [
+        "tap",
+        "scenario-choice",
+        "count-tap"
+      ],
+      "minutes": 2,
+      "playable": true
+    },
+    {
+      "id": "math-life-02",
+      "packId": "math-life",
+      "order": 2,
+      "title": "买东西",
+      "goal": "比较价钱，判断够不够",
+      "vocab": [
+        "元",
+        "更贵",
+        "够不够"
+      ],
+      "rewardCopy": "会买东西啦！小管家！",
+      "types": [
+        "tap",
+        "scenario-choice"
+      ],
+      "minutes": 2,
+      "playable": true
+    },
+    {
+      "id": "math-life-03",
+      "packId": "math-life",
+      "order": 3,
+      "title": "排队几号",
+      "goal": "认识第几",
+      "vocab": [
+        "第1",
+        "第2",
+        "第3"
+      ],
+      "rewardCopy": "排队小能手！",
+      "types": [
+        "tap"
+      ],
+      "minutes": 2,
+      "playable": true
+    },
+    {
+      "id": "math-life-04",
+      "packId": "math-life",
+      "order": 4,
+      "title": "几点钟整点",
+      "goal": "认识整点",
+      "vocab": [
+        "几点",
+        "整点",
+        "短针"
+      ],
+      "rewardCopy": "时间小达人！几点都知道！",
+      "types": [
+        "tap",
+        "listen"
+      ],
+      "minutes": 2,
+      "playable": true
+    },
+    {
+      "id": "math-life-05",
+      "packId": "math-life",
+      "order": 5,
+      "title": "整理玩具",
+      "goal": "按形状和大小整理",
+      "vocab": [
+        "圆形盒",
+        "大",
+        "小"
+      ],
+      "rewardCopy": "整理小能手！房间好整齐！",
+      "types": [
+        "drag",
+        "sort",
+        "tap"
+      ],
+      "minutes": 2,
+      "playable": true
+    },
+    {
+      "id": "lang-starter-01",
+      "packId": "lang-starter",
+      "order": 1,
+      "title": "身体与家人",
+      "goal": "听懂身体部位与家人称呼",
+      "vocab": [
+        "眼睛",
+        "鼻子",
+        "嘴巴",
+        "手",
+        "爸爸",
+        "妈妈"
+      ],
+      "rewardCopy": "说得好！认字小芽芽！",
+      "types": [
+        "listen",
+        "tap"
+      ],
+      "minutes": 2,
+      "playable": true
+    },
+    {
+      "id": "lang-starter-02",
+      "packId": "lang-starter",
+      "order": 2,
+      "title": "动物",
+      "goal": "认识猫狗鸟鱼和叫声",
+      "vocab": [
+        "猫",
+        "狗",
+        "鸟",
+        "鱼"
+      ],
+      "rewardCopy": "动物王国通关！",
+      "types": [
+        "listen",
+        "tap",
+        "speak"
+      ],
+      "minutes": 2,
+      "playable": true
+    },
+    {
+      "id": "lang-starter-03",
+      "packId": "lang-starter",
+      "order": 3,
+      "title": "颜色",
+      "goal": "认识红黄蓝绿",
+      "vocab": [
+        "红",
+        "黄",
+        "蓝",
+        "绿"
+      ],
+      "rewardCopy": "颜色都认识啦！",
+      "types": [
+        "listen",
+        "tap"
+      ],
+      "minutes": 2,
+      "playable": true
+    },
+    {
+      "id": "lang-starter-04",
+      "packId": "lang-starter",
+      "order": 4,
+      "title": "食物",
+      "goal": "认识米饭、苹果、牛奶、面包",
+      "vocab": [
+        "米饭",
+        "苹果",
+        "牛奶",
+        "面包"
+      ],
+      "rewardCopy": "真香！美食家！",
+      "types": [
+        "listen",
+        "tap",
+        "speak"
+      ],
+      "minutes": 2,
+      "playable": true
+    },
+    {
+      "id": "lang-starter-05",
+      "packId": "lang-starter",
+      "order": 5,
+      "title": "象形字",
+      "goal": "从图画感受到汉字",
+      "vocab": [
+        "日",
+        "月",
+        "山",
+        "水",
+        "火"
+      ],
+      "rewardCopy": "汉字小考古家！",
+      "types": [
+        "listen",
+        "tap",
+        "drag"
+      ],
+      "minutes": 2,
+      "playable": true
+    },
+    {
+      "id": "life-starter-01",
+      "packId": "life-starter",
+      "order": 1,
+      "title": "天气与穿衣",
+      "goal": "按天气选帽子、伞或棉袄",
+      "vocab": [
+        "晴",
+        "雨",
+        "热",
+        "冷"
+      ],
+      "rewardCopy": "穿对啦！天气小精灵！",
+      "types": [
+        "tap",
+        "scenario-choice"
+      ],
+      "minutes": 2,
+      "playable": true
+    },
+    {
+      "id": "life-starter-02",
+      "packId": "life-starter",
+      "order": 2,
+      "title": "洗手步骤",
+      "goal": "湿手、搓皂、冲洗、擦干",
+      "vocab": [
+        "湿手",
+        "搓皂",
+        "冲洗",
+        "擦干"
+      ],
+      "rewardCopy": "双手香香！卫生小标兵！",
+      "types": [
+        "tap",
+        "sort",
+        "scenario-choice"
+      ],
+      "minutes": 2,
+      "playable": true
+    },
+    {
+      "id": "life-starter-03",
+      "packId": "life-starter",
+      "order": 3,
+      "title": "交通工具",
+      "goal": "认识汽车、公交、自行车、飞机",
+      "vocab": [
+        "汽车",
+        "公交车",
+        "自行车",
+        "飞机"
+      ],
+      "rewardCopy": "出发咯！交通小达人！",
+      "types": [
+        "listen",
+        "tap",
+        "drag",
+        "scenario-choice"
+      ],
+      "minutes": 2,
+      "playable": true
+    },
+    {
+      "id": "life-starter-04",
+      "packId": "life-starter",
+      "order": 4,
+      "title": "情绪脸谱",
+      "goal": "识别开心、生气、难过、害怕",
+      "vocab": [
+        "开心",
+        "生气",
+        "难过",
+        "害怕"
+      ],
+      "rewardCopy": "情绪小专家！心暖暖！",
+      "types": [
+        "tap",
+        "listen",
+        "scenario-choice"
+      ],
+      "minutes": 2,
+      "playable": true
+    },
+    {
+      "id": "life-starter-05",
+      "packId": "life-starter",
+      "order": 5,
+      "title": "安全",
+      "goal": "红灯停、不跟陌生人、过马路牵手",
+      "vocab": [
+        "红灯",
+        "停",
+        "陌生人"
+      ],
+      "rewardCopy": "安全小卫士贴纸！你真棒！",
+      "types": [
+        "tap",
+        "scenario-choice"
+      ],
+      "minutes": 2,
+      "playable": true
+    }
   ],
   "games": [
-    { "gameId": "game-color-match", "title": "颜色配对", "titleEn": "Color Match", "knowledgeTags": ["colors"], "dailyFree": 3, "durationSec": 45, "rounds": "限时一局", "winCondition": "接对计数", "howTo": "上方掉落色块，点下方同色篮子接住", "guide": "广告+1或会员无限", "playable": true },
-    { "gameId": "game-spot-animal", "title": "动物找不同", "titleEn": "Spot Animal", "knowledgeTags": ["animals"], "dailyFree": 3, "durationSec": 60, "rounds": "3轮递增", "winCondition": "找对异类", "howTo": "3x3宫格8同1异点出不同", "guide": "广告+1或会员无限", "playable": false },
-    { "gameId": "game-count-dash", "title": "数一数冲关", "titleEn": "Count Dash", "knowledgeTags": ["numbers"], "dailyFree": 3, "durationSec": 60, "rounds": "B/C加干扰物", "winCondition": "点够即过", "howTo": "听或看数字，点够数量", "guide": "广告+1或会员无限", "playable": false },
-    { "gameId": "game-shape-fit", "title": "形状拼拼乐", "titleEn": "Shape Fit", "knowledgeTags": ["shapes"], "dailyFree": 3, "durationSec": 90, "rounds": "3-5题", "winCondition": "全部放对", "howTo": "拖圆方三角进凹槽", "guide": "广告+1或会员无限", "playable": false },
-    { "gameId": "game-habit-order", "title": "洗手顺序挑战", "titleEn": "Habit Order", "knowledgeTags": ["habits"], "dailyFree": 3, "durationSec": 90, "rounds": "1关", "winCondition": "顺序正确", "howTo": "4步乱序卡拖成正确顺序", "guide": "广告+1或会员无限", "playable": false }
+    {
+      "gameId": "game-color-match",
+      "title": "颜色配对",
+      "titleEn": "Color Match",
+      "knowledgeTags": [
+        "colors"
+      ],
+      "dailyFree": 3,
+      "durationSec": 45,
+      "rounds": "限时一局",
+      "winCondition": "接对计数",
+      "howTo": "上方掉落色块，点下方同色篮子接住",
+      "guide": "广告+1或会员无限",
+      "playable": true
+    },
+    {
+      "gameId": "game-spot-animal",
+      "title": "动物找不同",
+      "titleEn": "Spot Animal",
+      "knowledgeTags": [
+        "animals"
+      ],
+      "dailyFree": 3,
+      "durationSec": 60,
+      "rounds": "3轮递增",
+      "winCondition": "找对异类",
+      "howTo": "3x3宫格8同1异点出不同",
+      "guide": "广告+1或会员无限",
+      "playable": false
+    },
+    {
+      "gameId": "game-count-dash",
+      "title": "数一数冲关",
+      "titleEn": "Count Dash",
+      "knowledgeTags": [
+        "numbers"
+      ],
+      "dailyFree": 3,
+      "durationSec": 60,
+      "rounds": "B/C加干扰物",
+      "winCondition": "点够即过",
+      "howTo": "听或看数字，点够数量",
+      "guide": "广告+1或会员无限",
+      "playable": false
+    },
+    {
+      "gameId": "game-shape-fit",
+      "title": "形状拼拼乐",
+      "titleEn": "Shape Fit",
+      "knowledgeTags": [
+        "shapes"
+      ],
+      "dailyFree": 3,
+      "durationSec": 90,
+      "rounds": "3-5题",
+      "winCondition": "全部放对",
+      "howTo": "拖圆方三角进凹槽",
+      "guide": "广告+1或会员无限",
+      "playable": false
+    },
+    {
+      "gameId": "game-habit-order",
+      "title": "洗手顺序挑战",
+      "titleEn": "Habit Order",
+      "knowledgeTags": [
+        "habits"
+      ],
+      "dailyFree": 3,
+      "durationSec": 90,
+      "rounds": "1关",
+      "winCondition": "顺序正确",
+      "howTo": "4步乱序卡拖成正确顺序",
+      "guide": "广告+1或会员无限",
+      "playable": false
+    }
   ]
 }

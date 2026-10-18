@@ -1,0 +1,108 @@
+{
+  "schemaVersion": 1,
+  "id": "math-life-04",
+  "packId": "math-life",
+  "title": "几点钟整点",
+  "order": 4,
+  "ageBand": [
+    "A",
+    "B",
+    "C"
+  ],
+  "vocab": [
+    "几点",
+    "整点",
+    "短针"
+  ],
+  "audioIntro": "asset:audio/math-life-04-intro",
+  "introScript": "短针指到几，就是几点钟。短针指 3 是 3 点。",
+  "introScriptZh": "短针指到几，就是几点钟。短针指 3 是 3 点。",
+  "listenTitle": "几点钟整点",
+  "listenVisual": "钟",
+  "steps": [
+    {
+      "id": "q1",
+      "type": "tap",
+      "promptAudio": "asset:audio/q1",
+      "promptText": "短针指 3，是几点？",
+      "promptSpeak": "3点",
+      "choices": [
+        {
+          "id": "two",
+          "label": "2 点",
+          "visual": "2"
+        },
+        {
+          "id": "three",
+          "label": "3 点",
+          "visual": "3"
+        },
+        {
+          "id": "seven",
+          "label": "7 点",
+          "visual": "7"
+        }
+      ],
+      "answer": "three"
+    },
+    {
+      "id": "q2",
+      "type": "tap",
+      "promptAudio": "asset:audio/q2",
+      "promptText": "听「7 点」，点 7 点",
+      "promptSpeak": "7点",
+      "choices": [
+        {
+          "id": "three",
+          "label": "3 点",
+          "visual": "3"
+        },
+        {
+          "id": "seven",
+          "label": "7 点",
+          "visual": "7"
+        },
+        {
+          "id": "five",
+          "label": "5 点",
+          "visual": "5"
+        }
+      ],
+      "answer": "seven"
+    },
+    {
+      "id": "q3",
+      "type": "tap",
+      "promptAudio": "asset:audio/q3",
+      "promptText": "晚饭常常是几点？",
+      "promptSpeak": "吃饭",
+      "choices": [
+        {
+          "id": "three",
+          "label": "3 点",
+          "visual": "3"
+        },
+        {
+          "id": "six",
+          "label": "6 点",
+          "visual": "6"
+        },
+        {
+          "id": "twelve",
+          "label": "12 点",
+          "visual": "12"
+        }
+      ],
+      "answer": "six",
+      "ages": [
+        "C"
+      ]
+    }
+  ],
+  "rewardStars": 3,
+  "rewardCopy": "时间小达人！几点都知道！",
+  "rewardCopyZh": "时间小达人！几点都知道！",
+  "assetsNote": "没有实拍素材。图用色块和字块代替，旁白用浏览器语音。",
+  "nextLevelId": "math-life-05",
+  "aDiff": "认识整点"
+}

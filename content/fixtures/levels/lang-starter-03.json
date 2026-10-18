@@ -1,0 +1,106 @@
+{
+  "schemaVersion": 1,
+  "id": "lang-starter-03",
+  "packId": "lang-starter",
+  "title": "颜色",
+  "order": 3,
+  "ageBand": [
+    "A",
+    "B",
+    "C"
+  ],
+  "vocab": [
+    "红",
+    "黄",
+    "蓝",
+    "绿"
+  ],
+  "audioIntro": "asset:audio/lang-starter-03-intro",
+  "introScript": "红红的苹果，黄黄的香蕉，蓝蓝的天空，绿绿的叶子。",
+  "introScriptZh": "红红的苹果，黄黄的香蕉，蓝蓝的天空，绿绿的叶子。",
+  "listenTitle": "颜色",
+  "listenVisual": "colors",
+  "steps": [
+    {
+      "id": "q1",
+      "type": "tap",
+      "promptAudio": "asset:audio/q1",
+      "promptText": "听「红」，点红色的",
+      "promptSpeak": "红",
+      "choices": [
+        {
+          "id": "yellow",
+          "label": "黄色",
+          "visual": "黄"
+        },
+        {
+          "id": "red",
+          "label": "红色",
+          "visual": "红"
+        },
+        {
+          "id": "blue",
+          "label": "蓝色",
+          "visual": "蓝"
+        }
+      ],
+      "answer": "red"
+    },
+    {
+      "id": "q2",
+      "type": "tap",
+      "promptAudio": "asset:audio/q2",
+      "promptText": "听「黄」，点黄色的",
+      "promptSpeak": "黄",
+      "choices": [
+        {
+          "id": "green",
+          "label": "绿色",
+          "visual": "绿"
+        },
+        {
+          "id": "blue",
+          "label": "蓝色",
+          "visual": "蓝"
+        },
+        {
+          "id": "yellow",
+          "label": "黄色",
+          "visual": "黄"
+        }
+      ],
+      "answer": "yellow"
+    },
+    {
+      "id": "q3",
+      "type": "tap",
+      "promptAudio": "asset:audio/q3",
+      "promptText": "听「绿」，点绿色的",
+      "promptSpeak": "绿",
+      "choices": [
+        {
+          "id": "green",
+          "label": "绿色",
+          "visual": "绿"
+        },
+        {
+          "id": "red",
+          "label": "红色",
+          "visual": "红"
+        },
+        {
+          "id": "blue",
+          "label": "蓝色",
+          "visual": "蓝"
+        }
+      ],
+      "answer": "green"
+    }
+  ],
+  "rewardStars": 3,
+  "rewardCopy": "颜色都认识啦！",
+  "rewardCopyZh": "颜色都认识啦！",
+  "assetsNote": "没有实拍素材。图用色块和字块代替，旁白用浏览器语音。",
+  "nextLevelId": "lang-starter-04",
+  "aDiff": "听颜色点出来"
+}

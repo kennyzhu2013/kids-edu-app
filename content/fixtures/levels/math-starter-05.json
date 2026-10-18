@@ -1,0 +1,108 @@
+{
+  "schemaVersion": 1,
+  "id": "math-starter-05",
+  "packId": "math-starter",
+  "title": "分类",
+  "order": 5,
+  "ageBand": [
+    "A",
+    "B",
+    "C"
+  ],
+  "vocab": [
+    "分类",
+    "圆形",
+    "颜色"
+  ],
+  "audioIntro": "asset:audio/math-starter-05-intro",
+  "introScript": "一样的放一起。先找圆形，再按颜色分一分。",
+  "introScriptZh": "一样的放一起。先找圆形，再按颜色分一分。",
+  "listenTitle": "分类",
+  "listenVisual": "分类",
+  "steps": [
+    {
+      "id": "q1",
+      "type": "tap",
+      "promptAudio": "asset:audio/q1",
+      "promptText": "哪个是圆形？把它找出来",
+      "promptSpeak": "圆形",
+      "choices": [
+        {
+          "id": "sq",
+          "label": "方形积木",
+          "visual": "方"
+        },
+        {
+          "id": "ci",
+          "label": "圆皮球",
+          "visual": "圆"
+        },
+        {
+          "id": "tr",
+          "label": "三角旗",
+          "visual": "角"
+        }
+      ],
+      "answer": "ci"
+    },
+    {
+      "id": "q2",
+      "type": "tap",
+      "promptAudio": "asset:audio/q2",
+      "promptText": "把红色的找出来",
+      "promptSpeak": "红色",
+      "choices": [
+        {
+          "id": "red",
+          "label": "红苹果",
+          "visual": "红"
+        },
+        {
+          "id": "yellow",
+          "label": "黄香蕉",
+          "visual": "黄"
+        },
+        {
+          "id": "blue",
+          "label": "蓝积木",
+          "visual": "蓝"
+        }
+      ],
+      "answer": "red"
+    },
+    {
+      "id": "q3",
+      "type": "tap",
+      "promptAudio": "asset:audio/q3",
+      "promptText": "又圆又红的是哪个？",
+      "promptSpeak": "又圆又红",
+      "choices": [
+        {
+          "id": "ball",
+          "label": "红皮球",
+          "visual": "圆"
+        },
+        {
+          "id": "applebox",
+          "label": "红方盒",
+          "visual": "盒"
+        },
+        {
+          "id": "banana",
+          "label": "黄香蕉",
+          "visual": "黄"
+        }
+      ],
+      "answer": "ball",
+      "ages": [
+        "B",
+        "C"
+      ]
+    }
+  ],
+  "rewardStars": 3,
+  "rewardCopy": "分类小能手！",
+  "rewardCopyZh": "分类小能手！",
+  "assetsNote": "没有实拍素材。图用色块和字块代替，旁白用浏览器语音。",
+  "aDiff": "按形状和颜色分类"
+}

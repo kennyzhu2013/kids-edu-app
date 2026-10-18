@@ -203,6 +203,24 @@ export function TokenArt({ token, className }: { token: string; className?: stri
       </svg>
     );
   }
+  const glyph = token.trim();
+  if (glyph.length > 0 && glyph.length <= 4 && /^[\u4e00-\u9fff0-9]+$/.test(glyph)) {
+    return (
+      <svg viewBox="0 0 88 88" className={cn("size-16", className)} aria-hidden>
+        <rect width="88" height="88" rx="24" fill="#fff3da" />
+        <text
+          x="44"
+          y="56"
+          textAnchor="middle"
+          fontSize={glyph.length > 2 ? 28 : glyph.length > 1 ? 36 : 42}
+          fontWeight="800"
+          fill="#ff6b4a"
+        >
+          {glyph}
+        </text>
+      </svg>
+    );
+  }
   return (
     <svg viewBox="0 0 88 88" className={cn("size-16", className)} aria-hidden>
       <rect width="88" height="88" rx="24" fill="#fff3da" />

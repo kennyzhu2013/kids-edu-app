@@ -1,0 +1,110 @@
+{
+  "schemaVersion": 1,
+  "id": "lang-starter-02",
+  "packId": "lang-starter",
+  "title": "动物",
+  "order": 2,
+  "ageBand": [
+    "A",
+    "B",
+    "C"
+  ],
+  "vocab": [
+    "猫",
+    "狗",
+    "鸟",
+    "鱼"
+  ],
+  "audioIntro": "asset:audio/lang-starter-02-intro",
+  "introScript": "小猫喵喵叫，小狗汪汪叫，小鸟啾啾叫，小鱼咕噜游。",
+  "introScriptZh": "小猫喵喵叫，小狗汪汪叫，小鸟啾啾叫，小鱼咕噜游。",
+  "listenTitle": "动物",
+  "listenVisual": "animals",
+  "steps": [
+    {
+      "id": "q1",
+      "type": "tap",
+      "promptAudio": "asset:audio/q1",
+      "promptText": "听「猫」，点猫",
+      "promptSpeak": "猫",
+      "choices": [
+        {
+          "id": "dog",
+          "label": "狗",
+          "visual": "狗"
+        },
+        {
+          "id": "cat",
+          "label": "猫",
+          "visual": "猫"
+        },
+        {
+          "id": "bird",
+          "label": "鸟",
+          "visual": "鸟"
+        }
+      ],
+      "answer": "cat"
+    },
+    {
+      "id": "q2",
+      "type": "tap",
+      "promptAudio": "asset:audio/q2",
+      "promptText": "听「鱼」，点鱼",
+      "promptSpeak": "鱼",
+      "choices": [
+        {
+          "id": "fish",
+          "label": "鱼",
+          "visual": "鱼"
+        },
+        {
+          "id": "bird",
+          "label": "鸟",
+          "visual": "鸟"
+        },
+        {
+          "id": "dog",
+          "label": "狗",
+          "visual": "狗"
+        }
+      ],
+      "answer": "fish"
+    },
+    {
+      "id": "q3",
+      "type": "tap",
+      "promptAudio": "asset:audio/q3",
+      "promptText": "听「喵喵」，点是谁在叫",
+      "promptSpeak": "喵喵",
+      "choices": [
+        {
+          "id": "dog",
+          "label": "狗",
+          "visual": "狗"
+        },
+        {
+          "id": "cat",
+          "label": "猫",
+          "visual": "猫"
+        },
+        {
+          "id": "bird",
+          "label": "鸟",
+          "visual": "鸟"
+        }
+      ],
+      "answer": "cat",
+      "ages": [
+        "B",
+        "C"
+      ]
+    }
+  ],
+  "rewardStars": 3,
+  "rewardCopy": "动物王国通关！",
+  "rewardCopyZh": "动物王国通关！",
+  "assetsNote": "没有实拍素材。图用色块和字块代替，旁白用浏览器语音。",
+  "nextLevelId": "lang-starter-03",
+  "aDiff": "听名字找动物"
+}

@@ -49,7 +49,7 @@ SEED_DATABASE=1 npm run seed
 1. 闪屏后选年龄，给宝宝起名，进入今日。
 2. 点「开始挑战」，听一听，点选题，看到星星。答错会显示「再试一次」，可以再点。
 3. 课程馆 → 英语 → English Starter，五关都能玩：Hello & Bye、Colors、Animals、Numbers 1-5、Body。结算页的「下一关」会进下一关。
-4. 其它学科仍带锁。广告、支付、短信和微信都还是桩。
+4. 课程馆里语文、数学（数感和生活）、英语、认知四个启蒙包都能玩。未购买课包以后仍会锁，广告、支付、短信和微信都还是桩。
 5. 游戏乐园里「颜色配对」可玩，每天 3 次。用完后弹层可以模拟「看广告再玩 1 次」。
 6. 我的 → 家长中心，密码 `2580`。会员页可以模拟开通，订单会出现在家长中心。
 
@@ -59,7 +59,7 @@ SEED_DATABASE=1 npm run seed
 app/                  页面与 Route Handlers
   api/                与《MVP接口清单》相同的路径，前面加 /api
 components/           底栏、大按钮、星星、锁标、家长锁键盘、价卡、关卡播放器
-content/fixtures/     eng-starter-01、颜色配对、四科大纲
+content/fixtures/     四科各 5 关可玩夹具、颜色配对、课包大纲
 content/schemas/      关卡 JSON Schema
 lib/api/modules/      按账号、孩子、内容、进度、解锁、订单、家长锁、后台拆开的桩
 lib/content/          Zod 校验
@@ -83,11 +83,11 @@ docs/source/          关卡脚本、接口清单、任务看板、Figma 打勾�
 
 ## 内容
 
-可玩样例是 `content/fixtures/levels/eng-starter-01.json`（Hello & Bye）。听讲稿来自英语课包第 1 关，A 龄只做听和点选。B/C 的跟读还没做。
+四科启蒙各 5 关都在 `content/fixtures/levels/`，目录里标了可玩。今日页按孩子年龄从语言、数学、英语、认知各抽一关，当天固定：3–4 岁从第 1 关起，并且不排数学生活；4–5 岁从第 2 关起；5–6 岁从第 3 关起。玩完的任务显示「完成」，继续卡跳到下一科。听讲稿来自关卡脚本，点选用占位图。B/C 的跟读还没做。
 
 颜色配对配置在 `content/fixtures/games/game-color-match.json`。音频字段是 `asset:` 占位，播放器用浏览器朗读顶上，没有 CDN 音频。
 
-课包大纲覆盖英语、数学数感、数学生活、语文、生活认知，各 5 关，外加 5 个游戏位。除上面两个样例，其余不能通关。
+课包大纲覆盖英语、数学数感、数学生活、语文、生活认知，各 5 关，外加 5 个游戏位。除颜色配对外，其它游戏还不能玩。
 
 ## 这一版没有做
 
@@ -96,6 +96,6 @@ docs/source/          关卡脚本、接口清单、任务看板、Figma 打勾�
 - 真实验证码、微信 OAuth、JWT
 - 激励视频 SDK、服务端广告验签
 - 微信支付、Apple IAP、恢复购买
-- 跟读评测、拖拽题、另外四关英语和其余学科的完整步骤
+- 跟读评测、拖拽题，以及启蒙包以外的关卡
 - Capacitor / App 壳
 - 把进度写进 PostgreSQL（表结构已经在 Prisma schema 里）

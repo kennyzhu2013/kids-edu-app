@@ -1,0 +1,108 @@
+{
+  "schemaVersion": 1,
+  "id": "math-life-03",
+  "packId": "math-life",
+  "title": "排队几号",
+  "order": 3,
+  "ageBand": [
+    "A",
+    "B",
+    "C"
+  ],
+  "vocab": [
+    "第1",
+    "第2",
+    "第3"
+  ],
+  "audioIntro": "asset:audio/math-life-03-intro",
+  "introScript": "排队啦。从前数：第 1、第 2、第 3。",
+  "introScriptZh": "排队啦。从前数：第 1、第 2、第 3。",
+  "listenTitle": "排队几号",
+  "listenVisual": "队",
+  "steps": [
+    {
+      "id": "q1",
+      "type": "tap",
+      "promptAudio": "asset:audio/q1",
+      "promptText": "点队伍里的第 1 个",
+      "promptSpeak": "第1",
+      "choices": [
+        {
+          "id": "p1",
+          "label": "第 1 个",
+          "visual": "1"
+        },
+        {
+          "id": "p2",
+          "label": "第 2 个",
+          "visual": "2"
+        },
+        {
+          "id": "p3",
+          "label": "第 3 个",
+          "visual": "3"
+        }
+      ],
+      "answer": "p1"
+    },
+    {
+      "id": "q2",
+      "type": "tap",
+      "promptAudio": "asset:audio/q2",
+      "promptText": "点第 3 个",
+      "promptSpeak": "第3",
+      "choices": [
+        {
+          "id": "p1",
+          "label": "第 1 个",
+          "visual": "1"
+        },
+        {
+          "id": "p3",
+          "label": "第 3 个",
+          "visual": "3"
+        },
+        {
+          "id": "p2",
+          "label": "第 2 个",
+          "visual": "2"
+        }
+      ],
+      "answer": "p3"
+    },
+    {
+      "id": "q3",
+      "type": "tap",
+      "promptAudio": "asset:audio/q3",
+      "promptText": "从后面数第 2 个是谁？",
+      "promptSpeak": "从后数",
+      "choices": [
+        {
+          "id": "p2",
+          "label": "第 2 个",
+          "visual": "2"
+        },
+        {
+          "id": "p3",
+          "label": "第 3 个",
+          "visual": "3"
+        },
+        {
+          "id": "p1",
+          "label": "第 1 个",
+          "visual": "1"
+        }
+      ],
+      "answer": "p2",
+      "ages": [
+        "C"
+      ]
+    }
+  ],
+  "rewardStars": 3,
+  "rewardCopy": "排队小能手！",
+  "rewardCopyZh": "排队小能手！",
+  "assetsNote": "没有实拍素材。图用色块和字块代替，旁白用浏览器语音。",
+  "nextLevelId": "math-life-04",
+  "aDiff": "认识第几"
+}

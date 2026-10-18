@@ -1,0 +1,108 @@
+{
+  "schemaVersion": 1,
+  "id": "math-life-02",
+  "packId": "math-life",
+  "title": "买东西",
+  "order": 2,
+  "ageBand": [
+    "A",
+    "B",
+    "C"
+  ],
+  "vocab": [
+    "元",
+    "更贵",
+    "够不够"
+  ],
+  "audioIntro": "asset:audio/math-life-02-intro",
+  "introScript": "饼干 2 元，牛奶 3 元。哪个更贵？加起来够不够？",
+  "introScriptZh": "饼干 2 元，牛奶 3 元。哪个更贵？加起来够不够？",
+  "listenTitle": "买东西",
+  "listenVisual": "买",
+  "steps": [
+    {
+      "id": "q1",
+      "type": "tap",
+      "promptAudio": "asset:audio/q1",
+      "promptText": "哪个更贵？",
+      "promptSpeak": "更贵",
+      "choices": [
+        {
+          "id": "cookie",
+          "label": "饼干 2 元",
+          "visual": "2"
+        },
+        {
+          "id": "milk",
+          "label": "牛奶 3 元",
+          "visual": "3"
+        },
+        {
+          "id": "same",
+          "label": "一样贵",
+          "visual": "同"
+        }
+      ],
+      "answer": "milk"
+    },
+    {
+      "id": "q2",
+      "type": "tap",
+      "promptAudio": "asset:audio/q2",
+      "promptText": "2 加 3 等于几？",
+      "promptSpeak": "2+3",
+      "choices": [
+        {
+          "id": "four",
+          "label": "4",
+          "visual": "4"
+        },
+        {
+          "id": "five",
+          "label": "5",
+          "visual": "5"
+        },
+        {
+          "id": "six",
+          "label": "6",
+          "visual": "6"
+        }
+      ],
+      "answer": "five"
+    },
+    {
+      "id": "q3",
+      "type": "tap",
+      "promptAudio": "asset:audio/q3",
+      "promptText": "手里有 5 元，够不够买两样？",
+      "promptSpeak": "够不够",
+      "choices": [
+        {
+          "id": "yes",
+          "label": "够",
+          "visual": "够"
+        },
+        {
+          "id": "no",
+          "label": "不够",
+          "visual": "不"
+        },
+        {
+          "id": "idk",
+          "label": "不知道",
+          "visual": "问"
+        }
+      ],
+      "answer": "yes",
+      "ages": [
+        "C"
+      ]
+    }
+  ],
+  "rewardStars": 3,
+  "rewardCopy": "会买东西啦！小管家！",
+  "rewardCopyZh": "会买东西啦！小管家！",
+  "assetsNote": "没有实拍素材。图用色块和字块代替，旁白用浏览器语音。",
+  "nextLevelId": "math-life-03",
+  "aDiff": "比较价钱"
+}

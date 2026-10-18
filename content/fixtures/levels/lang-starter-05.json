@@ -1,0 +1,106 @@
+{
+  "schemaVersion": 1,
+  "id": "lang-starter-05",
+  "packId": "lang-starter",
+  "title": "象形字",
+  "order": 5,
+  "ageBand": [
+    "A",
+    "B",
+    "C"
+  ],
+  "vocab": [
+    "日",
+    "月",
+    "山",
+    "水",
+    "火"
+  ],
+  "audioIntro": "asset:audio/lang-starter-05-intro",
+  "introScript": "古人看太阳画出「日」，看月亮画出「月」。山、水、火也是这样来的。",
+  "introScriptZh": "古人看太阳画出「日」，看月亮画出「月」。山、水、火也是这样来的。",
+  "listenTitle": "象形字",
+  "listenVisual": "日",
+  "steps": [
+    {
+      "id": "q1",
+      "type": "tap",
+      "promptAudio": "asset:audio/q1",
+      "promptText": "看到太阳，选哪个字？",
+      "promptSpeak": "日",
+      "choices": [
+        {
+          "id": "moon",
+          "label": "月",
+          "visual": "月"
+        },
+        {
+          "id": "sun",
+          "label": "日",
+          "visual": "日"
+        },
+        {
+          "id": "mountain",
+          "label": "山",
+          "visual": "山"
+        }
+      ],
+      "answer": "sun"
+    },
+    {
+      "id": "q2",
+      "type": "tap",
+      "promptAudio": "asset:audio/q2",
+      "promptText": "看到月亮，选哪个字？",
+      "promptSpeak": "月",
+      "choices": [
+        {
+          "id": "moon",
+          "label": "月",
+          "visual": "月"
+        },
+        {
+          "id": "water",
+          "label": "水",
+          "visual": "水"
+        },
+        {
+          "id": "fire",
+          "label": "火",
+          "visual": "火"
+        }
+      ],
+      "answer": "moon"
+    },
+    {
+      "id": "q3",
+      "type": "tap",
+      "promptAudio": "asset:audio/q3",
+      "promptText": "听到「山」，点这个字",
+      "promptSpeak": "山",
+      "choices": [
+        {
+          "id": "fire",
+          "label": "火",
+          "visual": "火"
+        },
+        {
+          "id": "mountain",
+          "label": "山",
+          "visual": "山"
+        },
+        {
+          "id": "water",
+          "label": "水",
+          "visual": "水"
+        }
+      ],
+      "answer": "mountain"
+    }
+  ],
+  "rewardStars": 3,
+  "rewardCopy": "汉字小考古家！",
+  "rewardCopyZh": "汉字小考古家！",
+  "assetsNote": "没有实拍素材。图用色块和字块代替，旁白用浏览器语音。",
+  "aDiff": "从图画认汉字"
+}

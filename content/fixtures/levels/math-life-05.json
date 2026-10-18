@@ -1,0 +1,107 @@
+{
+  "schemaVersion": 1,
+  "id": "math-life-05",
+  "packId": "math-life",
+  "title": "整理玩具",
+  "order": 5,
+  "ageBand": [
+    "A",
+    "B",
+    "C"
+  ],
+  "vocab": [
+    "圆形盒",
+    "大",
+    "小"
+  ],
+  "audioIntro": "asset:audio/math-life-05-intro",
+  "introScript": "玩具该回家啦。球进圆形盒，大的小的分两箱。",
+  "introScriptZh": "玩具该回家啦。球进圆形盒，大的小的分两箱。",
+  "listenTitle": "整理玩具",
+  "listenVisual": "盒",
+  "steps": [
+    {
+      "id": "q1",
+      "type": "tap",
+      "promptAudio": "asset:audio/q1",
+      "promptText": "球该进哪个盒子？",
+      "promptSpeak": "圆形盒",
+      "choices": [
+        {
+          "id": "round",
+          "label": "圆形盒",
+          "visual": "圆"
+        },
+        {
+          "id": "square",
+          "label": "方形盒",
+          "visual": "方"
+        },
+        {
+          "id": "tri",
+          "label": "三角盒",
+          "visual": "角"
+        }
+      ],
+      "answer": "round"
+    },
+    {
+      "id": "q2",
+      "type": "tap",
+      "promptAudio": "asset:audio/q2",
+      "promptText": "大球放进哪一箱？",
+      "promptSpeak": "大",
+      "choices": [
+        {
+          "id": "small",
+          "label": "小箱",
+          "visual": "小"
+        },
+        {
+          "id": "big",
+          "label": "大箱",
+          "visual": "大"
+        },
+        {
+          "id": "round",
+          "label": "圆盒",
+          "visual": "圆"
+        }
+      ],
+      "answer": "big"
+    },
+    {
+      "id": "q3",
+      "type": "tap",
+      "promptAudio": "asset:audio/q3",
+      "promptText": "又是车又是红色的，放哪里？",
+      "promptSpeak": "红车",
+      "choices": [
+        {
+          "id": "car",
+          "label": "红车箱",
+          "visual": "车"
+        },
+        {
+          "id": "ball",
+          "label": "蓝球箱",
+          "visual": "球"
+        },
+        {
+          "id": "block",
+          "label": "黄积木",
+          "visual": "积"
+        }
+      ],
+      "answer": "car",
+      "ages": [
+        "C"
+      ]
+    }
+  ],
+  "rewardStars": 3,
+  "rewardCopy": "整理小能手！房间好整齐！",
+  "rewardCopyZh": "整理小能手！房间好整齐！",
+  "assetsNote": "没有实拍素材。图用色块和字块代替，旁白用浏览器语音。",
+  "aDiff": "按形状和大小整理"
+}

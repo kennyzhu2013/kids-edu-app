@@ -1,0 +1,108 @@
+{
+  "schemaVersion": 1,
+  "id": "lang-starter-01",
+  "packId": "lang-starter",
+  "title": "身体与家人",
+  "order": 1,
+  "ageBand": [
+    "A",
+    "B",
+    "C"
+  ],
+  "vocab": [
+    "眼睛",
+    "鼻子",
+    "嘴巴",
+    "手",
+    "爸爸",
+    "妈妈"
+  ],
+  "audioIntro": "asset:audio/lang-starter-01-intro",
+  "introScript": "这是眼睛，这是鼻子，这是嘴巴，这是手。家里有爸爸，有妈妈。",
+  "introScriptZh": "这是眼睛，这是鼻子，这是嘴巴，这是手。家里有爸爸，有妈妈。",
+  "listenTitle": "身体与家人",
+  "listenVisual": "body",
+  "steps": [
+    {
+      "id": "q1",
+      "type": "tap",
+      "promptAudio": "asset:audio/q1",
+      "promptText": "听「眼睛」，点眼睛",
+      "promptSpeak": "眼睛",
+      "choices": [
+        {
+          "id": "nose",
+          "label": "鼻子",
+          "visual": "鼻"
+        },
+        {
+          "id": "eye",
+          "label": "眼睛",
+          "visual": "眼"
+        },
+        {
+          "id": "mouth",
+          "label": "嘴巴",
+          "visual": "嘴"
+        }
+      ],
+      "answer": "eye"
+    },
+    {
+      "id": "q2",
+      "type": "tap",
+      "promptAudio": "asset:audio/q2",
+      "promptText": "听「手」，点手",
+      "promptSpeak": "手",
+      "choices": [
+        {
+          "id": "hand",
+          "label": "手",
+          "visual": "手"
+        },
+        {
+          "id": "nose",
+          "label": "鼻子",
+          "visual": "鼻"
+        },
+        {
+          "id": "mouth",
+          "label": "嘴巴",
+          "visual": "嘴"
+        }
+      ],
+      "answer": "hand"
+    },
+    {
+      "id": "q3",
+      "type": "tap",
+      "promptAudio": "asset:audio/q3",
+      "promptText": "听「妈妈」，点妈妈",
+      "promptSpeak": "妈妈",
+      "choices": [
+        {
+          "id": "dad",
+          "label": "爸爸",
+          "visual": "爸"
+        },
+        {
+          "id": "mom",
+          "label": "妈妈",
+          "visual": "妈"
+        },
+        {
+          "id": "kid",
+          "label": "宝宝",
+          "visual": "宝"
+        }
+      ],
+      "answer": "mom"
+    }
+  ],
+  "rewardStars": 3,
+  "rewardCopy": "说得好！认字小芽芽！",
+  "rewardCopyZh": "说得好！认字小芽芽！",
+  "assetsNote": "没有实拍素材。图用色块和字块代替，旁白用浏览器语音。",
+  "nextLevelId": "lang-starter-02",
+  "aDiff": "听懂身体和家人"
+}

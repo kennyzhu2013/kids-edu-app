@@ -1,0 +1,134 @@
+{
+  "schemaVersion": 1,
+  "id": "lang-starter-04",
+  "packId": "lang-starter",
+  "title": "食物",
+  "order": 4,
+  "ageBand": [
+    "A",
+    "B",
+    "C"
+  ],
+  "vocab": [
+    "米饭",
+    "苹果",
+    "牛奶",
+    "面包"
+  ],
+  "audioIntro": "asset:audio/lang-starter-04-intro",
+  "introScript": "吃饭啦。米饭香香，苹果甜甜，牛奶营养，面包软软。",
+  "introScriptZh": "吃饭啦。米饭香香，苹果甜甜，牛奶营养，面包软软。",
+  "listenTitle": "食物",
+  "listenVisual": "饭",
+  "steps": [
+    {
+      "id": "q1",
+      "type": "tap",
+      "promptAudio": "asset:audio/q1",
+      "promptText": "听「米饭」，点米饭",
+      "promptSpeak": "米饭",
+      "choices": [
+        {
+          "id": "apple",
+          "label": "苹果",
+          "visual": "苹"
+        },
+        {
+          "id": "rice",
+          "label": "米饭",
+          "visual": "米"
+        },
+        {
+          "id": "milk",
+          "label": "牛奶",
+          "visual": "奶"
+        }
+      ],
+      "answer": "rice"
+    },
+    {
+      "id": "q2",
+      "type": "tap",
+      "promptAudio": "asset:audio/q2",
+      "promptText": "听「苹果」，点苹果",
+      "promptSpeak": "苹果",
+      "choices": [
+        {
+          "id": "bread",
+          "label": "面包",
+          "visual": "面"
+        },
+        {
+          "id": "milk",
+          "label": "牛奶",
+          "visual": "奶"
+        },
+        {
+          "id": "apple",
+          "label": "苹果",
+          "visual": "苹"
+        }
+      ],
+      "answer": "apple"
+    },
+    {
+      "id": "q3",
+      "type": "tap",
+      "promptAudio": "asset:audio/q3",
+      "promptText": "听「牛奶」，点牛奶",
+      "promptSpeak": "牛奶",
+      "choices": [
+        {
+          "id": "milk",
+          "label": "牛奶",
+          "visual": "奶"
+        },
+        {
+          "id": "rice",
+          "label": "米饭",
+          "visual": "米"
+        },
+        {
+          "id": "bread",
+          "label": "面包",
+          "visual": "面"
+        }
+      ],
+      "answer": "milk"
+    },
+    {
+      "id": "q4",
+      "type": "tap",
+      "promptAudio": "asset:audio/q4",
+      "promptText": "跟读还没接。先点「我要吃苹果」",
+      "promptSpeak": "我要吃苹果",
+      "choices": [
+        {
+          "id": "rice",
+          "label": "我要吃饭",
+          "visual": "饭"
+        },
+        {
+          "id": "apple",
+          "label": "我要吃苹果",
+          "visual": "苹"
+        },
+        {
+          "id": "milk",
+          "label": "我要喝奶",
+          "visual": "奶"
+        }
+      ],
+      "answer": "apple",
+      "ages": [
+        "C"
+      ]
+    }
+  ],
+  "rewardStars": 3,
+  "rewardCopy": "真香！美食家！",
+  "rewardCopyZh": "真香！美食家！",
+  "assetsNote": "没有实拍素材。图用色块和字块代替，旁白用浏览器语音。",
+  "nextLevelId": "lang-starter-05",
+  "aDiff": "听食物名称"
+}

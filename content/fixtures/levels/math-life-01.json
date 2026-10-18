@@ -1,0 +1,108 @@
+{
+  "schemaVersion": 1,
+  "id": "math-life-01",
+  "packId": "math-life",
+  "title": "分水果",
+  "order": 1,
+  "ageBand": [
+    "A",
+    "B",
+    "C"
+  ],
+  "vocab": [
+    "一样多",
+    "分",
+    "每人"
+  ],
+  "audioIntro": "asset:audio/math-life-01-intro",
+  "introScript": "水果要分一分。两边一样多才公平。",
+  "introScriptZh": "水果要分一分。两边一样多才公平。",
+  "listenTitle": "分水果",
+  "listenVisual": "水果",
+  "steps": [
+    {
+      "id": "q1",
+      "type": "tap",
+      "promptAudio": "asset:audio/q1",
+      "promptText": "哪一组两边一样多？",
+      "promptSpeak": "一样多",
+      "choices": [
+        {
+          "id": "same",
+          "label": "3 和 3",
+          "visual": "同"
+        },
+        {
+          "id": "more",
+          "label": "5 和 2",
+          "visual": "多"
+        },
+        {
+          "id": "less",
+          "label": "1 和 4",
+          "visual": "少"
+        }
+      ],
+      "answer": "same"
+    },
+    {
+      "id": "q2",
+      "type": "tap",
+      "promptAudio": "asset:audio/q2",
+      "promptText": "6 个苹果分给 2 个人，每人几个？",
+      "promptSpeak": "每人几个",
+      "choices": [
+        {
+          "id": "two",
+          "label": "2 个",
+          "visual": "2"
+        },
+        {
+          "id": "three",
+          "label": "3 个",
+          "visual": "3"
+        },
+        {
+          "id": "six",
+          "label": "6 个",
+          "visual": "6"
+        }
+      ],
+      "answer": "three"
+    },
+    {
+      "id": "q3",
+      "type": "tap",
+      "promptAudio": "asset:audio/q3",
+      "promptText": "7 个苹果能平均分给 2 个人吗？",
+      "promptSpeak": "能均分吗",
+      "choices": [
+        {
+          "id": "yes",
+          "label": "能",
+          "visual": "能"
+        },
+        {
+          "id": "no",
+          "label": "不能",
+          "visual": "不"
+        },
+        {
+          "id": "idk",
+          "label": "不知道",
+          "visual": "问"
+        }
+      ],
+      "answer": "no",
+      "ages": [
+        "C"
+      ]
+    }
+  ],
+  "rewardStars": 3,
+  "rewardCopy": "分得公平！均分小达人！",
+  "rewardCopyZh": "分得公平！均分小达人！",
+  "assetsNote": "没有实拍素材。图用色块和字块代替，旁白用浏览器语音。",
+  "nextLevelId": "math-life-02",
+  "aDiff": "一样多和均分"
+}

@@ -1,0 +1,110 @@
+{
+  "schemaVersion": 1,
+  "id": "life-starter-03",
+  "packId": "life-starter",
+  "title": "交通工具",
+  "order": 3,
+  "ageBand": [
+    "A",
+    "B",
+    "C"
+  ],
+  "vocab": [
+    "汽车",
+    "公交车",
+    "自行车",
+    "飞机"
+  ],
+  "audioIntro": "asset:audio/life-starter-03-intro",
+  "introScript": "嘀嘀，汽车来了。公交车可以坐好多人。自行车用脚蹬。飞机飞得又高又远。",
+  "introScriptZh": "嘀嘀，汽车来了。公交车可以坐好多人。自行车用脚蹬。飞机飞得又高又远。",
+  "listenTitle": "交通工具",
+  "listenVisual": "车",
+  "steps": [
+    {
+      "id": "q1",
+      "type": "tap",
+      "promptAudio": "asset:audio/q1",
+      "promptText": "听「汽车」，点汽车",
+      "promptSpeak": "汽车",
+      "choices": [
+        {
+          "id": "bus",
+          "label": "公交车",
+          "visual": "公"
+        },
+        {
+          "id": "car",
+          "label": "汽车",
+          "visual": "汽"
+        },
+        {
+          "id": "bike",
+          "label": "自行车",
+          "visual": "自"
+        }
+      ],
+      "answer": "car"
+    },
+    {
+      "id": "q2",
+      "type": "tap",
+      "promptAudio": "asset:audio/q2",
+      "promptText": "听「飞机」，点飞机",
+      "promptSpeak": "飞机",
+      "choices": [
+        {
+          "id": "plane",
+          "label": "飞机",
+          "visual": "飞"
+        },
+        {
+          "id": "bike",
+          "label": "自行车",
+          "visual": "自"
+        },
+        {
+          "id": "bus",
+          "label": "公交车",
+          "visual": "公"
+        }
+      ],
+      "answer": "plane"
+    },
+    {
+      "id": "q3",
+      "type": "tap",
+      "promptAudio": "asset:audio/q3",
+      "promptText": "去很远的地方，坐什么？",
+      "promptSpeak": "很远",
+      "choices": [
+        {
+          "id": "bike",
+          "label": "自行车",
+          "visual": "自"
+        },
+        {
+          "id": "plane",
+          "label": "飞机",
+          "visual": "飞"
+        },
+        {
+          "id": "car",
+          "label": "汽车",
+          "visual": "汽"
+        }
+      ],
+      "answer": "plane",
+      "ages": [
+        "B",
+        "C"
+      ]
+    }
+  ],
+  "rewardStars": 3,
+  "rewardCopy": "出发咯！交通小达人！",
+  "rewardCopyZh": "出发咯！交通小达人！",
+  "assetsNote": "没有实拍素材。图用色块和字块代替，旁白用浏览器语音。",
+  "nextLevelId": "life-starter-04",
+  "aDiff": "认识交通工具"
+}

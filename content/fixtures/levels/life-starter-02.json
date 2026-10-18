@@ -1,0 +1,106 @@
+{
+  "schemaVersion": 1,
+  "id": "life-starter-02",
+  "packId": "life-starter",
+  "title": "洗手步骤",
+  "order": 2,
+  "ageBand": [
+    "A",
+    "B",
+    "C"
+  ],
+  "vocab": [
+    "湿手",
+    "搓皂",
+    "冲洗",
+    "擦干"
+  ],
+  "audioIntro": "asset:audio/life-starter-02-intro",
+  "introScript": "洗手四步：先打湿小手，再搓肥皂，冲干净，最后擦干。",
+  "introScriptZh": "洗手四步：先打湿小手，再搓肥皂，冲干净，最后擦干。",
+  "listenTitle": "洗手步骤",
+  "listenVisual": "手",
+  "steps": [
+    {
+      "id": "q1",
+      "type": "tap",
+      "promptAudio": "asset:audio/q1",
+      "promptText": "洗手的第一步是什么？",
+      "promptSpeak": "第一步",
+      "choices": [
+        {
+          "id": "soap",
+          "label": "搓肥皂",
+          "visual": "皂"
+        },
+        {
+          "id": "wet",
+          "label": "打湿小手",
+          "visual": "湿"
+        },
+        {
+          "id": "dry",
+          "label": "擦干",
+          "visual": "干"
+        }
+      ],
+      "answer": "wet"
+    },
+    {
+      "id": "q2",
+      "type": "tap",
+      "promptAudio": "asset:audio/q2",
+      "promptText": "打湿之后，下一步？",
+      "promptSpeak": "下一步",
+      "choices": [
+        {
+          "id": "dry",
+          "label": "擦干",
+          "visual": "干"
+        },
+        {
+          "id": "soap",
+          "label": "搓肥皂",
+          "visual": "皂"
+        },
+        {
+          "id": "rinse",
+          "label": "冲洗",
+          "visual": "冲"
+        }
+      ],
+      "answer": "soap"
+    },
+    {
+      "id": "q3",
+      "type": "tap",
+      "promptAudio": "asset:audio/q3",
+      "promptText": "冲干净之后，最后一步？",
+      "promptSpeak": "最后",
+      "choices": [
+        {
+          "id": "soap",
+          "label": "搓肥皂",
+          "visual": "皂"
+        },
+        {
+          "id": "wet",
+          "label": "打湿小手",
+          "visual": "湿"
+        },
+        {
+          "id": "dry",
+          "label": "擦干",
+          "visual": "干"
+        }
+      ],
+      "answer": "dry"
+    }
+  ],
+  "rewardStars": 3,
+  "rewardCopy": "双手香香！卫生小标兵！",
+  "rewardCopyZh": "双手香香！卫生小标兵！",
+  "assetsNote": "没有实拍素材。图用色块和字块代替，旁白用浏览器语音。",
+  "nextLevelId": "life-starter-03",
+  "aDiff": "洗手顺序"
+}

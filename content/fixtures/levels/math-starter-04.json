@@ -1,0 +1,106 @@
+{
+  "schemaVersion": 1,
+  "id": "math-starter-04",
+  "packId": "math-starter",
+  "title": "大小长短",
+  "order": 4,
+  "ageBand": [
+    "A",
+    "B",
+    "C"
+  ],
+  "vocab": [
+    "大",
+    "小",
+    "长",
+    "短"
+  ],
+  "audioIntro": "asset:audio/math-starter-04-intro",
+  "introScript": "这个球好大，那个好小。这支笔很长，那支很短。",
+  "introScriptZh": "这个球好大，那个好小。这支笔很长，那支很短。",
+  "listenTitle": "大小长短",
+  "listenVisual": "大小",
+  "steps": [
+    {
+      "id": "q1",
+      "type": "tap",
+      "promptAudio": "asset:audio/q1",
+      "promptText": "点大的球",
+      "promptSpeak": "大",
+      "choices": [
+        {
+          "id": "big",
+          "label": "大球",
+          "visual": "大"
+        },
+        {
+          "id": "small",
+          "label": "小球",
+          "visual": "小"
+        },
+        {
+          "id": "mid",
+          "label": "中球",
+          "visual": "中"
+        }
+      ],
+      "answer": "big"
+    },
+    {
+      "id": "q2",
+      "type": "tap",
+      "promptAudio": "asset:audio/q2",
+      "promptText": "点短的笔",
+      "promptSpeak": "短",
+      "choices": [
+        {
+          "id": "long",
+          "label": "长笔",
+          "visual": "长"
+        },
+        {
+          "id": "short",
+          "label": "短笔",
+          "visual": "短"
+        },
+        {
+          "id": "mid",
+          "label": "中笔",
+          "visual": "中"
+        }
+      ],
+      "answer": "short"
+    },
+    {
+      "id": "q3",
+      "type": "tap",
+      "promptAudio": "asset:audio/q3",
+      "promptText": "点小的动物",
+      "promptSpeak": "小",
+      "choices": [
+        {
+          "id": "big",
+          "label": "大象",
+          "visual": "大"
+        },
+        {
+          "id": "small",
+          "label": "蚂蚁",
+          "visual": "小"
+        },
+        {
+          "id": "mid",
+          "label": "小猫",
+          "visual": "猫"
+        }
+      ],
+      "answer": "small"
+    }
+  ],
+  "rewardStars": 3,
+  "rewardCopy": "了不起！大小长短都懂啦！",
+  "rewardCopyZh": "了不起！大小长短都懂啦！",
+  "assetsNote": "没有实拍素材。图用色块和字块代替，旁白用浏览器语音。",
+  "nextLevelId": "math-starter-05",
+  "aDiff": "比较大小长短"
+}
