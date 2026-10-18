@@ -1,0 +1,118 @@
+@import "tailwindcss";
+
+:root {
+  --background: #fff8ef;
+  --foreground: #3b2a24;
+  --card: #ffffff;
+  --card-foreground: #3b2a24;
+  --primary: #ff6b4a;
+  --primary-foreground: #ffffff;
+  --secondary: #ffe7c2;
+  --secondary-foreground: #3b2a24;
+  --muted: #f6ecdf;
+  --muted-foreground: #8d7368;
+  --accent: #fff3da;
+  --accent-foreground: #3b2a24;
+  --destructive: #d64545;
+  --border: #f0dcc8;
+  --input: #f0dcc8;
+  --ring: #ff6b4a;
+  --radius: 1.25rem;
+  --sun: #ffc44d;
+  --leaf: #1fa97a;
+  --sky: #3d94f5;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-sun: var(--sun);
+  --color-leaf: var(--leaf);
+  --color-sky: var(--sky);
+  --font-sans: var(--font-noto), var(--font-nunito), "PingFang SC", "Noto Sans SC", sans-serif;
+  --radius-xl: var(--radius);
+}
+
+body {
+  background:
+    radial-gradient(circle at 12% 0%, #ffe1c4 0, transparent 32%),
+    radial-gradient(circle at 100% 8%, #ffd5c8 0, transparent 28%),
+    #f6e7d4;
+  color: var(--foreground);
+  font-family: var(--font-sans);
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+@keyframes star-pop {
+  0% {
+    transform: scale(0.2) rotate(-18deg);
+    opacity: 0;
+  }
+  70% {
+    transform: scale(1.12) rotate(6deg);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1) rotate(0);
+  }
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-6px);
+  }
+  75% {
+    transform: translateX(6px);
+  }
+}
+
+@keyframes pulse-ring {
+  0% {
+    box-shadow: 0 0 0 0 rgb(255 107 74 / 0.45);
+  }
+  100% {
+    box-shadow: 0 0 0 16px rgb(255 107 74 / 0);
+  }
+}
+
+.star-pop {
+  animation: star-pop 0.55s ease both;
+}
+
+.shake {
+  animation: shake 0.35s ease;
+}
+
+.speaker-live {
+  animation: pulse-ring 1.1s ease-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .star-pop,
+  .shake,
+  .speaker-live {
+    animation: none;
+  }
+}

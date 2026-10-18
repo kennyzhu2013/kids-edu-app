@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "id": "eng-starter-01",
+  "packId": "eng-starter",
+  "title": "Hello & Bye",
+  "order": 1,
+  "ageBand": ["A", "B", "C"],
+  "vocab": ["Hello", "Bye-bye", "Hi"],
+  "audioIntro": "asset:audio/eng-starter-01-intro",
+  "introScript": "Hi! I'm Mia. When we meet friends, we say Hello! Wave your hand — Hello! When we leave, we say Bye-bye! Wave — Bye-bye!",
+  "introScriptZh": "嗨！我是 Mia。见到朋友说 Hello，挥挥手。离开的时候说 Bye-bye，再挥挥手。",
+  "steps": [
+    {
+      "id": "q1",
+      "type": "tap",
+      "promptAudio": "asset:audio/eng-starter-01-q1",
+      "promptText": "听「Hello」，点选打招呼的小朋友",
+      "promptSpeak": "Hello",
+      "choices": [
+        { "id": "choice-wave", "label": "打招呼", "scene": "hello" },
+        { "id": "choice-leave", "label": "说再见", "scene": "bye" },
+        { "id": "choice-sit", "label": "安静坐着", "scene": "sit" }
+      ],
+      "answer": "choice-wave"
+    },
+    {
+      "id": "q2",
+      "type": "tap",
+      "promptAudio": "asset:audio/eng-starter-01-q2",
+      "promptText": "听「Bye-bye」，点选再见的小朋友",
+      "promptSpeak": "Bye-bye",
+      "choices": [
+        { "id": "choice-wave", "label": "打招呼", "scene": "hello" },
+        { "id": "choice-leave", "label": "说再见", "scene": "bye" },
+        { "id": "choice-sit", "label": "安静坐着", "scene": "sit" }
+      ],
+      "answer": "choice-leave"
+    }
+  ],
+  "rewardStars": 3,
+  "rewardCopy": "Great job!",
+  "rewardCopyZh": "太棒了！",
+  "aDiff": "仅听词点图，无跟读",
+  "bDiff": "增加跟读 Hello；可选二次练习 Bye-bye",
+  "cDiff": "跟读 Hello, I'm Mia；结算前可再听一次完整问候",
+  "assetsNote": "角色 Mia 立绘；挥手 / 离开两张场景图；Hello / Bye-bye 音频。跟读麦克风尚未接入。"
+}

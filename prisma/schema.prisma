@@ -1,0 +1,195 @@
+// 综合启蒙 MVP 数据模型桩。
+// 运行时接口仍走内存 + JSON 夹具；连上 PostgreSQL 后执行：
+//   npx prisma migrate dev --name init
+//   SEED_DATABASE=1 npm run seed
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+/// 家长账号。手机号与微信 openid 都可空，便于以后合并登录。
+model User {
+  id           String       @id @default(cuid())
+  phone        String?      @unique
+  wechatOpenId String?      @unique
+  nickname     String?
+  role         String       @default("parent")
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+  children     Child[]
+  orders       Order[]
+  entitlements Entitlement[]
+  parentLock   ParentLock?
+}
+
+/// 儿童档案。ageBand：A=3–4岁，B=4–5岁，C=5–6岁。
+model Child {
+  id        String     @id @default(cuid())
+  userId    String
+  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  nickname  String
+  ageBand   String
+  avatar    String?
+  isCurrent Boolean    @default(false)
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  progress  Progress[]
+
+  @@index([userId])
+}
+
+/// 学科。对应课程馆 Tab：语言 / 数学 / 英语 / 认知。
+model Subject {
+  id    String @id
+  name  String
+  tab   String
+  packs Pack[]
+}
+
+/// 课包。access：trial 试玩 / locked 锁 / owned 已购。
+model Pack {
+  id         String    @id
+  subjectId  String
+  subject    Subject   @relation(fields: [subjectId], references: [id])
+  title      String
+  summary    String
+  levelCount Int
+  ageRange   String
+  access     String    @default("locked")
+  accent     String?
+  coverAsset String?
+  status     String    @default("published")
+  deletedAt  DateTime?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  levels     Level[]
+
+  @@index([subjectId])
+}
+
+/// 关卡。config 为 CMS Level JSON（含 schemaVersion、steps、音频位）。
+model Level {
+  id            String     @id
+  packId        String
+  pack          Pack       @relation(fields: [packId], references: [id], onDelete: Cascade)
+  order         Int
+  title         String
+  goal          String     @default("")
+  ageBand       String[]
+  vocab         String[]
+  types         String[]
+  minutes       Int        @default(2)
+  playable      Boolean    @default(false)
+  rewardStars   Int        @default(3)
+  rewardCopy    String     @default("")
+  schemaVersion Int        @default(1)
+  config        Json
+  status        String     @default("draft")
+  deletedAt     DateTime?
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+  progress      Progress[]
+
+  @@unique([packId, order])
+  @@index([packId])
+}
+
+/// 游戏乐园。config 含时长、每日免费次数、胜利条件、素材引用。
+model Game {
+  id            String    @id
+  title         String
+  titleEn       String?
+  knowledgeTags String[]
+  dailyFree     Int       @default(3)
+  durationSec   Int
+  rounds        String?
+  winCondition  String
+  howTo         String
+  playable      Boolean   @default(false)
+  schemaVersion Int       @default(1)
+  config        Json
+  status        String    @default("published")
+  deletedAt     DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+/// 学习进度。clientEventId 用于完成上报幂等。
+model Progress {
+  id            String    @id @default(cuid())
+  childId       String
+  child         Child     @relation(fields: [childId], references: [id], onDelete: Cascade)
+  levelId       String
+  level         Level     @relation(fields: [levelId], references: [id], onDelete: Cascade)
+  status        String    @default("started")
+  stars         Int       @default(0)
+  score         Int       @default(0)
+  durationSec   Int       @default(0)
+  clientEventId String?   @unique
+  completedAt   DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@unique([childId, levelId])
+  @@index([childId])
+}
+
+/// 订单。channel：wechat / apple_iap / stub。金额单位为分。
+model Order {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  skuId     String
+  channel   String
+  status    String   @default("pending")
+  amount    Int
+  currency  String   @default("CNY")
+  payParams Json?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId, status])
+}
+
+/// 权益。type：no_ads / pack / vip_year / ad_unlock。
+model Entitlement {
+  id        String    @id @default(cuid())
+  userId    String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  childId   String?
+  type      String
+  scope     String?
+  expireAt  DateTime?
+  source    String
+  createdAt DateTime  @default(now())
+
+  @@index([userId])
+}
+
+/// 家长锁。只存 pinHash，接口桩在接入前用环境变量比对。
+model ParentLock {
+  id          String    @id @default(cuid())
+  userId      String    @unique
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  pinHash     String
+  failCount   Int       @default(0)
+  lockedUntil DateTime?
+  updatedAt   DateTime  @updatedAt
+}
+
+/// 素材登记。运行时内容只引用 assetId，正式环境再解析成 CDN URL。
+model Asset {
+  id        String    @id @default(cuid())
+  kind      String
+  cdnUrl    String?
+  tags      String[]
+  status    String    @default("draft")
+  deletedAt DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}

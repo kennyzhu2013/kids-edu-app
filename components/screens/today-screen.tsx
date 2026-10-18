@@ -1,0 +1,129 @@
+"use client";
+
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { EmptyToday } from "@/components/empty-today";
+import { LockBadge } from "@/components/lock-badge";
+import { LoadingScreen } from "@/components/loading-screen";
+import { OfflineState } from "@/components/offline-state";
+import { Screen } from "@/components/screen";
+import { BigButton } from "@/components/big-button";
+import { api } from "@/lib/client/api";
+import { readChild, useChild } from "@/lib/client/store";
+import { cn } from "@/lib/utils";
+
+type TodayPayload = {
+  streakDays: number;
+  continueLevel: { id: string; title: string; minutes: number; status: "todo" | "done" };
+  tasks: Array<{
+    id: string;
+    title: string;
+    minutes: number;
+    status: "todo" | "done" | "locked";
+    href: string;
+  }>;
+};
+
+export function TodayScreen() {
+  const router = useRouter();
+  const child = useChild();
+  const [attempt, setAttempt] = useState(0);
+  const [data, setData] = useState<TodayPayload | null>(null);
+  const [failed, setFailed] = useState(false);
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      if (!readChild()) router.replace("/onboarding/age");
+    }, 0);
+    return () => window.clearTimeout(timer);
+  }, [child, router]);
+
+  useEffect(() => {
+    if (!child) return;
+    let ignore = false;
+    api<TodayPayload>(`/api/today?childId=${encodeURIComponent(child.id)}`)
+      .then((payload) => {
+        if (!ignore) setData(payload);
+      })
+      .catch(() => {
+        if (!ignore) setFailed(true);
+      });
+    return () => {
+      ignore = true;
+    };
+  }, [attempt, child]);
+
+  if (!child) return <LoadingScreen />;
+  if (failed) {
+    return (
+      <OfflineState
+        onRetry={() => {
+          setFailed(false);
+          setAttempt((value) => value + 1);
+        }}
+      />
+    );
+  }
+  if (!data) return <LoadingScreen />;
+  if (data.tasks.length === 0) {
+    return (
+      <Screen tabs>
+        <EmptyToday />
+      </Screen>
+    );
+  }
+
+  const done = data.continueLevel.status === "done";
+  return (
+    <Screen tabs>
+      <div className="px-5 pt-8">
+        <h1 className="text-3xl font-black">嗨，{child.nickname}</h1>
+        <p className="mt-1 font-bold text-muted-foreground">已连学 {data.streakDays} 天</p>
+        <section className="mt-6 rounded-[28px] bg-white p-5 shadow-sm">
+          <h2 className="text-2xl font-black">继续：{data.continueLevel.title}</h2>
+          <p className="mt-1 text-sm font-bold text-muted-foreground">英语 · 约{data.continueLevel.minutes}分钟</p>
+          <div className="mt-4 h-3 overflow-hidden rounded-full bg-muted" aria-hidden>
+            <div className="h-full rounded-full bg-primary" style={{ width: done ? "100%" : "18%" }} />
+          </div>
+          <BigButton
+            className="mt-4"
+            onClick={() => router.push(`/play/${data.continueLevel.id}?run=${Date.now()}`)}
+          >
+            {done ? "再玩一次" : "开始挑战"}
+          </BigButton>
+        </section>
+        <h2 className="mt-8 text-lg font-black">今日任务</h2>
+        <ul className="mt-3 grid gap-3">
+          {data.tasks.map((task) => (
+            <li key={task.id}>
+              <button
+                type="button"
+                className="flex w-full items-center gap-3 rounded-[22px] bg-white p-3 text-left shadow-sm"
+                onClick={() => {
+                  if (task.status === "locked") router.push(task.href);
+                  else if (task.href.startsWith("/play")) router.push(`${task.href}?run=${Date.now()}`);
+                  else router.push(task.href);
+                }}
+              >
+                <span className="grid size-12 place-items-center rounded-2xl bg-accent text-lg font-black text-primary">
+                  {task.title.slice(0, 1)}
+                </span>
+                <span className="min-w-0 flex-1">
+                  <span className="block truncate font-black">{task.title}</span>
+                  <span className="text-sm text-muted-foreground">约{task.minutes}分钟</span>
+                </span>
+                {task.status === "locked" ? (
+                  <LockBadge />
+                ) : (
+                  <span className={cn("text-sm font-black", task.status === "done" ? "text-leaf" : "text-muted-foreground")}>
+                    {task.status === "done" ? "完成" : "未完成"}
+                  </span>
+                )}
+              </button>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </Screen>
+  );
+}

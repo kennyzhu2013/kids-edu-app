@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://zonghe-qimeng.local/schemas/level.json",
+  "title": "Level",
+  "description": "关卡 CMS JSON。schemaVersion 变更时拒绝旧稿入库。",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "id",
+    "packId",
+    "title",
+    "ageBand",
+    "vocab",
+    "audioIntro",
+    "steps",
+    "rewardStars",
+    "rewardCopy"
+  ],
+  "properties": {
+    "schemaVersion": { "type": "integer", "minimum": 1 },
+    "id": { "type": "string", "examples": ["eng-starter-01"] },
+    "packId": { "type": "string" },
+    "title": { "type": "string" },
+    "order": { "type": "integer" },
+    "ageBand": {
+      "type": "array",
+      "items": { "enum": ["A", "B", "C"] },
+      "description": "A≈3岁听点，B≈4岁跟读/拖拽，C≈5–6岁表达/推理"
+    },
+    "vocab": { "type": "array", "items": { "type": "string" } },
+    "audioIntro": { "type": "string", "description": "听讲引导音频 assetId 或 URL" },
+    "introScript": { "type": "string" },
+    "introScriptZh": { "type": "string" },
+    "steps": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/step" }
+    },
+    "rewardStars": { "type": "integer", "minimum": 1, "maximum": 3 },
+    "rewardCopy": { "type": "string" },
+    "rewardCopyZh": { "type": "string" },
+    "rewardSticker": { "type": "string" },
+    "aDiff": { "type": "string" },
+    "bDiff": { "type": "string" },
+    "cDiff": { "type": "string" },
+    "assetsNote": { "type": "string" },
+    "charCards": { "type": "array" }
+  },
+  "$defs": {
+    "step": {
+      "type": "object",
+      "required": ["id", "type", "answer"],
+      "properties": {
+        "id": { "type": "string" },
+        "type": {
+          "enum": ["listen", "tap", "drag", "speak", "count-tap", "sort", "scenario-choice"]
+        },
+        "promptAudio": { "type": "string" },
+        "promptText": { "type": "string" },
+        "promptSpeak": { "type": "string" },
+        "choices": { "type": "array" },
+        "answer": {
+          "oneOf": [
+            { "type": "string" },
+            { "type": "array", "items": { "type": "string" } }
+          ]
+        },
+        "speakText": { "type": "string" }
+      }
+    }
+  }
+}
