@@ -52,6 +52,7 @@ SEED_DATABASE=1 npm run seed
 4. 课程馆里语文、数学（数感和生活）、英语、认知四个启蒙包都能玩。未购买课包以后仍会锁，广告、支付、短信和微信都还是桩。
 5. 游戏乐园五款都能玩：颜色配对、动物找不同、数一数冲关、形状拼拼乐、洗手顺序挑战。每款每天 3 次，玩完才扣次数。用完后弹层可以模拟「看广告再玩 1 次」，会员不限次数。
 6. 我的 → 家长中心，密码 `2580`。会员页可以模拟开通，订单会出现在家长中心。
+7. 我的 → 学习报告。本周分钟、完成关数，以及根据已完成关卡算出的一句薄弱提示。设置里可以用手机号 `13800138000`、验证码 `000000` 登录；「切换」会换成另一个孩子，报告跟着变。
 
 ## 目录
 
@@ -89,6 +90,28 @@ docs/source/          关卡脚本、接口清单、任务看板、Figma 打勾�
 
 课包大纲覆盖英语、数学数感、数学生活、语文、生活认知，各 5 关。
 
+学习报告读的是当前孩子本周已完成的关卡。有学习秒数时至少显示 1 分钟。一句提示按进度来：还没玩就从语言开始；哪一科还是 0 关就点那一科；四科都玩过就点星星最少的那科。
+
+## 套成 iOS / Android 壳
+
+网页仍然是主体。`capacitor.config.ts` 让以后的 WebView 打开这个 Next 站点，而不是把接口打成静态包。原生工程不在仓库里，需要本机的 Xcode 或 Android Studio 再生成。
+
+```bash
+# 开发服先开着
+npm run dev
+
+# 另开一个终端。模拟器访问电脑时，把地址改成局域网 IP。
+export CAPACITOR_SERVER_URL=http://127.0.0.1:41731
+npx cap add ios      # 需要 Xcode，只在本机生成 ios/
+npx cap add android  # 需要 Android SDK，只在本机生成 android/
+npx cap sync
+npx cap open ios     # 或 npx cap open android
+```
+
+没设 `CAPACITOR_SERVER_URL` 时，`cap sync` 只会拷贝 `capacitor/www/index.html` 那张说明页。设了之后，WebView 的首页就是网页的 `/`。
+
+状态栏、安全区和 Android 返回键先留在网页侧：页面使用 `viewport-fit=cover` 和 `env(safe-area-inset-*)`，底栏已经避开底部安全区。进了原生壳之后，`NativeShell` 会听返回键并走网页历史，不直接退出。状态栏插件（`@capacitor/status-bar`）和 `@capacitor/app` 等真机工程加上后再接。登录令牌仍是网页里的 `stub-parent-token`，存在本机 `localStorage`；原生安全存储留到接 JWT 时再做。
+
 ## 这一版没有做
 
 对照 8 周看板，这里只覆盖可运行的地基和一关播放器骨架：
@@ -97,5 +120,5 @@ docs/source/          关卡脚本、接口清单、任务看板、Figma 打勾�
 - 激励视频 SDK、服务端广告验签
 - 微信支付、Apple IAP、恢复购买
 - 跟读评测、拖拽题，以及启蒙包以外的关卡
-- Capacitor / App 壳
+- 提交 `ios/`、`android/` 原生工程（配置已经在，本机再 `cap add`）
 - 把进度写进 PostgreSQL（表结构已经在 Prisma schema 里）

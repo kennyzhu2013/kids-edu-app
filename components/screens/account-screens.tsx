@@ -29,6 +29,7 @@ import {
   useParentUnlocked,
   useSoundPreference,
 } from "@/lib/client/store";
+import { alignChildSession } from "@/lib/client/session";
 
 function Row({ href, title, hint }: { href: string; title: string; hint?: string }) {
   return (
@@ -48,6 +49,7 @@ export function MineScreen() {
   const [phone, setPhone] = useState<string | null>(null);
   const [children, setChildren] = useState<Array<{ id: string; nickname: string; ageBand: "A" | "B" | "C" }>>([]);
   const [open, setOpen] = useState(false);
+  const [switchError, setSwitchError] = useState("");
 
   useEffect(() => {
     const timer = window.setTimeout(() => {
@@ -59,18 +61,23 @@ export function MineScreen() {
   useEffect(() => {
     if (!child) return;
     let ignore = false;
-    api<{ user: { phone: string | null } }>("/api/me")
-      .then((data) => {
-        if (!ignore) setPhone(data.user.phone);
-      })
-      .catch(() => {
-        if (!ignore) setPhone(null);
+    alignChildSession()
+      .catch(() => undefined)
+      .then(() => {
+        if (ignore) return;
+        api<{ user: { phone: string | null } }>("/api/me")
+          .then((data) => {
+            if (!ignore) setPhone(data.user.phone);
+          })
+          .catch(() => {
+            if (!ignore) setPhone(null);
+          });
+        api<{ children: Array<{ id: string; nickname: string; ageBand: "A" | "B" | "C" }> }>("/api/children")
+          .then((data) => {
+            if (!ignore) setChildren(data.children);
+          })
+          .catch(() => undefined);
       });
-    api<{ children: Array<{ id: string; nickname: string; ageBand: "A" | "B" | "C" }> }>("/api/children")
-      .then((data) => {
-        if (!ignore) setChildren(data.children);
-      })
-      .catch(() => undefined);
     return () => {
       ignore = true;
     };
@@ -106,22 +113,36 @@ export function MineScreen() {
           <DialogTitle>切换孩子</DialogTitle>
           <DialogDescription>选择已有档案，或再建立一个。</DialogDescription>
           <div className="mt-4 grid gap-2">
-            {children.map((item) => (
-              <button
-                key={item.id}
-                type="button"
-                className="rounded-2xl bg-muted px-4 py-3 text-left font-black"
-                onClick={() => {
-                  const next = { id: item.id, nickname: item.nickname, ageBand: item.ageBand };
-                  void api(`/api/children/${item.id}/switch`, { method: "POST" }).then(() => {
-                    saveChild(next);
-                    setOpen(false);
-                  });
-                }}
-              >
-                {item.nickname} · {ageLabel(item.ageBand)}
-              </button>
-            ))}
+            {children.map((item) => {
+              const current = item.id === child.id;
+              return (
+                <button
+                  key={item.id}
+                  type="button"
+                  className={`rounded-2xl px-4 py-3 text-left font-black ${current ? "bg-accent ring-2 ring-primary" : "bg-muted"}`}
+                  onClick={() => {
+                    if (current) {
+                      setOpen(false);
+                      return;
+                    }
+                    const next = { id: item.id, nickname: item.nickname, ageBand: item.ageBand };
+                    setSwitchError("");
+                    void api(`/api/children/${item.id}/switch`, { method: "POST" })
+                      .then(() => {
+                        saveChild(next);
+                        setOpen(false);
+                      })
+                      .catch((error: unknown) => {
+                        setSwitchError(error instanceof ApiError ? error.message : "切换失败，请再试一次");
+                      });
+                  }}
+                >
+                  {item.nickname} · {ageLabel(item.ageBand)}
+                  {current ? " · 当前" : ""}
+                </button>
+              );
+            })}
+            {switchError ? <p className="text-sm font-bold text-primary">{switchError}</p> : null}
             <BigButton href="/onboarding/age">新建</BigButton>
           </div>
         </DialogContent>
@@ -136,6 +157,13 @@ export function LoginScreen() {
   const [code, setCode] = useState("");
   const [message, setMessage] = useState("短信尚未接入。演示验证码是 000000。");
   const [pending, setPending] = useState(false);
+
+  function finishLogin(token: string) {
+    saveToken(token);
+    void alignChildSession()
+      .catch(() => undefined)
+      .finally(() => router.replace("/mine"));
+  }
 
   return (
     <Screen className="px-5 pt-4 pb-8">
@@ -177,8 +205,7 @@ export function LoginScreen() {
               body: JSON.stringify({ phone, code }),
             })
               .then((data) => {
-                saveToken(data.token);
-                router.replace("/mine");
+                finishLogin(data.token);
               })
               .catch((error: unknown) => {
                 setMessage(error instanceof ApiError ? error.message : "登录失败");
@@ -191,10 +218,15 @@ export function LoginScreen() {
         <BigButton
           variant="outline"
           onClick={() => {
-            void api<{ message?: string }>("/api/auth/wechat", {
+            void api<{ token?: string; message?: string }>("/api/auth/wechat", {
               method: "POST",
               body: JSON.stringify({ code: "stub" }),
-            }).then((data) => setMessage(data.message ?? "微信登录尚未接入"));
+            })
+              .then((data) => {
+                setMessage(data.message ?? "微信登录尚未接入");
+                if (data.token) finishLogin(data.token);
+              })
+              .catch((error: unknown) => setMessage(error instanceof ApiError ? error.message : "微信登录失败"));
           }}
         >
           微信登录（未接入）
@@ -242,57 +274,88 @@ export function SettingsScreen() {
   );
 }
 
+type ReportPayload = {
+  nickname?: string;
+  minutes: number;
+  completedLevels: number;
+  suggestion: string;
+  subjects?: Array<{ id: string; name: string; completed: number }>;
+};
+
 export function ReportScreen() {
-  const [failed, setFailed] = useState(false);
+  const router = useRouter();
+  const [failedChildId, setFailedChildId] = useState<string | null>(null);
   const [attempt, setAttempt] = useState(0);
-  const [data, setData] = useState<{ minutes: number; completedLevels: number; suggestion: string } | null>(null);
+  const [data, setData] = useState<(ReportPayload & { childId: string }) | null>(null);
   const child = useChild();
 
   useEffect(() => {
+    const timer = window.setTimeout(() => {
+      if (!readChild()) router.replace("/onboarding/age");
+    }, 0);
+    return () => window.clearTimeout(timer);
+  }, [child, router]);
+
+  useEffect(() => {
     if (!child) return;
+    const childId = child.id;
     let ignore = false;
-    api<{ minutes: number; completedLevels: number; suggestion: string }>(
-      `/api/progress/summary?childId=${encodeURIComponent(child.id)}`,
-    )
+    api<ReportPayload>(`/api/progress/summary?childId=${encodeURIComponent(childId)}`)
       .then((payload) => {
-        if (!ignore) setData(payload);
+        if (!ignore) setData({ ...payload, childId });
       })
       .catch(() => {
-        if (!ignore) setFailed(true);
+        if (!ignore) setFailedChildId(childId);
       });
     return () => {
       ignore = true;
     };
   }, [attempt, child]);
 
+  if (!child) return <LoadingScreen />;
+
+  const failed = failedChildId === child.id;
+  const report = data?.childId === child.id ? data : null;
+
   if (failed) {
     return (
       <OfflineState
         onRetry={() => {
-          setFailed(false);
+          setFailedChildId(null);
           setAttempt((value) => value + 1);
         }}
       />
     );
   }
+  const name = report?.nickname || child.nickname;
   return (
     <Screen className="px-5 pt-4 pb-8">
       <BackLink href="/mine" />
       <h1 className="mt-6 text-3xl font-black">学习报告</h1>
-      {!data ? (
+      <p className="mt-2 text-sm font-bold text-muted-foreground">{name} · 本周</p>
+      {!report ? (
         <p className="mt-8 font-bold text-muted-foreground">加载中…</p>
       ) : (
         <div className="mt-6 grid gap-3">
           <article className="rounded-[24px] bg-white p-5 shadow-sm">
-            <p className="text-sm font-bold text-muted-foreground">本周</p>
-            <p className="mt-1 text-3xl font-black">本周学了 {data.minutes} 分钟</p>
+            <p className="text-sm font-bold text-muted-foreground">学习时长</p>
+            <p className="mt-1 text-3xl font-black">本周学了 {report.minutes} 分钟</p>
           </article>
           <article className="rounded-[24px] bg-white p-5 shadow-sm">
-            <p className="text-3xl font-black">完成 {data.completedLevels} 关</p>
+            <p className="text-sm font-bold text-muted-foreground">完成关卡</p>
+            <p className="mt-1 text-3xl font-black">完成 {report.completedLevels} 关</p>
+            {report.subjects && report.subjects.length > 0 ? (
+              <p className="mt-2 text-sm font-bold text-muted-foreground">
+                {report.subjects.map((item) => `${item.name} ${item.completed}`).join(" · ")}
+              </p>
+            ) : null}
           </article>
           <article className="rounded-[24px] bg-[#fff3da] p-5">
-            <p className="text-xl font-black">本周多练：{data.suggestion}</p>
+            <p className="text-xl font-black leading-8">{report.suggestion}</p>
           </article>
+          {report.completedLevels === 0 ? (
+            <p className="text-sm leading-6 text-muted-foreground">玩完今日的一关，分钟和关数会记在这里。</p>
+          ) : null}
         </div>
       )}
     </Screen>

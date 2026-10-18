@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>综合启蒙</title>
+    <style>
+      :root { color-scheme: light; }
+      body {
+        margin: 0;
+        min-height: 100dvh;
+        display: grid;
+        place-items: center;
+        padding: max(24px, env(safe-area-inset-top)) 24px max(24px, env(safe-area-inset-bottom));
+        background: #fff8ef;
+        color: #3b2a24;
+        font-family: "PingFang SC", "Noto Sans SC", sans-serif;
+      }
+      main { max-width: 28rem; }
+      h1 { font-size: 1.75rem; margin: 0 0 0.75rem; }
+      p { line-height: 1.7; margin: 0 0 0.75rem; }
+      code { font-family: ui-monospace, monospace; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>综合启蒙</h1>
+      <p>这是 App 壳的占位页。正式包会用 WebView 打开正在运行的网页。</p>
+      <p>打包前设置 <code>CAPACITOR_SERVER_URL</code>，例如 <code>http://127.0.0.1:41731</code>，然后执行 <code>npx cap sync</code>。</p>
+      <p>首页就是网页的 <code>/</code>。Android 返回键留在网页历史里，不直接退出。</p>
+    </main>
+  </body>
+</html>

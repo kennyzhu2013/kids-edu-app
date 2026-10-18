@@ -11,11 +11,6 @@ const PACKS_BY_SUBJECT: Record<(typeof SUBJECT_ORDER)[number], string[]> = {
 };
 const START_ORDER = { A: 1, B: 2, C: 3 } as const;
 
-function suggestionFor() {
-  // TODO: 按薄弱项推荐。文案先用原型里的「颜色词」。
-  return "颜色词";
-}
-
 export function getToday(request: Request, url: URL) {
   requireUser(request);
   const child = currentChild(db(), url.searchParams.get("childId"));
@@ -176,19 +171,58 @@ export function completeLevel(request: Request, levelId: string, body: Record<st
 
 export function progressSummary(request: Request, url: URL) {
   requireUser(request);
-  const child = currentChild(db(), url.searchParams.get("childId"));
+  const state = db();
+  const child = currentChild(state, url.searchParams.get("childId"));
   if (!child) throw new HttpError(403, "FORBIDDEN", "还没有孩子档案");
-  const rows = db().progress.filter((item) => item.childId === child.id && item.status === "completed");
+  const rows = state.progress.filter((item) => item.childId === child.id && item.status === "completed");
   const weekRows = rows.filter((item) => item.completedAt && isSameWeek(item.completedAt));
-  const minutes = Math.round(weekRows.reduce((sum, item) => sum + item.durationSec, 0) / 60);
+  const seconds = weekRows.reduce((sum, item) => sum + item.durationSec, 0);
+  const subjects = subjectStats(state, weekRows);
   return jsonOk({
     childId: child.id,
-    minutes,
+    nickname: child.nickname,
+    minutes: seconds <= 0 ? 0 : Math.max(1, Math.round(seconds / 60)),
     completedLevels: weekRows.length,
     streakDays: streakDaysFor(rows),
-    suggestion: suggestionFor(),
-    todo: "REPORT_AGGREGATION",
+    suggestion: weakAreaTip(subjects),
+    subjects: subjects.map((item) => ({ id: item.id, name: item.name, completed: item.levels })),
   });
+}
+
+function subjectStats(state: Memory, rows: ProgressRecord[]) {
+  const stats = SUBJECT_ORDER.map((id) => ({
+    id,
+    name: state.subjects.find((item) => item.id === id)?.name ?? id,
+    levels: 0,
+    stars: 0,
+  }));
+  const byId = new Map(stats.map((item) => [item.id, item]));
+  for (const row of rows) {
+    const level = state.levels.find((item) => item.id === row.levelId);
+    const subjectId = level ? state.packs.find((pack) => pack.id === level.packId)?.subjectId : undefined;
+    if (!subjectId || !isSubjectId(subjectId)) continue;
+    const bucket = byId.get(subjectId);
+    if (!bucket) continue;
+    bucket.levels += 1;
+    bucket.stars += row.stars;
+  }
+  return stats;
+}
+
+function isSubjectId(value: string): value is (typeof SUBJECT_ORDER)[number] {
+  return (SUBJECT_ORDER as readonly string[]).includes(value);
+}
+
+function weakAreaTip(subjects: Array<{ name: string; levels: number; stars: number }>) {
+  const played = subjects.filter((item) => item.levels > 0);
+  if (played.length === 0) {
+    const first = subjects[0]?.name ?? "语言";
+    return `先从${first}开始，听一听再点一点。`;
+  }
+  const missing = subjects.find((item) => item.levels === 0);
+  if (missing) return `这周还没碰${missing.name}，抽一关练练。`;
+  const weakest = played.reduce((low, item) => (item.stars / item.levels < low.stars / low.levels ? item : low));
+  return `${weakest.name}的星星最少，再玩一关会更稳。`;
 }
 
 function clamp(value: number, min: number, max: number) {

@@ -42,3 +42,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Capacitor 原生工程由本机 `npx cap add` 生成，不进仓库
+/ios
+/android
