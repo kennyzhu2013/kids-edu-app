@@ -1,13 +1,22 @@
-import { loadCatalog, loadColorMatch, loadPlayableLevel } from "../lib/content/load";
+import { loadCatalog, loadColorMatch, loadPlayableLevels } from "../lib/content/load";
 
 async function main() {
   const catalog = loadCatalog();
-  const level = loadPlayableLevel();
+  const levels = loadPlayableLevels();
+  const level = levels[0];
   const game = loadColorMatch();
 
   const levelIds = new Set(catalog.levels.map((item) => item.id));
-  if (!levelIds.has(level.id)) {
-    throw new Error("目录里没有 eng-starter-01");
+  if (levels.length !== 5) {
+    throw new Error("英语启蒙需要 5 关可玩夹具");
+  }
+  for (const item of levels) {
+    if (!levelIds.has(item.id)) throw new Error(`目录里没有 ${item.id}`);
+    const outline = catalog.levels.find((row) => row.id === item.id);
+    if (!outline?.playable) throw new Error(`${item.id} 在目录里还不可玩`);
+    if (item.steps.filter((step) => step.type !== "speak").length < 2) {
+      throw new Error(`${item.id} 至少要有两道可点的题`);
+    }
   }
   if (!catalog.games.some((item) => item.gameId === game.gameId && item.playable)) {
     throw new Error("目录里没有可玩的颜色配对");
@@ -28,7 +37,7 @@ async function main() {
 
   console.log("夹具校验通过");
   console.log(`学科 ${catalog.subjects.length} · 课包 ${catalog.packs.length} · 关卡大纲 ${catalog.levels.length} · 游戏 ${catalog.games.length}`);
-  console.log(`可玩关卡 ${level.id}（${level.steps.length} 题）· 可玩游戏 ${game.gameId}`);
+  console.log(`可玩关卡 ${levels.map((item) => item.id).join(", ")} · 可玩游戏 ${game.gameId}`);
 
   if (process.env.SEED_DATABASE !== "1") {
     console.log("未设置 SEED_DATABASE=1，跳过写入 PostgreSQL。");
@@ -71,7 +80,8 @@ async function main() {
       });
     }
     for (const item of catalog.levels) {
-      const config = item.id === level.id ? level : { outline: true, goal: item.goal, vocab: item.vocab };
+      const full = levels.find((level) => level.id === item.id);
+      const config = full ?? { outline: true, goal: item.goal, vocab: item.vocab };
       await prisma.level.upsert({
         where: { id: item.id },
         update: {

@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 1,
+  "id": "eng-starter-02",
+  "packId": "eng-starter",
+  "title": "Colors",
+  "order": 2,
+  "ageBand": ["A", "B", "C"],
+  "vocab": ["red", "yellow", "blue", "green"],
+  "audioIntro": "asset:audio/eng-starter-02-intro",
+  "introScript": "Look! Four colorful balls. This is red. This is yellow. This is blue. And this is green. Can you find the colors?",
+  "introScriptZh": "看，四颗彩球。红色 red，黄色 yellow，蓝色 blue，绿色 green。你能找到它们吗？",
+  "listenTitle": "Colors",
+  "listenVisual": "colors",
+  "nextLevelId": "eng-starter-03",
+  "steps": [
+    {
+      "id": "q1",
+      "type": "tap",
+      "promptAudio": "asset:audio/eng-starter-02-red",
+      "promptText": "听「red」，点红色的球",
+      "promptSpeak": "red",
+      "choices": [
+        { "id": "yellow", "label": "黄色", "visual": "ball-yellow" },
+        { "id": "red", "label": "红色", "visual": "ball-red" },
+        { "id": "blue", "label": "蓝色", "visual": "ball-blue" }
+      ],
+      "answer": "red"
+    },
+    {
+      "id": "q2",
+      "type": "tap",
+      "promptAudio": "asset:audio/eng-starter-02-yellow",
+      "promptText": "听「yellow」，点黄色的球",
+      "promptSpeak": "yellow",
+      "choices": [
+        { "id": "green", "label": "绿色", "visual": "ball-green" },
+        { "id": "blue", "label": "蓝色", "visual": "ball-blue" },
+        { "id": "yellow", "label": "黄色", "visual": "ball-yellow" }
+      ],
+      "answer": "yellow"
+    },
+    {
+      "id": "q3",
+      "type": "tap",
+      "promptAudio": "asset:audio/eng-starter-02-green",
+      "promptText": "听「green」，点绿色的球",
+      "promptSpeak": "green",
+      "choices": [
+        { "id": "green", "label": "绿色", "visual": "ball-green" },
+        { "id": "red", "label": "红色", "visual": "ball-red" },
+        { "id": "blue", "label": "蓝色", "visual": "ball-blue" }
+      ],
+      "answer": "green"
+    },
+    {
+      "id": "q4",
+      "type": "tap",
+      "ages": ["C"],
+      "promptAudio": "asset:audio/eng-starter-02-apple",
+      "promptText": "听「Where is the red apple?」，点红苹果",
+      "promptSpeak": "Where is the red apple?",
+      "choices": [
+        { "id": "apple-yellow", "label": "黄苹果", "visual": "apple-yellow" },
+        { "id": "apple-red", "label": "红苹果", "visual": "apple-red" },
+        { "id": "ball-green", "label": "绿球", "visual": "ball-green" }
+      ],
+      "answer": "apple-red"
+    }
+  ],
+  "rewardStars": 3,
+  "rewardCopy": "Great job! You know your colors!",
+  "rewardCopyZh": "太棒了！颜色都认识啦！",
+  "aDiff": "四色球点选，每题仅一色",
+  "bDiff": "答错后高亮提示，可以再点一次",
+  "cDiff": "增加场景题：Where is the red apple?",
+  "assetsNote": "没有实拍素材。彩球和苹果用色块代替，单词用浏览器语音朗读。"
+}

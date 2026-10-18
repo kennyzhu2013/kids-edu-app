@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 1,
+  "id": "eng-starter-04",
+  "packId": "eng-starter",
+  "title": "Numbers 1-5",
+  "order": 4,
+  "ageBand": ["A", "B", "C"],
+  "vocab": ["one", "two", "three", "four", "five"],
+  "audioIntro": "asset:audio/eng-starter-04-intro",
+  "introScript": "Let's count with our fingers! One… two… three… four… five! Show me five! Now listen and find the numbers.",
+  "introScriptZh": "用手指数一数。One，two，three，four，five。听数字，找出一样多的图片。",
+  "listenTitle": "1–5",
+  "listenVisual": "numbers",
+  "nextLevelId": "eng-starter-05",
+  "steps": [
+    {
+      "id": "q1",
+      "type": "count-tap",
+      "promptAudio": "asset:audio/eng-starter-04-three",
+      "promptText": "听「three」，点 3 个苹果",
+      "promptSpeak": "three",
+      "choices": [
+        { "id": "two", "label": "2 个", "visual": "apples-2" },
+        { "id": "three", "label": "3 个", "visual": "apples-3" },
+        { "id": "five", "label": "5 个", "visual": "apples-5" }
+      ],
+      "answer": "three"
+    },
+    {
+      "id": "q2",
+      "type": "count-tap",
+      "promptAudio": "asset:audio/eng-starter-04-four",
+      "promptText": "听「four」，点 4 颗星",
+      "promptSpeak": "four",
+      "choices": [
+        { "id": "stars-3", "label": "3 颗", "visual": "stars-3" },
+        { "id": "stars-5", "label": "5 颗", "visual": "stars-5" },
+        { "id": "stars-4", "label": "4 颗", "visual": "stars-4" }
+      ],
+      "answer": "stars-4"
+    },
+    {
+      "id": "q3",
+      "type": "tap",
+      "promptAudio": "asset:audio/eng-starter-04-number",
+      "promptText": "听「three」，点数字 3",
+      "promptSpeak": "three",
+      "choices": [
+        { "id": "n2", "label": "2", "visual": "number-2" },
+        { "id": "n3", "label": "3", "visual": "number-3" },
+        { "id": "n5", "label": "5", "visual": "number-5" }
+      ],
+      "answer": "n3"
+    },
+    {
+      "id": "q4",
+      "type": "tap",
+      "ages": ["C"],
+      "promptAudio": "asset:audio/eng-starter-04-two-cats",
+      "promptText": "听「two cats」，点两只猫",
+      "promptSpeak": "two cats",
+      "choices": [
+        { "id": "one-dog", "label": "1 只狗", "visual": "dog" },
+        { "id": "two-cats", "label": "2 只猫", "visual": "two-cats" },
+        { "id": "three-apples", "label": "3 个苹果", "visual": "apples-3" }
+      ],
+      "answer": "two-cats"
+    }
+  ],
+  "rewardStars": 3,
+  "rewardCopy": "Super! You can count!",
+  "rewardCopyZh": "太棒了！会数数啦！",
+  "aDiff": "听数点数量图",
+  "bDiff": "数字卡片改成点选，拖拽还没做",
+  "cDiff": "听 two cats，点两只猫",
+  "assetsNote": "数量用重复的小图形表示。没有手数动画，开场用语音数到 five。"
+}

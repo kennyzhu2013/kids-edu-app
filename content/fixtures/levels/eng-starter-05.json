@@ -1,0 +1,72 @@
+{
+  "schemaVersion": 1,
+  "id": "eng-starter-05",
+  "packId": "eng-starter",
+  "title": "Body",
+  "order": 5,
+  "ageBand": ["A", "B", "C"],
+  "vocab": ["eyes", "nose", "mouth", "hands"],
+  "audioIntro": "asset:audio/eng-starter-05-intro",
+  "introScript": "This is my body! Eyes — look! Nose — sniff! Mouth — smile! Hands — clap! Touch your nose!",
+  "introScriptZh": "这是我的身体。眼睛 eyes 看一看，鼻子 nose 闻一闻，嘴巴 mouth 笑一笑，小手 hands 拍一拍。",
+  "listenTitle": "Body",
+  "listenVisual": "body",
+  "steps": [
+    {
+      "id": "q1",
+      "type": "tap",
+      "promptAudio": "asset:audio/eng-starter-05-nose",
+      "promptText": "听「Touch your nose」，点鼻子",
+      "promptSpeak": "Touch your nose",
+      "choices": [
+        { "id": "eyes", "label": "眼睛 eyes", "visual": "eyes" },
+        { "id": "nose", "label": "鼻子 nose", "visual": "nose" },
+        { "id": "mouth", "label": "嘴巴 mouth", "visual": "mouth" }
+      ],
+      "answer": "nose"
+    },
+    {
+      "id": "q2",
+      "type": "tap",
+      "promptAudio": "asset:audio/eng-starter-05-eyes",
+      "promptText": "听「Touch your eyes」，点眼睛",
+      "promptSpeak": "Touch your eyes",
+      "choices": [
+        { "id": "hands", "label": "小手 hands", "visual": "hands" },
+        { "id": "mouth", "label": "嘴巴 mouth", "visual": "mouth" },
+        { "id": "eyes", "label": "眼睛 eyes", "visual": "eyes" }
+      ],
+      "answer": "eyes"
+    },
+    {
+      "id": "q3",
+      "type": "tap",
+      "promptAudio": "asset:audio/eng-starter-05-hands",
+      "promptText": "听「Touch your hands」，点小手",
+      "promptSpeak": "Touch your hands",
+      "choices": [
+        { "id": "hands", "label": "小手 hands", "visual": "hands" },
+        { "id": "nose", "label": "鼻子 nose", "visual": "nose" },
+        { "id": "eyes", "label": "眼睛 eyes", "visual": "eyes" }
+      ],
+      "answer": "hands"
+    },
+    {
+      "id": "q4",
+      "type": "speak",
+      "ages": ["C"],
+      "promptAudio": "asset:audio/eng-starter-05-hand",
+      "promptText": "跟读：This is my hand",
+      "promptSpeak": "This is my hand",
+      "speakText": "This is my hand",
+      "answer": "spoken"
+    }
+  ],
+  "rewardStars": 3,
+  "rewardCopy": "Wonderful! Body star!",
+  "rewardCopyZh": "太棒了！身体小明星！",
+  "aDiff": "听指令点部位",
+  "bDiff": "指令可以再听一遍，答错再点",
+  "cDiff": "跟读 This is my hand。麦克风还没接。",
+  "assetsNote": "身体部位是简笔画热区，不是照片。指令用浏览器语音。"
+}

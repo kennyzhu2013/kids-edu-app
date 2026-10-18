@@ -46,7 +46,7 @@ export async function dispatch(
       case "GET /packs":
         return listPacks(url);
       case "GET /packs/:id":
-        return getPack(params.id);
+        return getPack(params.id, url);
       case "GET /levels/:id":
         return getLevel(params.id);
       case "GET /games":

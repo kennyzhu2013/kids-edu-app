@@ -6,6 +6,7 @@ export const choiceSchema = z.object({
   id: z.string(),
   label: z.string(),
   scene: z.enum(["hello", "bye", "sit"]).optional(),
+  visual: z.string().optional(),
   asset: z.string().optional(),
 });
 
@@ -26,6 +27,7 @@ export const stepSchema = z.object({
   choices: z.array(choiceSchema).optional(),
   answer: z.union([z.string(), z.array(z.string())]),
   speakText: z.string().optional(),
+  ages: z.array(ageBandSchema).optional(),
 });
 
 export const levelDocumentSchema = z.object({
@@ -39,6 +41,9 @@ export const levelDocumentSchema = z.object({
   audioIntro: z.string(),
   introScript: z.string(),
   introScriptZh: z.string(),
+  listenTitle: z.string().optional(),
+  listenVisual: z.string().optional(),
+  nextLevelId: z.string().optional(),
   steps: z.array(stepSchema).min(1),
   rewardStars: z.number().int().min(1).max(3),
   rewardCopy: z.string(),

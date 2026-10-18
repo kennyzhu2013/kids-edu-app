@@ -3,22 +3,34 @@
 import { Volume2, X } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { KidScene } from "@/components/illustrations";
+import { KidScene, TokenArt } from "@/components/illustrations";
 import { BigButton } from "@/components/big-button";
 import { LoadingScreen } from "@/components/loading-screen";
 import { OfflineState } from "@/components/offline-state";
 import { StarResult } from "@/components/star-result";
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import { ApiError, api } from "@/lib/client/api";
-import { readChild, readStore } from "@/lib/client/store";
+import { readChild, useChild } from "@/lib/client/store";
 import { speak, stopSpeech } from "@/lib/client/speech";
 import type { LevelDocument } from "@/lib/content/schemas";
+import type { AgeBand } from "@/lib/age";
 import { cn } from "@/lib/utils";
 
-type Phase = "listen" | "quiz" | "result" | "ad" | "ad-playing" | "soon";
+type Phase = "listen" | "quiz" | "result" | "pack-done";
+type Step = LevelDocument["steps"][number];
+
+function stepsFor(level: LevelDocument, age: AgeBand) {
+  const matched = level.steps.filter((step) => !step.ages || step.ages.includes(age));
+  return matched.length > 0 ? matched : level.steps;
+}
+
+function answered(step: Step, choiceId: string) {
+  return Array.isArray(step.answer) ? step.answer.includes(choiceId) : step.answer === choiceId;
+}
 
 export function LevelPlayer({ levelId }: { levelId: string }) {
   const router = useRouter();
+  const child = useChild();
   const [level, setLevel] = useState<LevelDocument | null>(null);
   const [failed, setFailed] = useState(false);
   const [locked, setLocked] = useState(false);
@@ -26,9 +38,11 @@ export function LevelPlayer({ levelId }: { levelId: string }) {
   const [stepIndex, setStepIndex] = useState(0);
   const [feedback, setFeedback] = useState<"good" | "again" | null>(null);
   const [hinted, setHinted] = useState(false);
+  const [missedId, setMissedId] = useState<string | null>(null);
   const [shake, setShake] = useState(false);
   const [busy, setBusy] = useState(false);
   const [stars, setStars] = useState(3);
+  const [saveNote, setSaveNote] = useState("");
   const [confirmExit, setConfirmExit] = useState(false);
   const [speaking, setSpeaking] = useState(false);
   const [attempt, setAttempt] = useState(0);
@@ -37,6 +51,7 @@ export function LevelPlayer({ levelId }: { levelId: string }) {
   const eventId = useRef("");
 
   useEffect(() => {
+    mistakes.current = 0;
     startedAt.current = Date.now();
     eventId.current = crypto.randomUUID();
     let ignore = false;
@@ -55,11 +70,14 @@ export function LevelPlayer({ levelId }: { levelId: string }) {
     };
   }, [attempt, levelId]);
 
+  const age = child?.ageBand ?? "A";
+  const steps = level ? stepsFor(level, age) : [];
+  const step = steps[stepIndex];
+
   useEffect(() => {
-    if (phase !== "quiz" || !level) return;
-    const line = level.steps[stepIndex]?.promptSpeak;
-    if (line) speak(line);
-  }, [phase, stepIndex, level]);
+    if (phase !== "quiz" || !step?.promptSpeak) return;
+    speak(step.promptSpeak);
+  }, [phase, step]);
 
   if (failed) {
     return (
@@ -83,23 +101,50 @@ export function LevelPlayer({ levelId }: { levelId: string }) {
     );
   }
   if (!level) return <LoadingScreen label="准备这一关…" />;
+  if (steps.length === 0) {
+    return <PlayerNotice title="这一关还没有题目" body="内容还是空的。回课程看看别的关。" href="/courses/eng-starter" action="回课程" />;
+  }
 
-  const totalDots = 1 + level.steps.length;
-  const activeDot = phase === "listen" ? 0 : phase === "quiz" ? stepIndex + 1 : totalDots - 1;
-  const step = level.steps[stepIndex];
+  const totalDots = 1 + steps.length;
+  const activeDot = phase === "listen" ? 0 : phase === "quiz" ? Math.min(stepIndex + 1, totalDots - 1) : totalDots - 1;
 
   function playIntro() {
     setSpeaking(speak(level!.introScript));
   }
 
+  function finish(earned: number) {
+    setStars(earned);
+    const profile = readChild();
+    void api(`/api/progress/levels/${level!.id}/complete`, {
+      method: "POST",
+      body: JSON.stringify({
+        childId: profile?.id,
+        score: Math.round((1 - Math.min(mistakes.current, 2) / 2) * 100),
+        stars: earned,
+        duration: Math.max(1, Math.round((Date.now() - startedAt.current) / 1000)),
+        clientEventId: eventId.current,
+      }),
+    })
+      .then(() => setSaveNote(""))
+      .catch(() => setSaveNote("成绩没记下。可以再玩一次。"))
+      .finally(() => {
+        setBusy(false);
+        setPhase("result");
+      });
+  }
+
   function choose(choiceId: string) {
     if (!step || busy || feedback === "good") return;
-    const correct = step.answer === choiceId;
-    if (!correct) {
+    if (!answered(step, choiceId)) {
       mistakes.current += 1;
       setFeedback("again");
+      setMissedId(choiceId);
       setShake(true);
-      window.setTimeout(() => setShake(false), 360);
+      if (mistakes.current >= 2) setHinted(true);
+      window.setTimeout(() => {
+        setShake(false);
+        setMissedId(null);
+      }, 420);
       return;
     }
     setFeedback("good");
@@ -107,39 +152,39 @@ export function LevelPlayer({ levelId }: { levelId: string }) {
     window.setTimeout(() => {
       setFeedback(null);
       setHinted(false);
-      if (stepIndex + 1 >= level!.steps.length) {
-        const earned = Math.max(1, level!.rewardStars - mistakes.current);
-        setStars(earned);
-        const child = readChild();
-        void api(`/api/progress/levels/${level!.id}/complete`, {
-          method: "POST",
-          body: JSON.stringify({
-            childId: child?.id,
-            score: Math.round((1 - Math.min(mistakes.current, 2) / 2) * 100),
-            stars: earned,
-            duration: Math.max(1, Math.round((Date.now() - startedAt.current) / 1000)),
-            clientEventId: eventId.current,
-          }),
-        })
-          .catch(() => undefined)
-          .finally(() => {
-            setBusy(false);
-            setPhase("result");
-          });
+      setMissedId(null);
+      if (stepIndex + 1 >= steps.length) {
+        finish(Math.max(1, level!.rewardStars - mistakes.current));
         return;
       }
       setBusy(false);
       setStepIndex((value) => value + 1);
-    }, 700);
+    }, 650);
   }
 
-  function nextLevel() {
-    if (readStore().noAds || readStore().vip) {
-      setPhase("soon");
+  function replay() {
+    mistakes.current = 0;
+    startedAt.current = Date.now();
+    eventId.current = crypto.randomUUID();
+    setStars(3);
+    setSaveNote("");
+    setStepIndex(0);
+    setFeedback(null);
+    setHinted(false);
+    setMissedId(null);
+    setPhase("listen");
+  }
+
+  function goNext() {
+    if (!level?.nextLevelId) {
+      setPhase("pack-done");
       return;
     }
-    setPhase("ad");
+    router.push(`/play/${level.nextLevelId}?run=${Date.now()}`);
   }
+
+  const answerId = step && !Array.isArray(step.answer) ? step.answer : "";
+  const tapChoices = step?.choices ?? [];
 
   return (
     <div className="flex min-h-dvh flex-col px-4 pt-4 pb-6">
@@ -152,11 +197,7 @@ export function LevelPlayer({ levelId }: { levelId: string }) {
         >
           <X />
         </button>
-        <div className="flex gap-2" aria-label={`第 ${activeDot + 1} 步，共 ${totalDots} 步`}>
-          {Array.from({ length: totalDots }, (_, index) => (
-            <span key={index} className={cn("size-2.5 rounded-full", index <= activeDot ? "bg-primary" : "bg-muted")} />
-          ))}
-        </div>
+        <ProgressDots total={totalDots} active={activeDot} />
         <span className="size-11" />
       </div>
 
@@ -174,8 +215,14 @@ export function LevelPlayer({ levelId }: { levelId: string }) {
             <span className="sr-only">听一听</span>
           </button>
           <p className="mt-3 text-center text-sm font-bold text-primary">听一听</p>
-          <KidScene scene="hello" className="mx-auto mt-4 max-w-[280px]" />
-          <p className="mt-4 text-center text-2xl font-black">Hello</p>
+          <div className="mx-auto mt-4 w-full max-w-[280px]">
+            {(level.listenVisual ?? "hello") === "hello" ? (
+              <KidScene scene="hello" />
+            ) : (
+              <TokenArt token={level.listenVisual ?? "hello"} className="mx-auto" />
+            )}
+          </div>
+          <p className="mt-4 text-center text-2xl font-black">{level.listenTitle ?? level.title}</p>
           <p className="mt-2 text-center text-base leading-7 text-muted-foreground">{level.introScriptZh}</p>
           <div className="mt-auto pt-6">
             <BigButton onClick={() => setPhase("quiz")}>我听完了</BigButton>
@@ -183,33 +230,54 @@ export function LevelPlayer({ levelId }: { levelId: string }) {
         </div>
       ) : null}
 
-      {phase === "quiz" && step ? (
+      {phase === "quiz" && step?.type === "speak" ? (
         <div className="flex flex-1 flex-col">
           <button
             type="button"
             className="mx-auto mt-5 inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 font-black shadow-sm"
-            onClick={() => step.promptSpeak && setSpeaking(speak(step.promptSpeak))}
+            onClick={() => step.promptSpeak && speak(step.promptSpeak)}
           >
             <Volume2 className="size-5 text-primary" />
             {step.promptSpeak}
           </button>
           <p className="mt-3 text-center font-bold">{step.promptText}</p>
-          {feedback ? (
-            <p
-              className={cn(
-                "mt-3 text-center text-lg font-black",
-                feedback === "good" ? "text-leaf" : "text-primary",
-              )}
-              role="status"
-            >
-              {feedback === "good" ? "真棒" : "再试一次"}
-            </p>
-          ) : (
-            <p className="mt-3 h-7" />
-          )}
+          <p className="mt-6 text-center text-3xl font-black">{step.speakText}</p>
+          <p className="mt-3 text-center text-sm text-muted-foreground">跟读还没接麦克风。点下面就算说完。</p>
+          <div className="mt-auto pt-6">
+            <BigButton disabled={busy} onClick={() => choose(typeof step.answer === "string" ? step.answer : "spoken")}>
+              我说完了
+            </BigButton>
+          </div>
+        </div>
+      ) : null}
+
+      {phase === "quiz" && step && step.type !== "speak" && tapChoices.length === 0 ? (
+        <PlayerNotice title="这道题还没有选项" body="先回课程，这道题补好了再来。" href={`/courses/${level.packId}`} action="回课程" />
+      ) : null}
+
+      {phase === "quiz" && step && step.type !== "speak" && tapChoices.length > 0 ? (
+        <div className="flex flex-1 flex-col">
+          <button
+            type="button"
+            className="mx-auto mt-5 inline-flex max-w-full items-center gap-2 rounded-full bg-white px-4 py-2 font-black shadow-sm"
+            onClick={() => step.promptSpeak && speak(step.promptSpeak)}
+          >
+            <Volume2 className="size-5 shrink-0 text-primary" />
+            <span className="truncate">{step.promptSpeak}</span>
+          </button>
+          <p className="mt-3 text-center font-bold">{step.promptText}</p>
+          <p
+            className={cn(
+              "mt-3 h-7 text-center text-lg font-black",
+              feedback === "good" ? "text-leaf" : "text-primary",
+              !feedback && "invisible",
+            )}
+            role="status"
+          >
+            {feedback === "good" ? "真棒" : "再试一次"}
+          </p>
           <div className="mt-2 grid gap-3">
-            {(step.choices ?? []).map((choice) => {
-              const answerId = typeof step.answer === "string" ? step.answer : "";
+            {tapChoices.map((choice) => {
               const showHint = hinted && choice.id === answerId;
               return (
                 <button
@@ -219,11 +287,16 @@ export function LevelPlayer({ levelId }: { levelId: string }) {
                   onClick={() => choose(choice.id)}
                   className={cn(
                     "flex items-center gap-3 rounded-[24px] bg-white p-2 text-left shadow-sm",
-                    shake && feedback === "again" && "shake",
+                    shake && missedId === choice.id && "shake",
+                    missedId === choice.id && "ring-4 ring-primary",
                     showHint && "ring-4 ring-sun",
                   )}
                 >
-                  <KidScene scene={choice.scene ?? "hello"} className="w-28 shrink-0" />
+                  {choice.visual ? (
+                    <TokenArt token={choice.visual} className="shrink-0" />
+                  ) : (
+                    <KidScene scene={choice.scene ?? "hello"} className="w-28 shrink-0" />
+                  )}
                   <span className="text-lg font-black">{choice.label}</span>
                 </button>
               );
@@ -241,49 +314,29 @@ export function LevelPlayer({ levelId }: { levelId: string }) {
           <p className="mt-4 text-sm font-bold text-muted-foreground">星星×{stars}</p>
           <h1 className="mt-2 text-4xl font-black">{level.rewardCopyZh}</h1>
           <p className="mt-2 text-lg font-bold text-primary">{level.rewardCopy}</p>
+          {saveNote ? <p className="mt-3 text-sm font-bold text-primary">{saveNote}</p> : null}
           <div className="mt-8 w-full space-y-3">
-            <BigButton onClick={nextLevel}>下一关</BigButton>
-            <BigButton variant="secondary" href="/today">
+            {level.nextLevelId ? <BigButton onClick={goNext}>下一关</BigButton> : <BigButton onClick={goNext}>课程完成</BigButton>}
+            <BigButton variant="secondary" onClick={replay}>
+              再玩一次
+            </BigButton>
+            <BigButton variant="outline" href="/today">
               回今日
             </BigButton>
           </div>
         </div>
       ) : null}
 
-      {phase === "ad" || phase === "ad-playing" ? (
-        <div className="flex flex-1 flex-col justify-center text-center">
-          <h1 className="text-2xl font-black">看一段小视频，解锁下一关</h1>
-          <p className="mt-3 text-sm leading-6 text-muted-foreground">
-            {phase === "ad-playing" ? "广告播放中。这是桩，没有接入广告 SDK。" : "看完可以试试下一关。"}
-          </p>
-          <div className="mt-8 space-y-3">
-            <BigButton
-              disabled={phase === "ad-playing"}
-              onClick={() => {
-                setPhase("ad-playing");
-                window.setTimeout(() => {
-                  void watchAd("eng-starter-02").finally(() => setPhase("soon"));
-                }, 1200);
-              }}
-            >
-              看广告解锁
-            </BigButton>
-            <BigButton variant="secondary" href={`/membership?from=${encodeURIComponent(`/play/${levelId}`)}`}>
-              开通会员免广告
-            </BigButton>
-            <BigButton variant="outline" onClick={() => setPhase("result")}>
-              以后再说
-            </BigButton>
-          </div>
-        </div>
-      ) : null}
-
-      {phase === "soon" ? (
+      {phase === "pack-done" ? (
         <div className="flex flex-1 flex-col items-center justify-center text-center">
-          <h1 className="text-2xl font-black">下一关还在画画</h1>
-          <p className="mt-3 text-muted-foreground">Hello & Bye 可以再玩一次。</p>
-          <div className="mt-8 w-full">
-            <BigButton href="/today">回今日</BigButton>
+          <StarResult stars={3} />
+          <h1 className="mt-4 text-3xl font-black">英语启蒙玩完啦</h1>
+          <p className="mt-3 text-muted-foreground">五关都可以再玩。其它学科还锁着。</p>
+          <div className="mt-8 w-full space-y-3">
+            <BigButton href="/courses/eng-starter">回课程</BigButton>
+            <BigButton variant="secondary" href="/today">
+              回今日
+            </BigButton>
           </div>
         </div>
       ) : null}
@@ -304,6 +357,36 @@ export function LevelPlayer({ levelId }: { levelId: string }) {
   );
 }
 
+function ProgressDots({ total, active }: { total: number; active: number }) {
+  return (
+    <div className="flex items-center gap-1.5" aria-label={`第 ${active + 1} 步，共 ${total} 步`}>
+      {Array.from({ length: total }, (_, index) => (
+        <span
+          key={index}
+          className={cn(
+            "rounded-full",
+            index === active ? "h-2.5 w-6 bg-primary" : index < active ? "size-2.5 bg-primary" : "size-2.5 bg-muted",
+          )}
+        />
+      ))}
+    </div>
+  );
+}
+
+function PlayerNotice({ title, body, href, action }: { title: string; body: string; href: string; action: string }) {
+  return (
+    <div className="grid min-h-dvh place-items-center px-6 text-center">
+      <div>
+        <h1 className="text-2xl font-black">{title}</h1>
+        <p className="mt-3 text-muted-foreground">{body}</p>
+        <div className="mt-8">
+          <BigButton href={href}>{action}</BigButton>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function LockedLevel({
   onAd,
   onMember,
@@ -317,7 +400,7 @@ function LockedLevel({
   return (
     <div className="flex min-h-dvh flex-col justify-center px-5 text-center">
       <h1 className="text-2xl font-black">这一关还锁着</h1>
-      <p className="mt-3 text-muted-foreground">{note || "看一段小视频，或开通会员。"}</p>
+      <p className="mt-3 text-muted-foreground">{note || "看一段小视频，或开通会员。广告和支付都还是桩。"}</p>
       <div className="mt-8 space-y-3">
         <BigButton
           onClick={() => {

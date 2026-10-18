@@ -16,15 +16,17 @@ export function getToday(request: Request, url: URL) {
       .progress.filter((item) => item.childId === child.id && item.status === "completed")
       .map((item) => item.levelId),
   );
-  const hello = db().levels.find((level) => level.id === "eng-starter-01");
+  const englishIds = ["eng-starter-01", "eng-starter-02", "eng-starter-03", "eng-starter-04", "eng-starter-05"];
+  const continueId = englishIds.find((id) => !done.has(id)) ?? englishIds[0];
+  const current = db().levels.find((level) => level.id === continueId);
   const tasks = [
     {
-      id: "eng-starter-01",
+      id: continueId,
       kind: "level" as const,
-      title: hello?.title ?? "Hello & Bye",
-      minutes: 2,
-      status: done.has("eng-starter-01") ? "done" : "todo",
-      href: "/play/eng-starter-01",
+      title: current?.title ?? "Hello & Bye",
+      minutes: current?.minutes ?? 2,
+      status: done.has(continueId) ? "done" : "todo",
+      href: `/play/${continueId}`,
     },
     {
       id: "game-color-match",
@@ -43,7 +45,7 @@ export function getToday(request: Request, url: URL) {
       href: "/courses/math-starter",
     },
   ];
-  const helloDone = done.has("eng-starter-01");
+  const helloDone = done.has(continueId);
   const streakDays = db().progress.some(
     (item) => item.childId === child.id && item.completedAt && isSameDay(item.completedAt),
   )
@@ -53,9 +55,9 @@ export function getToday(request: Request, url: URL) {
     child,
     streakDays,
     continueLevel: {
-      id: "eng-starter-01",
-      title: hello?.title ?? "Hello & Bye",
-      minutes: 2,
+      id: continueId,
+      title: current?.title ?? "Hello & Bye",
+      minutes: current?.minutes ?? 2,
       status: helloDone ? "done" : "todo",
       progress: helloDone ? 1 : 0,
     },

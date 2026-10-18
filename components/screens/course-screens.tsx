@@ -122,12 +122,22 @@ export function PackScreen() {
   const [attempt, setAttempt] = useState(0);
   const [data, setData] = useState<{
     pack: Pack;
-    levels: Array<{ id: string; order: number; title: string; playable: boolean; locked: boolean; minutes: number }>;
+    levels: Array<{
+      id: string;
+      order: number;
+      title: string;
+      playable: boolean;
+      locked: boolean;
+      minutes: number;
+      status?: "todo" | "done";
+    }>;
   } | null>(null);
+  const child = useChild();
 
   useEffect(() => {
     let ignore = false;
-    api<NonNullable<typeof data>>(`/api/packs/${params.packId}`)
+    const query = child ? `?childId=${encodeURIComponent(child.id)}` : "";
+    api<NonNullable<typeof data>>(`/api/packs/${params.packId}${query}`)
       .then((payload) => {
         if (!ignore) setData(payload);
       })
@@ -137,7 +147,7 @@ export function PackScreen() {
     return () => {
       ignore = true;
     };
-  }, [attempt, params.packId]);
+  }, [attempt, child, params.packId]);
 
   if (failed) {
     return (
@@ -159,6 +169,9 @@ export function PackScreen() {
         <h1 className="mt-4 text-2xl font-black">{data.pack.title}</h1>
         <p className="mt-2 text-muted-foreground">{data.pack.summary}</p>
       </div>
+      {data.levels.length === 0 ? (
+        <p className="mt-8 px-4 text-center font-bold text-muted-foreground">这一包还没有关卡。</p>
+      ) : null}
       <ul className="mt-4 grid gap-2 px-4">
         {data.levels.map((level) => (
           <li key={level.id}>
@@ -169,7 +182,13 @@ export function PackScreen() {
             >
               <span className="grid size-9 place-items-center rounded-full bg-accent font-black">{level.order}</span>
               <span className="flex-1 font-black">{level.title}</span>
-              {level.playable ? <span className="text-sm font-black text-primary">开始</span> : <LockBadge />}
+              {level.playable ? (
+                <span className={cn("text-sm font-black", level.status === "done" ? "text-leaf" : "text-primary")}>
+                  {level.status === "done" ? "再玩" : "开始"}
+                </span>
+              ) : (
+                <LockBadge />
+              )}
             </button>
           </li>
         ))}

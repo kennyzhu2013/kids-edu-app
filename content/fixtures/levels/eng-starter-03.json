@@ -1,0 +1,87 @@
+{
+  "schemaVersion": 1,
+  "id": "eng-starter-03",
+  "packId": "eng-starter",
+  "title": "Animals",
+  "order": 3,
+  "ageBand": ["A", "B", "C"],
+  "vocab": ["cat", "dog", "bird", "fish"],
+  "audioIntro": "asset:audio/eng-starter-03-intro",
+  "introScript": "Meet the animals! Cat — meow meow. Dog — woof woof. Bird — tweet tweet. Fish — blub blub. Listen and find them!",
+  "introScriptZh": "来认识动物。猫 cat 会 meow，狗 dog 会 woof，鸟 bird 会 tweet，鱼 fish 会 blub。听一听，再把它们找出来。",
+  "listenTitle": "Animals",
+  "listenVisual": "animals",
+  "nextLevelId": "eng-starter-04",
+  "steps": [
+    {
+      "id": "q1",
+      "type": "tap",
+      "promptAudio": "asset:audio/eng-starter-03-cat",
+      "promptText": "听「cat」，点小猫",
+      "promptSpeak": "cat",
+      "choices": [
+        { "id": "dog", "label": "狗 dog", "visual": "dog" },
+        { "id": "cat", "label": "猫 cat", "visual": "cat" },
+        { "id": "bird", "label": "鸟 bird", "visual": "bird" }
+      ],
+      "answer": "cat"
+    },
+    {
+      "id": "q2",
+      "type": "tap",
+      "promptAudio": "asset:audio/eng-starter-03-dog",
+      "promptText": "听「dog」，点小狗",
+      "promptSpeak": "dog",
+      "choices": [
+        { "id": "fish", "label": "鱼 fish", "visual": "fish" },
+        { "id": "bird", "label": "鸟 bird", "visual": "bird" },
+        { "id": "dog", "label": "狗 dog", "visual": "dog" }
+      ],
+      "answer": "dog"
+    },
+    {
+      "id": "q3",
+      "type": "tap",
+      "promptAudio": "asset:audio/eng-starter-03-bird",
+      "promptText": "听「bird」，点小鸟",
+      "promptSpeak": "bird",
+      "choices": [
+        { "id": "bird", "label": "鸟 bird", "visual": "bird" },
+        { "id": "cat", "label": "猫 cat", "visual": "cat" },
+        { "id": "fish", "label": "鱼 fish", "visual": "fish" }
+      ],
+      "answer": "bird"
+    },
+    {
+      "id": "q4",
+      "type": "tap",
+      "ages": ["B", "C"],
+      "promptAudio": "asset:audio/eng-starter-03-meow",
+      "promptText": "听叫声「meow」，点对应的英文",
+      "promptSpeak": "meow meow",
+      "choices": [
+        { "id": "woof", "label": "dog", "visual": "dog" },
+        { "id": "meow", "label": "cat", "visual": "cat" },
+        { "id": "tweet", "label": "bird", "visual": "bird" }
+      ],
+      "answer": "meow"
+    },
+    {
+      "id": "q5",
+      "type": "speak",
+      "ages": ["C"],
+      "promptAudio": "asset:audio/eng-starter-03-its-a",
+      "promptText": "跟读：It's a fish",
+      "promptSpeak": "It's a fish",
+      "speakText": "It's a fish",
+      "answer": "spoken"
+    }
+  ],
+  "rewardStars": 3,
+  "rewardCopy": "Amazing! Animal friend!",
+  "rewardCopyZh": "太棒了！动物朋友！",
+  "aDiff": "听名字点图",
+  "bDiff": "听叫声 meow，选出 cat",
+  "cDiff": "跟读 It's a fish。麦克风还没接，点按钮就算说完。",
+  "assetsNote": "动物是简笔画。叫声用浏览器朗读 meow / woof，不是录音。"
+}

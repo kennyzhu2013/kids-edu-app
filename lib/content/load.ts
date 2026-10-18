@@ -1,6 +1,10 @@
 import catalogJson from "@/content/fixtures/catalog.json";
 import colorMatchJson from "@/content/fixtures/games/game-color-match.json";
-import levelJson from "@/content/fixtures/levels/eng-starter-01.json";
+import level01 from "@/content/fixtures/levels/eng-starter-01.json";
+import level02 from "@/content/fixtures/levels/eng-starter-02.json";
+import level03 from "@/content/fixtures/levels/eng-starter-03.json";
+import level04 from "@/content/fixtures/levels/eng-starter-04.json";
+import level05 from "@/content/fixtures/levels/eng-starter-05.json";
 import {
   catalogSchema,
   gameDocumentSchema,
@@ -21,8 +25,14 @@ export function loadCatalog(): Catalog {
   return parseOrThrow("catalog", catalogSchema.safeParse(catalogJson));
 }
 
+export function loadPlayableLevels(): LevelDocument[] {
+  return [level01, level02, level03, level04, level05].map((level, index) =>
+    parseOrThrow(`eng-starter-0${index + 1}`, levelDocumentSchema.safeParse(level)),
+  );
+}
+
 export function loadPlayableLevel(): LevelDocument {
-  return parseOrThrow("eng-starter-01", levelDocumentSchema.safeParse(levelJson));
+  return loadPlayableLevels()[0];
 }
 
 export function loadColorMatch(): GameDocument {

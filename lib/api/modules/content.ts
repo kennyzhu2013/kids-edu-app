@@ -27,9 +27,15 @@ export function listPacks(url: URL) {
   });
 }
 
-export function getPack(id: string) {
+export function getPack(id: string, url: URL) {
   const pack = db().packs.find((item) => item.id === id);
   if (!pack) throw new HttpError(404, "NOT_FOUND", "找不到这个课包");
+  const childId = url.searchParams.get("childId");
+  const done = new Set(
+    db()
+      .progress.filter((item) => item.childId === childId && item.status === "completed")
+      .map((item) => item.levelId),
+  );
   const levels = db()
     .levels.filter((level) => level.packId === id)
     .sort((a, b) => a.order - b.order)
@@ -40,12 +46,13 @@ export function getPack(id: string) {
       minutes: level.minutes,
       playable: level.playable,
       locked: !level.playable && !hasVip(db()),
+      status: done.has(level.id) ? "done" : "todo",
       rewardCopy: level.rewardCopy,
     }));
   return jsonOk({
     pack: { ...pack, coverUrl: null },
     levels,
-    unlockRule: "第 1 关可试玩的课包会标记 playable，其余关卡需广告解锁或会员",
+    unlockRule: "英语启蒙 5 关都可以直接玩。其它课包仍锁着，广告和会员还是桩。",
   });
 }
 

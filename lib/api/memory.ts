@@ -1,4 +1,4 @@
-import { loadCatalog, loadColorMatch, loadPlayableLevel } from "@/lib/content/load";
+import { loadCatalog, loadColorMatch, loadPlayableLevels } from "@/lib/content/load";
 import type { GameDocument, LevelDocument } from "@/lib/content/schemas";
 
 export type ChildRecord = {
@@ -60,7 +60,10 @@ type SmsTicket = {
   lastSentAt: number;
 };
 
+export const CONTENT_REV = 2;
+
 export type Memory = {
+  contentRev: number;
   user: {
     id: string;
     phone: string | null;
@@ -93,13 +96,26 @@ const globalStore = globalThis as typeof globalThis & { __qimengMemory?: Memory 
 
 let memory: Memory | null = globalStore.__qimengMemory ?? null;
 
-export function db(): Memory {
-  if (globalStore.__qimengMemory) return globalStore.__qimengMemory;
-  if (memory) return memory;
+function applyContent(state: Memory) {
   const catalog = loadCatalog();
-  const level = loadPlayableLevel();
+  const levels = loadPlayableLevels();
+  state.contentRev = CONTENT_REV;
+  state.packs = structuredClone(catalog.packs);
+  state.levels = structuredClone(catalog.levels);
+  state.games = structuredClone(catalog.games);
+  state.subjects = structuredClone(catalog.subjects);
+  state.playableLevels = Object.fromEntries(levels.map((level) => [level.id, structuredClone(level)]));
+}
+
+export function db(): Memory {
+  if (globalStore.__qimengMemory) {
+    if (globalStore.__qimengMemory.contentRev !== CONTENT_REV) applyContent(globalStore.__qimengMemory);
+    return globalStore.__qimengMemory;
+  }
+  if (memory) return memory;
   const game = loadColorMatch();
   memory = {
+    contentRev: CONTENT_REV,
     user: {
       id: "user-demo",
       phone: null,
@@ -128,11 +144,11 @@ export function db(): Memory {
       sessionExpireAt: null,
     },
     sms: new Map(),
-    packs: structuredClone(catalog.packs),
-    levels: structuredClone(catalog.levels),
-    games: structuredClone(catalog.games),
-    subjects: structuredClone(catalog.subjects),
-    playableLevels: { [level.id]: structuredClone(level) },
+    packs: [],
+    levels: [],
+    games: [],
+    subjects: [],
+    playableLevels: {},
     gameConfigs: { [game.gameId]: structuredClone(game) },
     assets: [
       {
@@ -145,6 +161,7 @@ export function db(): Memory {
       },
     ],
   };
+  applyContent(memory);
   globalStore.__qimengMemory = memory;
   return memory;
 }

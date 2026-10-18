@@ -9,6 +9,9 @@
   "audioIntro": "asset:audio/eng-starter-01-intro",
   "introScript": "Hi! I'm Mia. When we meet friends, we say Hello! Wave your hand — Hello! When we leave, we say Bye-bye! Wave — Bye-bye!",
   "introScriptZh": "嗨！我是 Mia。见到朋友说 Hello，挥挥手。离开的时候说 Bye-bye，再挥挥手。",
+  "listenTitle": "Hello",
+  "listenVisual": "hello",
+  "nextLevelId": "eng-starter-02",
   "steps": [
     {
       "id": "q1",
