@@ -1,5 +1,9 @@
 import catalogJson from "@/content/fixtures/catalog.json";
 import colorMatchJson from "@/content/fixtures/games/game-color-match.json";
+import countDashJson from "@/content/fixtures/games/game-count-dash.json";
+import habitOrderJson from "@/content/fixtures/games/game-habit-order.json";
+import shapeFitJson from "@/content/fixtures/games/game-shape-fit.json";
+import spotAnimalJson from "@/content/fixtures/games/game-spot-animal.json";
 import eng01 from "@/content/fixtures/levels/eng-starter-01.json";
 import eng02 from "@/content/fixtures/levels/eng-starter-02.json";
 import eng03 from "@/content/fixtures/levels/eng-starter-03.json";
@@ -87,6 +91,17 @@ export function loadPlayableLevel(): LevelDocument {
   return loadPlayableLevels()[0];
 }
 
+const gameFiles = [colorMatchJson, spotAnimalJson, countDashJson, shapeFitJson, habitOrderJson];
+
+export function loadGameConfigs(): GameDocument[] {
+  return gameFiles.map((game) => {
+    const name = typeof game === "object" && game && "gameId" in game ? String(game.gameId) : "game";
+    return parseOrThrow(name, gameDocumentSchema.safeParse(game));
+  });
+}
+
 export function loadColorMatch(): GameDocument {
-  return parseOrThrow("game-color-match", gameDocumentSchema.safeParse(colorMatchJson));
+  const game = loadGameConfigs().find((item) => item.gameId === "game-color-match");
+  if (!game) throw new Error("缺少颜色配对");
+  return game;
 }

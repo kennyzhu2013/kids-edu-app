@@ -67,7 +67,7 @@ export const levelOutlineSchema = z.object({
   playable: z.boolean(),
 });
 
-export const gameDocumentSchema = z.object({
+const gameMeta = {
   schemaVersion: z.number().int(),
   gameId: z.string(),
   title: z.string(),
@@ -77,19 +77,50 @@ export const gameDocumentSchema = z.object({
   durationSec: z.number().int(),
   rounds: z.string(),
   winCondition: z.string(),
-  winTarget: z.number().int(),
+  winTarget: z.number().int().min(1),
   howTo: z.string(),
   guide: z.string(),
   assetsNote: z.string().optional(),
-  colors: z.array(
-    z.object({
-      id: z.string(),
-      label: z.string(),
-      labelEn: z.string(),
-      hex: z.string(),
-    }),
-  ),
+};
+
+const colorSchema = z.object({
+  id: z.string(),
+  label: z.string(),
+  labelEn: z.string(),
+  hex: z.string(),
 });
+
+export const gameDocumentSchema = z.discriminatedUnion("kind", [
+  z.object({
+    ...gameMeta,
+    kind: z.literal("color-match"),
+    colors: z.array(colorSchema).min(2),
+  }),
+  z.object({
+    ...gameMeta,
+    kind: z.literal("spot-animal"),
+    animals: z
+      .array(z.object({ id: z.enum(["cat", "dog", "bird", "fish"]), label: z.string() }))
+      .min(2),
+  }),
+  z.object({
+    ...gameMeta,
+    kind: z.literal("count-dash"),
+    targets: z.array(z.number().int().min(1).max(8)).min(1),
+  }),
+  z.object({
+    ...gameMeta,
+    kind: z.literal("shape-fit"),
+    shapes: z
+      .array(z.object({ id: z.enum(["circle", "square", "triangle"]), label: z.string() }))
+      .min(2),
+  }),
+  z.object({
+    ...gameMeta,
+    kind: z.literal("habit-order"),
+    steps: z.array(z.object({ id: z.string(), label: z.string(), visual: z.string() })).min(2),
+  }),
+]);
 
 export const catalogSchema = z.object({
   subjects: z.array(

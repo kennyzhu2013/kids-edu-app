@@ -1,9 +1,14 @@
 "use client";
 
 import { useParams, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ColorMatch } from "@/components/color-match";
 import { BigButton } from "@/components/big-button";
+import { CountDash } from "@/components/games/count-dash";
+import { playsLabel } from "@/components/games/chrome";
+import { HabitOrder } from "@/components/games/habit-order";
+import { ShapeFit } from "@/components/games/shape-fit";
+import { SpotAnimal } from "@/components/games/spot-animal";
 import { LoadingScreen } from "@/components/loading-screen";
 import { OfflineState } from "@/components/offline-state";
 import { Screen } from "@/components/screen";
@@ -94,34 +99,24 @@ export function GamesScreen() {
           ))}
         </ul>
       </div>
-      <Dialog open={Boolean(blocked)} onOpenChange={(open) => !open && setBlocked(null)}>
-        <DialogContent>
-          <DialogTitle>今日次数用完啦</DialogTitle>
-          <DialogDescription>看广告可以再玩 1 次，会员不限次数。</DialogDescription>
-          <div className="mt-5 grid gap-3">
-            <BigButton
-              onClick={() => {
-                if (!blocked) return;
-                void api("/api/unlock/ad", {
-                  method: "POST",
-                  body: JSON.stringify({ gameId: blocked.gameId, adToken: "stub" }),
-                })
-                  .catch(() => undefined)
-                  .finally(() => {
-                    grantBonusPlay(blocked.gameId);
-                    setBlocked(null);
-                    router.push(`/games/${blocked.gameId}`);
-                  });
-              }}
-            >
-              看广告再玩1次
-            </BigButton>
-            <BigButton variant="secondary" href="/membership?from=/games">
-              会员无限玩
-            </BigButton>
-          </div>
-        </DialogContent>
-      </Dialog>
+      <OutOfPlaysDialog
+        open={Boolean(blocked)}
+        onClose={() => setBlocked(null)}
+        onAd={() => {
+          if (!blocked) return;
+          const gameId = blocked.gameId;
+          void api("/api/unlock/ad", {
+            method: "POST",
+            body: JSON.stringify({ gameId, adToken: "stub" }),
+          })
+            .catch(() => undefined)
+            .finally(() => {
+              grantBonusPlay(gameId);
+              setBlocked(null);
+              router.push(`/games/${gameId}`);
+            });
+        }}
+      />
     </Screen>
   );
 }
@@ -160,8 +155,10 @@ export function GameScreen() {
   const [game, setGame] = useState<GameDocument | null>(null);
   const [outline, setOutline] = useState<GameCard | null>(null);
   const [failed, setFailed] = useState(false);
-  const [started, setStarted] = useState(false);
   const [attempt, setAttempt] = useState(0);
+  const spent = useRef(false);
+  const vip = useVip();
+  const left = useRemainingPlays(params.gameId, game?.dailyFree ?? 3, vip);
 
   useEffect(() => {
     let ignore = false;
@@ -193,15 +190,36 @@ export function GameScreen() {
       />
     );
   }
+  if (game && Number.isFinite(left) && left <= 0) {
+    return (
+      <Screen className="flex min-h-dvh flex-col px-5 pt-16 pb-8 text-center">
+        <h1 className="text-3xl font-black">{game.title}</h1>
+        <p className="mt-3 font-bold text-primary">今日剩余 0 次</p>
+        <OutOfPlaysDialog
+          open
+          onClose={() => router.push("/games")}
+          onAd={() => {
+            void api("/api/unlock/ad", {
+              method: "POST",
+              body: JSON.stringify({ gameId: game.gameId, adToken: "stub" }),
+            })
+              .catch(() => undefined)
+              .finally(() => grantBonusPlay(game.gameId));
+          }}
+        />
+      </Screen>
+    );
+  }
   if (game) {
     return (
-      <ColorMatch
+      <GamePlayer
         game={game}
+        remaining={playsLabel(left)}
         onExit={() => router.push("/games")}
-        onStart={() => {
-          if (started || readStore().vip) return;
+        onFinish={() => {
+          if (spent.current || readStore().vip) return;
+          spent.current = true;
           consumePlay(game.gameId);
-          setStarted(true);
         }}
       />
     );
@@ -216,5 +234,40 @@ export function GameScreen() {
         <BigButton href="/games">回列表</BigButton>
       </div>
     </Screen>
+  );
+}
+
+function GamePlayer({
+  game,
+  remaining,
+  onFinish,
+  onExit,
+}: {
+  game: GameDocument;
+  remaining: string;
+  onFinish: () => void;
+  onExit: () => void;
+}) {
+  if (game.kind === "color-match") return <ColorMatch game={game} remaining={remaining} onFinish={onFinish} onExit={onExit} />;
+  if (game.kind === "spot-animal") return <SpotAnimal game={game} remaining={remaining} onFinish={onFinish} onExit={onExit} />;
+  if (game.kind === "count-dash") return <CountDash game={game} remaining={remaining} onFinish={onFinish} onExit={onExit} />;
+  if (game.kind === "shape-fit") return <ShapeFit game={game} remaining={remaining} onFinish={onFinish} onExit={onExit} />;
+  return <HabitOrder game={game} remaining={remaining} onFinish={onFinish} onExit={onExit} />;
+}
+
+function OutOfPlaysDialog({ open, onClose, onAd }: { open: boolean; onClose: () => void; onAd: () => void }) {
+  return (
+    <Dialog open={open} onOpenChange={(next) => !next && onClose()}>
+      <DialogContent>
+        <DialogTitle>今日次数用完啦</DialogTitle>
+        <DialogDescription>看广告可以再玩 1 次，会员不限次数。</DialogDescription>
+        <div className="mt-5 grid gap-3">
+          <BigButton onClick={onAd}>看广告再玩1次</BigButton>
+          <BigButton variant="secondary" href="/membership?from=/games">
+            会员无限玩
+          </BigButton>
+        </div>
+      </DialogContent>
+    </Dialog>
   );
 }

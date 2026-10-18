@@ -1,44 +1,40 @@
 "use client";
 
-import { X } from "lucide-react";
-import { useEffect, useState } from "react";
-import { BigButton } from "@/components/big-button";
-import { StarResult } from "@/components/star-result";
+import { useRef, useState } from "react";
+import { GameChrome, GameDone, GameReady, useRoundTimer } from "@/components/games/chrome";
 import type { GameDocument } from "@/lib/content/schemas";
 import { cn } from "@/lib/utils";
 
+type ColorGame = Extract<GameDocument, { kind: "color-match" }>;
+
 export function ColorMatch({
   game,
-  onStart,
+  remaining,
+  onFinish,
   onExit,
 }: {
-  game: GameDocument;
-  onStart: () => void;
+  game: ColorGame;
+  remaining: string;
+  onFinish: () => void;
   onExit: () => void;
 }) {
   const [phase, setPhase] = useState<"ready" | "play" | "done">("ready");
   const [colorIndex, setColorIndex] = useState(0);
   const [score, setScore] = useState(0);
-  const [left, setLeft] = useState(game.durationSec);
   const [won, setWon] = useState(false);
   const [shake, setShake] = useState(false);
   const [note, setNote] = useState("");
+  const ended = useRef(false);
   const color = game.colors[colorIndex % game.colors.length];
+  const left = useRoundTimer(phase === "play", game.durationSec, () => end(false));
 
-  useEffect(() => {
-    if (phase !== "play") return;
-    const timer = window.setInterval(() => {
-      setLeft((value) => {
-        if (value <= 1) {
-          setWon(false);
-          setPhase("done");
-          return 0;
-        }
-        return value - 1;
-      });
-    }, 1000);
-    return () => window.clearInterval(timer);
-  }, [phase]);
+  function end(success: boolean) {
+    if (ended.current) return;
+    ended.current = true;
+    setWon(success);
+    setPhase("done");
+    onFinish();
+  }
 
   function pick(id: string) {
     if (phase !== "play" || !color) return;
@@ -52,41 +48,17 @@ export function ColorMatch({
     setScore(nextScore);
     setNote("真棒");
     if (nextScore >= game.winTarget) {
-      setWon(true);
-      setPhase("done");
+      end(true);
       return;
     }
     setColorIndex((value) => value + 1);
   }
 
   return (
-    <div className="flex min-h-dvh flex-col px-4 pt-4 pb-6">
-      <div className="flex items-center justify-between">
-        <button type="button" className="grid size-11 place-items-center rounded-full bg-white shadow-sm" aria-label="关闭" onClick={onExit}>
-          <X />
-        </button>
-        <p className="font-black">{phase === "ready" ? game.title : `剩余 ${left} 秒`}</p>
-        <p className="min-w-11 text-right text-sm font-bold text-muted-foreground">{score}/{game.winTarget}</p>
-      </div>
-
+    <GameChrome title={game.title} phase={phase} seconds={left} progress={`${score}/${game.winTarget}`} onExit={onExit}>
       {phase === "ready" ? (
-        <div className="flex flex-1 flex-col justify-center text-center">
-          <h1 className="text-3xl font-black">{game.title}</h1>
-          <p className="mt-2 text-muted-foreground">{game.titleEn}</p>
-          <p className="mt-4 text-lg font-bold">{game.howTo}</p>
-          <div className="mt-8">
-            <BigButton
-              onClick={() => {
-                onStart();
-                setPhase("play");
-              }}
-            >
-              开始
-            </BigButton>
-          </div>
-        </div>
+        <GameReady title={game.title} titleEn={game.titleEn} howTo={game.howTo} remaining={remaining} onStart={() => setPhase("play")} />
       ) : null}
-
       {phase === "play" && color ? (
         <div className={cn("flex flex-1 flex-col", shake && "shake")}>
           <div className="mx-auto mt-8 grid size-40 place-items-center rounded-[36px] text-white shadow-md" style={{ background: color.hex }}>
@@ -112,17 +84,9 @@ export function ColorMatch({
           </div>
         </div>
       ) : null}
-
       {phase === "done" ? (
-        <div className="flex flex-1 flex-col items-center justify-center text-center">
-          <StarResult stars={won ? 3 : 1} />
-          <h1 className="mt-4 text-3xl font-black">{won ? "接对啦！" : "时间到"}</h1>
-          <p className="mt-2 text-muted-foreground">接对 {score} 个</p>
-          <div className="mt-8 w-full">
-            <BigButton onClick={onExit}>回列表</BigButton>
-          </div>
-        </div>
+        <GameDone won={won} title={won ? "接对啦！" : "时间到"} body={`接对 ${score} 个`} remaining={remaining} onExit={onExit} />
       ) : null}
-    </div>
+    </GameChrome>
   );
 }

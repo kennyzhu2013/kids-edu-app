@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "kind": "spot-animal",
+  "gameId": "game-spot-animal",
+  "title": "动物找不同",
+  "titleEn": "Spot Animal",
+  "knowledgeTags": ["animals"],
+  "dailyFree": 3,
+  "durationSec": 60,
+  "rounds": "3轮递增",
+  "winCondition": "找对异类",
+  "winTarget": 3,
+  "howTo": "九宫格里八只一样，点出那只不一样的",
+  "guide": "广告+1或会员无限",
+  "assetsNote": "猫狗鸟鱼用色块，没有实拍。",
+  "animals": [
+    { "id": "cat", "label": "猫" },
+    { "id": "dog", "label": "狗" },
+    { "id": "bird", "label": "鸟" },
+    { "id": "fish", "label": "鱼" }
+  ]
+}

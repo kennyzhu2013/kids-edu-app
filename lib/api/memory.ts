@@ -1,4 +1,4 @@
-import { loadCatalog, loadColorMatch, loadPlayableLevels } from "@/lib/content/load";
+import { loadCatalog, loadGameConfigs, loadPlayableLevels } from "@/lib/content/load";
 import type { GameDocument, LevelDocument } from "@/lib/content/schemas";
 
 export type ChildRecord = {
@@ -60,7 +60,7 @@ type SmsTicket = {
   lastSentAt: number;
 };
 
-export const CONTENT_REV = 3;
+export const CONTENT_REV = 4;
 
 export type Memory = {
   contentRev: number;
@@ -106,6 +106,7 @@ function applyContent(state: Memory) {
   state.games = structuredClone(catalog.games);
   state.subjects = structuredClone(catalog.subjects);
   state.playableLevels = Object.fromEntries(levels.map((level) => [level.id, structuredClone(level)]));
+  state.gameConfigs = Object.fromEntries(loadGameConfigs().map((game) => [game.gameId, structuredClone(game)]));
 }
 
 export function db(): Memory {
@@ -115,7 +116,6 @@ export function db(): Memory {
     return globalStore.__qimengMemory;
   }
   if (memory) return memory;
-  const game = loadColorMatch();
   memory = {
     contentRev: CONTENT_REV,
     user: {
@@ -151,7 +151,7 @@ export function db(): Memory {
     games: [],
     subjects: [],
     playableLevels: {},
-    gameConfigs: { [game.gameId]: structuredClone(game) },
+    gameConfigs: {},
     assets: [
       {
         id: "asset-mia",

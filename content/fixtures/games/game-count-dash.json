@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "kind": "count-dash",
+  "gameId": "game-count-dash",
+  "title": "数一数冲关",
+  "titleEn": "Count Dash",
+  "knowledgeTags": ["numbers"],
+  "dailyFree": 3,
+  "durationSec": 60,
+  "rounds": "B/C加干扰物",
+  "winCondition": "点够即过",
+  "winTarget": 3,
+  "howTo": "看数字，点够那么多个苹果",
+  "guide": "广告+1或会员无限",
+  "assetsNote": "苹果和星星是色块。4–6 岁会混进星星，星星不算。",
+  "targets": [2, 3, 4]
+}

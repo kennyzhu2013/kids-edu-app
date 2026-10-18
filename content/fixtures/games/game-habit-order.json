@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "kind": "habit-order",
+  "gameId": "game-habit-order",
+  "title": "洗手顺序挑战",
+  "titleEn": "Habit Order",
+  "knowledgeTags": ["habits"],
+  "dailyFree": 3,
+  "durationSec": 90,
+  "rounds": "1关",
+  "winCondition": "顺序正确",
+  "winTarget": 1,
+  "howTo": "把四张洗手卡片排成正确顺序",
+  "guide": "广告+1或会员无限",
+  "assetsNote": "顺序来自生活认知「洗手步骤」。点卡片依次放入，也可以拖到格子里。",
+  "steps": [
+    { "id": "wet", "label": "打湿小手", "visual": "湿" },
+    { "id": "soap", "label": "搓肥皂", "visual": "皂" },
+    { "id": "rinse", "label": "冲干净", "visual": "冲" },
+    { "id": "dry", "label": "擦干", "visual": "干" }
+  ]
+}

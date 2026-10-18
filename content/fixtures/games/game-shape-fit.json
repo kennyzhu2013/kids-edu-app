@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "kind": "shape-fit",
+  "gameId": "game-shape-fit",
+  "title": "形状拼拼乐",
+  "titleEn": "Shape Fit",
+  "knowledgeTags": ["shapes"],
+  "dailyFree": 3,
+  "durationSec": 90,
+  "rounds": "3-5题",
+  "winCondition": "全部放对",
+  "winTarget": 3,
+  "howTo": "把圆形、方形或三角放进凹槽",
+  "guide": "广告+1或会员无限",
+  "assetsNote": "形状用纯色块。可以点，也可以拖进凹槽。",
+  "shapes": [
+    { "id": "circle", "label": "圆形" },
+    { "id": "square", "label": "方形" },
+    { "id": "triangle", "label": "三角" }
+  ]
+}

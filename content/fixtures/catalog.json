@@ -615,7 +615,7 @@
       "winCondition": "找对异类",
       "howTo": "3x3宫格8同1异点出不同",
       "guide": "广告+1或会员无限",
-      "playable": false
+      "playable": true
     },
     {
       "gameId": "game-count-dash",
@@ -630,7 +630,7 @@
       "winCondition": "点够即过",
       "howTo": "听或看数字，点够数量",
       "guide": "广告+1或会员无限",
-      "playable": false
+      "playable": true
     },
     {
       "gameId": "game-shape-fit",
@@ -645,7 +645,7 @@
       "winCondition": "全部放对",
       "howTo": "拖圆方三角进凹槽",
       "guide": "广告+1或会员无限",
-      "playable": false
+      "playable": true
     },
     {
       "gameId": "game-habit-order",
@@ -660,7 +660,7 @@
       "winCondition": "顺序正确",
       "howTo": "4步乱序卡拖成正确顺序",
       "guide": "广告+1或会员无限",
-      "playable": false
+      "playable": true
     }
   ]
 }

@@ -1,5 +1,6 @@
 {
   "schemaVersion": 1,
+  "kind": "color-match",
   "gameId": "game-color-match",
   "title": "颜色配对",
   "titleEn": "Color Match",

@@ -1,4 +1,4 @@
-import { loadCatalog, loadColorMatch, loadPlayableLevels } from "../lib/content/load";
+import { loadCatalog, loadColorMatch, loadGameConfigs, loadPlayableLevels } from "../lib/content/load";
 
 async function main() {
   const catalog = loadCatalog();
@@ -21,9 +21,18 @@ async function main() {
   for (const item of levels) {
     if (!catalog.levels.some((row) => row.id === item.id)) throw new Error(`目录里没有 ${item.id}`);
   }
-  if (!catalog.games.some((item) => item.gameId === game.gameId && item.playable)) {
-    throw new Error("目录里没有可玩的颜色配对");
+  const gameConfigs = loadGameConfigs();
+  const gamesById = new Map(gameConfigs.map((item) => [item.gameId, item]));
+  const playableGames = catalog.games.filter((item) => item.playable);
+  if (playableGames.length < 5) throw new Error("游戏乐园需要 5 个可玩游戏");
+  for (const outline of playableGames) {
+    const config = gamesById.get(outline.gameId);
+    if (!config) throw new Error(`${outline.gameId} 标了可玩，但没有夹具`);
+    if (config.dailyFree !== outline.dailyFree || config.dailyFree < 1) {
+      throw new Error(`${outline.gameId} 的每日免费次数不一致`);
+    }
   }
+  if (!gamesById.has(game.gameId)) throw new Error("目录里没有可玩的颜色配对");
   const tapSteps = level.steps.filter((step) => step.type === "tap");
   if (tapSteps.length < 2 || !level.introScript.includes("Hello")) {
     throw new Error("英语第 1 关需要听讲稿和至少两道点选题");
@@ -40,7 +49,8 @@ async function main() {
 
   console.log("夹具校验通过");
   console.log(`学科 ${catalog.subjects.length} · 课包 ${catalog.packs.length} · 关卡大纲 ${catalog.levels.length} · 游戏 ${catalog.games.length}`);
-  console.log(`可玩关卡 ${levels.map((item) => item.id).join(", ")} · 可玩游戏 ${game.gameId}`);
+  console.log(`可玩关卡 ${levels.map((item) => item.id).join(", ")}`);
+  console.log(`可玩游戏 ${gameConfigs.map((item) => item.gameId).join(", ")}`);
 
   if (process.env.SEED_DATABASE !== "1") {
     console.log("未设置 SEED_DATABASE=1，跳过写入 PostgreSQL。");
@@ -113,7 +123,7 @@ async function main() {
       });
     }
     for (const item of catalog.games) {
-      const config = item.gameId === game.gameId ? game : { outline: true, howTo: item.howTo };
+      const config = gamesById.get(item.gameId) ?? { outline: true, howTo: item.howTo };
       await prisma.game.upsert({
         where: { id: item.gameId },
         update: {
