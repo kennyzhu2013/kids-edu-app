@@ -3,6 +3,7 @@
 import { useRef, useState } from "react";
 import { TokenArt } from "@/components/illustrations";
 import { GameChrome, GameDone, GameReady, useRoundTimer } from "@/components/games/chrome";
+import { playCue } from "@/lib/client/speech";
 import { useChild } from "@/lib/client/store";
 import type { GameDocument } from "@/lib/content/schemas";
 import { cn } from "@/lib/utils";
@@ -56,6 +57,7 @@ export function CountDash({
   function tap(piece: Piece) {
     if (phase !== "play" || picked.includes(piece.id)) return;
     if (piece.kind === "star") {
+      playCue("again");
       setNote("星星不算");
       setShake(true);
       window.setTimeout(() => setShake(false), 350);
@@ -66,10 +68,12 @@ export function CountDash({
     if (next.length >= target) {
       const nextRound = round + 1;
       if (nextRound >= game.targets.length) {
+        playCue("ok");
         setRound(nextRound);
         end(true);
         return;
       }
+      playCue("ok");
       setNote("真棒");
       setRound(nextRound);
       setPicked([]);

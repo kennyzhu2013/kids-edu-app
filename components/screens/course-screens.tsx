@@ -4,11 +4,12 @@ import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { BackLink, Screen } from "@/components/screen";
 import { BigButton } from "@/components/big-button";
+import { EmptyPanel } from "@/components/empty-panel";
 import { LoadingScreen } from "@/components/loading-screen";
 import { LockBadge } from "@/components/lock-badge";
 import { OfflineState } from "@/components/offline-state";
 import { ageLabel } from "@/lib/age";
-import { api } from "@/lib/client/api";
+import { api, failureKind, type FailureKind } from "@/lib/client/api";
 import { useChild } from "@/lib/client/store";
 import { cn } from "@/lib/utils";
 
@@ -30,7 +31,7 @@ export function CoursesScreen() {
   const [subjects, setSubjects] = useState<Subject[]>([]);
   const [packs, setPacks] = useState<Pack[]>([]);
   const [subjectId, setSubjectId] = useState("eng");
-  const [failed, setFailed] = useState(false);
+  const [problem, setProblem] = useState<FailureKind | null>(null);
   const [attempt, setAttempt] = useState(0);
   const child = useChild();
 
@@ -44,20 +45,23 @@ export function CoursesScreen() {
         if (ignore) return;
         setSubjects(subjectData.subjects);
         setPacks(packData.packs);
+        setProblem(null);
       })
-      .catch(() => {
-        if (!ignore) setFailed(true);
+      .catch((error: unknown) => {
+        if (!ignore) setProblem(failureKind(error));
       });
     return () => {
       ignore = true;
     };
   }, [attempt]);
 
-  if (failed) {
+  if (problem) {
     return (
       <OfflineState
+        tabs
+        kind={problem}
         onRetry={() => {
-          setFailed(false);
+          setProblem(null);
           setAttempt((value) => value + 1);
         }}
       />
@@ -90,6 +94,9 @@ export function CoursesScreen() {
             </button>
           ))}
         </div>
+        {visible.length === 0 ? (
+          <EmptyPanel title="这一科还没有课" body="换一个科目看看。新的课包放上来之后会出现在这里。" />
+        ) : null}
         <ul className="mt-4 grid gap-3">
           {visible.map((pack) => (
             <li key={pack.id}>
@@ -118,7 +125,7 @@ export function CoursesScreen() {
 export function PackScreen() {
   const params = useParams<{ packId: string }>();
   const router = useRouter();
-  const [failed, setFailed] = useState(false);
+  const [problem, setProblem] = useState<FailureKind | null>(null);
   const [attempt, setAttempt] = useState(0);
   const [data, setData] = useState<{
     pack: Pack;
@@ -139,21 +146,27 @@ export function PackScreen() {
     const query = child ? `?childId=${encodeURIComponent(child.id)}` : "";
     api<NonNullable<typeof data>>(`/api/packs/${params.packId}${query}`)
       .then((payload) => {
-        if (!ignore) setData(payload);
+        if (ignore) return;
+        setData(payload);
+        setProblem(null);
       })
-      .catch(() => {
-        if (!ignore) setFailed(true);
+      .catch((error: unknown) => {
+        if (!ignore) setProblem(failureKind(error));
       });
     return () => {
       ignore = true;
     };
   }, [attempt, child, params.packId]);
 
-  if (failed) {
+  if (problem) {
     return (
       <OfflineState
+        kind={problem}
+        title={problem === "missing" ? "找不到这个课包" : undefined}
+        backHref="/courses"
+        backLabel="回课程馆"
         onRetry={() => {
-          setFailed(false);
+          setProblem(null);
           setData(null);
           setAttempt((value) => value + 1);
         }}
@@ -170,7 +183,7 @@ export function PackScreen() {
         <p className="mt-2 text-muted-foreground">{data.pack.summary}</p>
       </div>
       {data.levels.length === 0 ? (
-        <p className="mt-8 px-4 text-center font-bold text-muted-foreground">这一包还没有关卡。</p>
+        <EmptyPanel title="这一包还没有关卡" body="关卡补好之后会出现在这里。可以先回课程馆看看别的。" primaryHref="/courses" primaryLabel="回课程馆" />
       ) : null}
       <ul className="mt-4 grid gap-2 px-4">
         {data.levels.map((level) => (

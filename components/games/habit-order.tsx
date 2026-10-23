@@ -3,6 +3,7 @@
 import { useRef, useState } from "react";
 import { TokenArt } from "@/components/illustrations";
 import { GameChrome, GameDone, GameReady, useRoundTimer } from "@/components/games/chrome";
+import { playCue } from "@/lib/client/speech";
 import type { GameDocument } from "@/lib/content/schemas";
 import { cn } from "@/lib/utils";
 
@@ -55,6 +56,7 @@ export function HabitOrder({
   }
 
   function resetWrong() {
+    playCue("again");
     setNote("再试一次");
     setShake(true);
     window.setTimeout(() => setShake(false), 350);
@@ -80,6 +82,7 @@ export function HabitOrder({
       resetWrong();
       return;
     }
+    playCue("ok");
     setNote("真棒");
     end(true);
   }

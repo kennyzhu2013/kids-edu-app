@@ -9,9 +9,9 @@ import { LoadingScreen } from "@/components/loading-screen";
 import { OfflineState } from "@/components/offline-state";
 import { StarResult } from "@/components/star-result";
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
-import { ApiError, api } from "@/lib/client/api";
+import { ApiError, api, failureKind, type FailureKind } from "@/lib/client/api";
 import { readChild, useChild } from "@/lib/client/store";
-import { speak, stopSpeech } from "@/lib/client/speech";
+import { playCue, playPrompt, stopSpeech, voiceCaption } from "@/lib/client/speech";
 import type { LevelDocument } from "@/lib/content/schemas";
 import type { AgeBand } from "@/lib/age";
 import { cn } from "@/lib/utils";
@@ -32,7 +32,7 @@ export function LevelPlayer({ levelId }: { levelId: string }) {
   const router = useRouter();
   const child = useChild();
   const [level, setLevel] = useState<LevelDocument | null>(null);
-  const [failed, setFailed] = useState(false);
+  const [problem, setProblem] = useState<FailureKind | null>(null);
   const [locked, setLocked] = useState(false);
   const [phase, setPhase] = useState<Phase>("listen");
   const [stepIndex, setStepIndex] = useState(0);
@@ -45,6 +45,7 @@ export function LevelPlayer({ levelId }: { levelId: string }) {
   const [saveNote, setSaveNote] = useState("");
   const [confirmExit, setConfirmExit] = useState(false);
   const [speaking, setSpeaking] = useState(false);
+  const [voiceNote, setVoiceNote] = useState("");
   const [attempt, setAttempt] = useState(0);
   const mistakes = useRef(0);
   const startedAt = useRef(0);
@@ -57,12 +58,14 @@ export function LevelPlayer({ levelId }: { levelId: string }) {
     let ignore = false;
     api<{ level: LevelDocument }>(`/api/levels/${levelId}`)
       .then((data) => {
-        if (!ignore) setLevel(data.level);
+        if (ignore) return;
+        setLevel(data.level);
+        setProblem(null);
       })
       .catch((error: unknown) => {
         if (ignore) return;
         if (error instanceof ApiError && error.code === "LOCKED") setLocked(true);
-        else setFailed(true);
+        else setProblem(failureKind(error));
       });
     return () => {
       ignore = true;
@@ -76,14 +79,18 @@ export function LevelPlayer({ levelId }: { levelId: string }) {
 
   useEffect(() => {
     if (phase !== "quiz" || !step?.promptSpeak) return;
-    speak(step.promptSpeak);
+    playPrompt(step.promptAudio, step.promptSpeak);
   }, [phase, step]);
 
-  if (failed) {
+  if (problem) {
     return (
       <OfflineState
+        kind={problem}
+        title={problem === "missing" ? "找不到这一关" : undefined}
+        backHref="/courses"
+        backLabel="回课程馆"
         onRetry={() => {
-          setFailed(false);
+          setProblem(null);
           setLocked(false);
           setLevel(null);
           setAttempt((value) => value + 1);
@@ -109,7 +116,9 @@ export function LevelPlayer({ levelId }: { levelId: string }) {
   const activeDot = phase === "listen" ? 0 : phase === "quiz" ? Math.min(stepIndex + 1, totalDots - 1) : totalDots - 1;
 
   function playIntro() {
-    setSpeaking(speak(level!.introScript));
+    const result = playPrompt(level!.audioIntro, level!.introScript);
+    setSpeaking(result === "played");
+    setVoiceNote(voiceCaption(result));
   }
 
   function finish(earned: number) {
@@ -137,6 +146,7 @@ export function LevelPlayer({ levelId }: { levelId: string }) {
     if (!step || busy || feedback === "good") return;
     if (!answered(step, choiceId)) {
       mistakes.current += 1;
+      playCue("again");
       setFeedback("again");
       setMissedId(choiceId);
       setShake(true);
@@ -147,6 +157,7 @@ export function LevelPlayer({ levelId }: { levelId: string }) {
       }, 420);
       return;
     }
+    playCue("ok");
     setFeedback("good");
     setBusy(true);
     window.setTimeout(() => {
@@ -215,6 +226,7 @@ export function LevelPlayer({ levelId }: { levelId: string }) {
             <span className="sr-only">听一听</span>
           </button>
           <p className="mt-3 text-center text-sm font-bold text-primary">听一听</p>
+          {voiceNote ? <p className="mt-1 text-center text-sm font-bold text-muted-foreground">{voiceNote}</p> : null}
           <div className="mx-auto mt-4 w-full max-w-[280px]">
             {(level.listenVisual ?? "hello") === "hello" ? (
               <KidScene scene="hello" />
@@ -235,11 +247,15 @@ export function LevelPlayer({ levelId }: { levelId: string }) {
           <button
             type="button"
             className="mx-auto mt-5 inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 font-black shadow-sm"
-            onClick={() => step.promptSpeak && speak(step.promptSpeak)}
+            onClick={() => {
+              const result = playPrompt(step.promptAudio, step.promptSpeak ?? step.speakText ?? "");
+              setVoiceNote(voiceCaption(result));
+            }}
           >
             <Volume2 className="size-5 text-primary" />
             {step.promptSpeak}
           </button>
+          {voiceNote ? <p className="mt-2 text-center text-sm text-muted-foreground">{voiceNote}</p> : null}
           <p className="mt-3 text-center font-bold">{step.promptText}</p>
           <p className="mt-6 text-center text-3xl font-black">{step.speakText}</p>
           <p className="mt-3 text-center text-sm text-muted-foreground">跟读还没接麦克风。点下面就算说完。</p>
@@ -260,11 +276,15 @@ export function LevelPlayer({ levelId }: { levelId: string }) {
           <button
             type="button"
             className="mx-auto mt-5 inline-flex max-w-full items-center gap-2 rounded-full bg-white px-4 py-2 font-black shadow-sm"
-            onClick={() => step.promptSpeak && speak(step.promptSpeak)}
+            onClick={() => {
+              const result = playPrompt(step.promptAudio, step.promptSpeak ?? "");
+              setVoiceNote(voiceCaption(result));
+            }}
           >
             <Volume2 className="size-5 shrink-0 text-primary" />
             <span className="truncate">{step.promptSpeak}</span>
           </button>
+          {voiceNote ? <p className="mt-2 text-center text-sm text-muted-foreground">{voiceNote}</p> : null}
           <p className="mt-3 text-center font-bold">{step.promptText}</p>
           <p
             className={cn(

@@ -3,6 +3,7 @@
 import { useRef, useState } from "react";
 import { TokenArt } from "@/components/illustrations";
 import { GameChrome, GameDone, GameReady, useRoundTimer } from "@/components/games/chrome";
+import { playCue } from "@/lib/client/speech";
 import type { GameDocument } from "@/lib/content/schemas";
 import { cn } from "@/lib/utils";
 
@@ -55,6 +56,7 @@ export function SpotAnimal({
     if (phase !== "play" || !cells) return;
     const oddIndex = ODD_INDEX[round] ?? 4;
     if (index !== oddIndex) {
+      playCue("again");
       setNote("再试一次");
       setShake(true);
       window.setTimeout(() => setShake(false), 350);
@@ -62,10 +64,12 @@ export function SpotAnimal({
     }
     const next = round + 1;
     if (next >= game.winTarget) {
+      playCue("ok");
       setRound(next);
       end(true);
       return;
     }
+    playCue("ok");
     setNote("真棒");
     setRound(next);
   }

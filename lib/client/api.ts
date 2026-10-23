@@ -13,6 +13,15 @@ export class ApiError extends Error {
   }
 }
 
+export type FailureKind = "offline" | "error" | "missing";
+
+export function failureKind(error: unknown): FailureKind {
+  if (typeof navigator !== "undefined" && navigator.onLine === false) return "offline";
+  if (error instanceof ApiError && (error.status === 404 || error.code === "NOT_FOUND")) return "missing";
+  if (error instanceof TypeError) return "offline";
+  return "error";
+}
+
 export async function api<T>(path: string, init?: RequestInit): Promise<T> {
   const headers = new Headers(init?.headers);
   if (!headers.has("Content-Type") && init?.body) headers.set("Content-Type", "application/json");

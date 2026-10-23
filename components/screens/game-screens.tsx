@@ -9,11 +9,12 @@ import { playsLabel } from "@/components/games/chrome";
 import { HabitOrder } from "@/components/games/habit-order";
 import { ShapeFit } from "@/components/games/shape-fit";
 import { SpotAnimal } from "@/components/games/spot-animal";
+import { EmptyPanel } from "@/components/empty-panel";
 import { LoadingScreen } from "@/components/loading-screen";
 import { OfflineState } from "@/components/offline-state";
 import { Screen } from "@/components/screen";
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
-import { ApiError, api } from "@/lib/client/api";
+import { ApiError, api, failureKind, type FailureKind } from "@/lib/client/api";
 import {
   consumePlay,
   grantBonusPlay,
@@ -38,7 +39,7 @@ type GameCard = {
 export function GamesScreen() {
   const router = useRouter();
   const [games, setGames] = useState<GameCard[] | null>(null);
-  const [failed, setFailed] = useState(false);
+  const [problem, setProblem] = useState<FailureKind | null>(null);
   const [blocked, setBlocked] = useState<GameCard | null>(null);
   const [attempt, setAttempt] = useState(0);
   const vip = useVip();
@@ -55,20 +56,23 @@ export function GamesScreen() {
         const noAds = nextVip || rights.entitlements.some((item) => item.type === "no_ads");
         saveEntitlementFlags({ vip: nextVip, noAds });
         setGames(gameData.games);
+        setProblem(null);
       })
-      .catch(() => {
-        if (!ignore) setFailed(true);
+      .catch((error: unknown) => {
+        if (!ignore) setProblem(failureKind(error));
       });
     return () => {
       ignore = true;
     };
   }, [attempt]);
 
-  if (failed) {
+  if (problem) {
     return (
       <OfflineState
+        tabs
+        kind={problem}
         onRetry={() => {
-          setFailed(false);
+          setProblem(null);
           setAttempt((value) => value + 1);
         }}
       />
@@ -80,6 +84,9 @@ export function GamesScreen() {
     <Screen tabs>
       <div className="px-5 pt-8">
         <h1 className="text-3xl font-black">游戏乐园</h1>
+        {games.length === 0 ? (
+          <EmptyPanel title="游戏还在准备" body="乐园暂时是空的。可以先去课程馆玩一关。" primaryHref="/courses" primaryLabel="去课程馆" />
+        ) : null}
         <ul className="mt-5 grid gap-3">
           {games.map((game) => (
             <GameCard
@@ -154,7 +161,7 @@ export function GameScreen() {
   const router = useRouter();
   const [game, setGame] = useState<GameDocument | null>(null);
   const [outline, setOutline] = useState<GameCard | null>(null);
-  const [failed, setFailed] = useState(false);
+  const [problem, setProblem] = useState<FailureKind | null>(null);
   const [attempt, setAttempt] = useState(0);
   const spent = useRef(false);
   const vip = useVip();
@@ -164,27 +171,37 @@ export function GameScreen() {
     let ignore = false;
     api<{ game: GameDocument }>(`/api/games/${params.gameId}`)
       .then((data) => {
-        if (!ignore) setGame(data.game);
+        if (ignore) return;
+        setGame(data.game);
+        setProblem(null);
       })
       .catch(async (error: unknown) => {
         if (ignore) return;
         if (error instanceof ApiError && error.code === "LOCKED") {
-          const list = await api<{ games: GameCard[] }>("/api/games");
-          if (!ignore) setOutline(list.games.find((item) => item.gameId === params.gameId) ?? null);
+          try {
+            const list = await api<{ games: GameCard[] }>("/api/games");
+            if (!ignore) setOutline(list.games.find((item) => item.gameId === params.gameId) ?? null);
+          } catch (listError: unknown) {
+            if (!ignore) setProblem(failureKind(listError));
+          }
           return;
         }
-        setFailed(true);
+        setProblem(failureKind(error));
       });
     return () => {
       ignore = true;
     };
   }, [attempt, params.gameId]);
 
-  if (failed) {
+  if (problem) {
     return (
       <OfflineState
+        kind={problem}
+        title={problem === "missing" ? "找不到这个游戏" : undefined}
+        backHref="/games"
+        backLabel="回乐园"
         onRetry={() => {
-          setFailed(false);
+          setProblem(null);
           setAttempt((value) => value + 1);
         }}
       />
@@ -224,7 +241,7 @@ export function GameScreen() {
       />
     );
   }
-  if (!outline && !failed) return <LoadingScreen />;
+  if (!outline && !problem) return <LoadingScreen />;
   return (
     <Screen className="flex min-h-dvh flex-col px-5 pt-16 pb-8 text-center">
       <h1 className="text-3xl font-black">{outline?.title ?? "游戏"}</h1>

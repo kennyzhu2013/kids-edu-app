@@ -2,6 +2,7 @@
 
 import { useRef, useState } from "react";
 import { GameChrome, GameDone, GameReady, useRoundTimer } from "@/components/games/chrome";
+import { playCue } from "@/lib/client/speech";
 import type { GameDocument } from "@/lib/content/schemas";
 import { cn } from "@/lib/utils";
 
@@ -39,12 +40,14 @@ export function ColorMatch({
   function pick(id: string) {
     if (phase !== "play" || !color) return;
     if (id !== color.id) {
+      playCue("again");
       setNote("再试一次");
       setShake(true);
       window.setTimeout(() => setShake(false), 350);
       return;
     }
     const nextScore = score + 1;
+    playCue("ok");
     setScore(nextScore);
     setNote("真棒");
     if (nextScore >= game.winTarget) {

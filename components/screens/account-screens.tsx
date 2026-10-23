@@ -14,7 +14,8 @@ import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/compone
 import { Input } from "@/components/ui/input";
 import { ageLabel } from "@/lib/age";
 import { SKUS } from "@/lib/billing/skus";
-import { ApiError, api } from "@/lib/client/api";
+import { LogoMark } from "@/components/illustrations";
+import { ApiError, api, failureKind, type FailureKind } from "@/lib/client/api";
 import {
   clearLocalProfile,
   parentSessionToken,
@@ -284,7 +285,7 @@ type ReportPayload = {
 
 export function ReportScreen() {
   const router = useRouter();
-  const [failedChildId, setFailedChildId] = useState<string | null>(null);
+  const [problem, setProblem] = useState<{ childId: string; kind: FailureKind } | null>(null);
   const [attempt, setAttempt] = useState(0);
   const [data, setData] = useState<(ReportPayload & { childId: string }) | null>(null);
   const child = useChild();
@@ -302,10 +303,12 @@ export function ReportScreen() {
     let ignore = false;
     api<ReportPayload>(`/api/progress/summary?childId=${encodeURIComponent(childId)}`)
       .then((payload) => {
-        if (!ignore) setData({ ...payload, childId });
+        if (ignore) return;
+        setData({ ...payload, childId });
+        setProblem((current) => (current?.childId === childId ? null : current));
       })
-      .catch(() => {
-        if (!ignore) setFailedChildId(childId);
+      .catch((error: unknown) => {
+        if (!ignore) setProblem({ childId, kind: failureKind(error) });
       });
     return () => {
       ignore = true;
@@ -314,14 +317,18 @@ export function ReportScreen() {
 
   if (!child) return <LoadingScreen />;
 
-  const failed = failedChildId === child.id;
+  const kind = problem?.childId === child.id ? problem.kind : null;
   const report = data?.childId === child.id ? data : null;
 
-  if (failed) {
+  if (kind) {
     return (
       <OfflineState
+        kind={kind}
+        title={kind === "missing" ? "还没有这份报告" : undefined}
+        backHref="/mine"
+        backLabel="回我的"
         onRetry={() => {
-          setFailedChildId(null);
+          setProblem(null);
           setAttempt((value) => value + 1);
         }}
       />
@@ -334,7 +341,7 @@ export function ReportScreen() {
       <h1 className="mt-6 text-3xl font-black">学习报告</h1>
       <p className="mt-2 text-sm font-bold text-muted-foreground">{name} · 本周</p>
       {!report ? (
-        <p className="mt-8 font-bold text-muted-foreground">加载中…</p>
+        <p className="mt-8 font-bold text-muted-foreground">正在整理这周的记录…</p>
       ) : (
         <div className="mt-6 grid gap-3">
           <article className="rounded-[24px] bg-white p-5 shadow-sm">
@@ -354,7 +361,14 @@ export function ReportScreen() {
             <p className="text-xl font-black leading-8">{report.suggestion}</p>
           </article>
           {report.completedLevels === 0 ? (
-            <p className="text-sm leading-6 text-muted-foreground">玩完今日的一关，分钟和关数会记在这里。</p>
+            <article className="rounded-[24px] bg-white p-5 text-center shadow-sm">
+              <LogoMark className="mx-auto size-16" />
+              <p className="mt-3 font-black">这周还没开始</p>
+              <p className="mt-1 text-sm leading-6 text-muted-foreground">玩完今日的一关，分钟和关数会记在这里。</p>
+              <BigButton className="mt-4" href="/today">
+                去今日
+              </BigButton>
+            </article>
           ) : null}
         </div>
       )}

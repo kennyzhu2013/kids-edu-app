@@ -8,7 +8,7 @@ import { LoadingScreen } from "@/components/loading-screen";
 import { OfflineState } from "@/components/offline-state";
 import { Screen } from "@/components/screen";
 import { BigButton } from "@/components/big-button";
-import { api } from "@/lib/client/api";
+import { api, failureKind, type FailureKind } from "@/lib/client/api";
 import { readChild, useChild } from "@/lib/client/store";
 import { cn } from "@/lib/utils";
 
@@ -37,7 +37,7 @@ export function TodayScreen() {
   const child = useChild();
   const [attempt, setAttempt] = useState(0);
   const [data, setData] = useState<TodayPayload | null>(null);
-  const [failed, setFailed] = useState(false);
+  const [problem, setProblem] = useState<{ childId: string; kind: FailureKind } | null>(null);
 
   useEffect(() => {
     const timer = window.setTimeout(() => {
@@ -49,12 +49,15 @@ export function TodayScreen() {
   useEffect(() => {
     if (!child) return;
     let ignore = false;
-    api<TodayPayload>(`/api/today?childId=${encodeURIComponent(child.id)}`)
+    const childId = child.id;
+    api<TodayPayload>(`/api/today?childId=${encodeURIComponent(childId)}`)
       .then((payload) => {
-        if (!ignore) setData(payload);
+        if (ignore) return;
+        setData(payload);
+        setProblem((current) => (current?.childId === childId ? null : current));
       })
-      .catch(() => {
-        if (!ignore) setFailed(true);
+      .catch((error: unknown) => {
+        if (!ignore) setProblem({ childId, kind: failureKind(error) });
       });
     return () => {
       ignore = true;
@@ -62,11 +65,15 @@ export function TodayScreen() {
   }, [attempt, child]);
 
   if (!child) return <LoadingScreen />;
-  if (failed) {
+  const kind = problem?.childId === child.id ? problem.kind : null;
+  if (kind) {
     return (
       <OfflineState
+        tabs
+        kind={kind}
+        title={kind === "missing" ? "还没有今日任务" : undefined}
         onRetry={() => {
-          setFailed(false);
+          setProblem(null);
           setAttempt((value) => value + 1);
         }}
       />

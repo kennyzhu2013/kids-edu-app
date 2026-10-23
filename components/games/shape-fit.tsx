@@ -2,6 +2,7 @@
 
 import { useRef, useState } from "react";
 import { GameChrome, GameDone, GameReady, useRoundTimer } from "@/components/games/chrome";
+import { playCue } from "@/lib/client/speech";
 import type { GameDocument } from "@/lib/content/schemas";
 import { cn } from "@/lib/utils";
 
@@ -51,12 +52,14 @@ export function ShapeFit({
   function place(id: ShapeId) {
     if (phase !== "play" || !target || ended.current) return;
     if (id !== target.id) {
+      playCue("again");
       setNote("再试一次");
       setShake(true);
       window.setTimeout(() => setShake(false), 350);
       return;
     }
     setFilled(id);
+    playCue("ok");
     setNote("真棒");
     const next = round + 1;
     window.setTimeout(() => {
