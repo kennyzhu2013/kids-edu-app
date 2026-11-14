@@ -14,33 +14,33 @@
     "整点",
     "短针"
   ],
-  "audioIntro": "asset:audio/math-life-04-intro",
+  "audioIntro": "/audio/math-life-04/intro.mp3",
   "introScript": "短针指到几，就是几点钟。短针指 3 是 3 点。",
   "introScriptZh": "短针指到几，就是几点钟。短针指 3 是 3 点。",
   "listenTitle": "几点钟整点",
-  "listenVisual": "钟",
+  "listenVisual": "/art/clock.svg",
   "steps": [
     {
       "id": "q1",
       "type": "tap",
-      "promptAudio": "asset:audio/q1",
+      "promptAudio": "/audio/math-life-04/q1.mp3",
       "promptText": "短针指 3，是几点？",
       "promptSpeak": "3点",
       "choices": [
         {
           "id": "two",
           "label": "2 点",
-          "visual": "2"
+          "visual": "/art/num-2.svg"
         },
         {
           "id": "three",
           "label": "3 点",
-          "visual": "3"
+          "visual": "/art/num-3.svg"
         },
         {
           "id": "seven",
           "label": "7 点",
-          "visual": "7"
+          "visual": "/art/num-7.svg"
         }
       ],
       "answer": "three"
@@ -48,24 +48,24 @@
     {
       "id": "q2",
       "type": "tap",
-      "promptAudio": "asset:audio/q2",
+      "promptAudio": "/audio/math-life-04/q2.mp3",
       "promptText": "听「7 点」，点 7 点",
       "promptSpeak": "7点",
       "choices": [
         {
           "id": "three",
           "label": "3 点",
-          "visual": "3"
+          "visual": "/art/num-3.svg"
         },
         {
           "id": "seven",
           "label": "7 点",
-          "visual": "7"
+          "visual": "/art/num-7.svg"
         },
         {
           "id": "five",
           "label": "5 点",
-          "visual": "5"
+          "visual": "/art/num-5.svg"
         }
       ],
       "answer": "seven"
@@ -73,24 +73,24 @@
     {
       "id": "q3",
       "type": "tap",
-      "promptAudio": "asset:audio/q3",
+      "promptAudio": "/audio/math-life-04/q3.mp3",
       "promptText": "晚饭常常是几点？",
       "promptSpeak": "吃饭",
       "choices": [
         {
           "id": "three",
           "label": "3 点",
-          "visual": "3"
+          "visual": "/art/num-3.svg"
         },
         {
           "id": "six",
           "label": "6 点",
-          "visual": "6"
+          "visual": "/art/num-6.svg"
         },
         {
           "id": "twelve",
           "label": "12 点",
-          "visual": "12"
+          "visual": "/art/num-12.svg"
         }
       ],
       "answer": "six",

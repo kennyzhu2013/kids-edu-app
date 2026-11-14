@@ -15,33 +15,33 @@
     "鸟",
     "鱼"
   ],
-  "audioIntro": "asset:audio/lang-starter-02-intro",
+  "audioIntro": "/audio/lang-starter-02/intro.mp3",
   "introScript": "小猫喵喵叫，小狗汪汪叫，小鸟啾啾叫，小鱼咕噜游。",
   "introScriptZh": "小猫喵喵叫，小狗汪汪叫，小鸟啾啾叫，小鱼咕噜游。",
   "listenTitle": "动物",
-  "listenVisual": "animals",
+  "listenVisual": "/art/listen-animals.svg",
   "steps": [
     {
       "id": "q1",
       "type": "tap",
-      "promptAudio": "asset:audio/q1",
+      "promptAudio": "/audio/lang-starter-02/q1.mp3",
       "promptText": "听「猫」，点猫",
       "promptSpeak": "猫",
       "choices": [
         {
           "id": "dog",
           "label": "狗",
-          "visual": "狗"
+          "visual": "/art/dog.svg"
         },
         {
           "id": "cat",
           "label": "猫",
-          "visual": "猫"
+          "visual": "/art/cat.svg"
         },
         {
           "id": "bird",
           "label": "鸟",
-          "visual": "鸟"
+          "visual": "/art/bird.svg"
         }
       ],
       "answer": "cat"
@@ -49,24 +49,24 @@
     {
       "id": "q2",
       "type": "tap",
-      "promptAudio": "asset:audio/q2",
+      "promptAudio": "/audio/lang-starter-02/q2.mp3",
       "promptText": "听「鱼」，点鱼",
       "promptSpeak": "鱼",
       "choices": [
         {
           "id": "fish",
           "label": "鱼",
-          "visual": "鱼"
+          "visual": "/art/fish.svg"
         },
         {
           "id": "bird",
           "label": "鸟",
-          "visual": "鸟"
+          "visual": "/art/bird.svg"
         },
         {
           "id": "dog",
           "label": "狗",
-          "visual": "狗"
+          "visual": "/art/dog.svg"
         }
       ],
       "answer": "fish"
@@ -74,24 +74,24 @@
     {
       "id": "q3",
       "type": "tap",
-      "promptAudio": "asset:audio/q3",
+      "promptAudio": "/audio/lang-starter-02/q3.mp3",
       "promptText": "听「喵喵」，点是谁在叫",
       "promptSpeak": "喵喵",
       "choices": [
         {
           "id": "dog",
           "label": "狗",
-          "visual": "狗"
+          "visual": "/art/dog.svg"
         },
         {
           "id": "cat",
           "label": "猫",
-          "visual": "猫"
+          "visual": "/art/cat.svg"
         },
         {
           "id": "bird",
           "label": "鸟",
-          "visual": "鸟"
+          "visual": "/art/bird.svg"
         }
       ],
       "answer": "cat",

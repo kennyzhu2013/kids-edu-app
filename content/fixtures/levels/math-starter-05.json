@@ -14,33 +14,33 @@
     "圆形",
     "颜色"
   ],
-  "audioIntro": "asset:audio/math-starter-05-intro",
+  "audioIntro": "/audio/math-starter-05/intro.mp3",
   "introScript": "一样的放一起。先找圆形，再按颜色分一分。",
   "introScriptZh": "一样的放一起。先找圆形，再按颜色分一分。",
   "listenTitle": "分类",
-  "listenVisual": "分类",
+  "listenVisual": "/art/listen-sort.svg",
   "steps": [
     {
       "id": "q1",
       "type": "tap",
-      "promptAudio": "asset:audio/q1",
+      "promptAudio": "/audio/math-starter-05/q1.mp3",
       "promptText": "哪个是圆形？把它找出来",
       "promptSpeak": "圆形",
       "choices": [
         {
           "id": "sq",
           "label": "方形积木",
-          "visual": "方"
+          "visual": "/art/shape-square.svg"
         },
         {
           "id": "ci",
           "label": "圆皮球",
-          "visual": "圆"
+          "visual": "/art/shape-circle.svg"
         },
         {
           "id": "tr",
           "label": "三角旗",
-          "visual": "角"
+          "visual": "/art/shape-triangle.svg"
         }
       ],
       "answer": "ci"
@@ -48,24 +48,24 @@
     {
       "id": "q2",
       "type": "tap",
-      "promptAudio": "asset:audio/q2",
+      "promptAudio": "/audio/math-starter-05/q2.mp3",
       "promptText": "把红色的找出来",
       "promptSpeak": "红色",
       "choices": [
         {
           "id": "red",
           "label": "红苹果",
-          "visual": "红"
+          "visual": "/art/swatch-red.svg"
         },
         {
           "id": "yellow",
           "label": "黄香蕉",
-          "visual": "黄"
+          "visual": "/art/swatch-yellow.svg"
         },
         {
           "id": "blue",
           "label": "蓝积木",
-          "visual": "蓝"
+          "visual": "/art/swatch-blue.svg"
         }
       ],
       "answer": "red"
@@ -73,24 +73,24 @@
     {
       "id": "q3",
       "type": "tap",
-      "promptAudio": "asset:audio/q3",
+      "promptAudio": "/audio/math-starter-05/q3.mp3",
       "promptText": "又圆又红的是哪个？",
       "promptSpeak": "又圆又红",
       "choices": [
         {
           "id": "ball",
           "label": "红皮球",
-          "visual": "圆"
+          "visual": "/art/shape-circle.svg"
         },
         {
           "id": "applebox",
           "label": "红方盒",
-          "visual": "盒"
+          "visual": "/art/toybox.svg"
         },
         {
           "id": "banana",
           "label": "黄香蕉",
-          "visual": "黄"
+          "visual": "/art/swatch-yellow.svg"
         }
       ],
       "answer": "ball",

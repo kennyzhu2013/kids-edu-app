@@ -111,7 +111,7 @@ let quotaCache: { raw: string; today: string; quota: Quota } | null = null;
 
 function clientQuota(): Quota {
   const raw = localStorage.getItem("qimeng:plays") ?? "";
-  const today = todayKey();
+  const today = localDayKey();
   if (quotaCache && quotaCache.raw === raw && quotaCache.today === today) return quotaCache.quota;
   const quota = readQuota();
   quotaCache = { raw, today, quota };
@@ -172,20 +172,20 @@ export function clearLocalProfile() {
 
 type Quota = { date: string; used: Record<string, number>; bonus: Record<string, number> };
 
-function todayKey() {
+export function localDayKey() {
   const now = new Date();
   return `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`;
 }
 
 function readQuota(): Quota {
-  if (typeof window === "undefined") return { date: todayKey(), used: {}, bonus: {} };
+  if (typeof window === "undefined") return { date: localDayKey(), used: {}, bonus: {} };
   try {
     const raw = localStorage.getItem("qimeng:plays");
     const parsed = raw ? (JSON.parse(raw) as Quota) : null;
-    if (!parsed || parsed.date !== todayKey()) return { date: todayKey(), used: {}, bonus: {} };
+    if (!parsed || parsed.date !== localDayKey()) return { date: localDayKey(), used: {}, bonus: {} };
     return parsed;
   } catch {
-    return { date: todayKey(), used: {}, bonus: {} };
+    return { date: localDayKey(), used: {}, bonus: {} };
   }
 }
 
@@ -209,5 +209,26 @@ export function consumePlay(gameId: string) {
 export function grantBonusPlay(gameId: string) {
   const quota = readQuota();
   quota.bonus[gameId] = (quota.bonus[gameId] ?? 0) + 1;
+  writeQuota(quota);
+}
+
+export function applyServerQuotas(day: string, rows: Array<{ gameId: string; used: number; bonus: number }>) {
+  const quota: Quota = { date: day, used: {}, bonus: {} };
+  for (const row of rows) {
+    quota.used[row.gameId] = row.used;
+    quota.bonus[row.gameId] = row.bonus;
+  }
+  writeQuota(quota);
+}
+
+export function mergeServerQuota(day: string, row: { gameId: string; used: number; bonus: number }) {
+  const quota = readQuota();
+  if (quota.date !== day) {
+    quota.date = day;
+    quota.used = {};
+    quota.bonus = {};
+  }
+  quota.used[row.gameId] = row.used;
+  quota.bonus[row.gameId] = row.bonus;
   writeQuota(quota);
 }

@@ -92,7 +92,7 @@ export function SpotAnimal({
                 onClick={() => pick(index)}
                 className="grid place-items-center rounded-[20px] bg-white py-2 shadow-sm"
               >
-                <TokenArt token={animal.id} />
+                <TokenArt token={`/art/${animal.id}.svg`} />
               </button>
             ))}
           </div>

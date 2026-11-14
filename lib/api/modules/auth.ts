@@ -1,5 +1,6 @@
 import { bearer, HttpError, jsonOk, asString } from "@/lib/api/http";
 import { activeEntitlements, currentChild, db } from "@/lib/api/memory";
+import { persistPhone } from "@/lib/api/persist";
 
 const DEMO_CODE = "000000";
 const COOLDOWN_MS = 60_000;
@@ -58,7 +59,7 @@ export function sendSms(body: Record<string, unknown>) {
   });
 }
 
-export function loginSms(body: Record<string, unknown>) {
+export async function loginSms(body: Record<string, unknown>) {
   const phone = asString(body.phone);
   const code = asString(body.code);
   if (!PHONE_RE.test(phone)) {
@@ -75,6 +76,7 @@ export function loginSms(body: Record<string, unknown>) {
   const isNewUser = user.phone === null;
   user.phone = phone;
   db().sms.delete(phone);
+  await persistPhone(phone);
   return jsonOk({
     token: "stub-parent-token",
     user: publicUser(),

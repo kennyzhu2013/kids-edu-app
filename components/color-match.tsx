@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useRef, useState } from "react";
 import { GameChrome, GameDone, GameReady, useRoundTimer } from "@/components/games/chrome";
 import { playCue } from "@/lib/client/speech";
@@ -64,11 +65,8 @@ export function ColorMatch({
       ) : null}
       {phase === "play" && color ? (
         <div className={cn("flex flex-1 flex-col", shake && "shake")}>
-          <div className="mx-auto mt-8 grid size-40 place-items-center rounded-[36px] text-white shadow-md" style={{ background: color.hex }}>
-            <div>
-              <p className="text-2xl font-black">{color.label}</p>
-              <p className="text-sm font-bold opacity-90">{color.labelEn}</p>
-            </div>
+          <div className="mx-auto mt-8 grid size-40 place-items-center overflow-hidden rounded-[36px] bg-white shadow-md">
+            <Image src={`/art/ball-${color.id}.svg`} alt={`${color.label} ${color.labelEn}`} width={112} height={112} unoptimized className="size-28 object-contain" />
           </div>
           <p className="mt-4 h-7 text-center text-lg font-black text-primary" role="status">
             {note}
@@ -80,9 +78,10 @@ export function ColorMatch({
                 type="button"
                 aria-label={item.label}
                 onClick={() => pick(item.id)}
-                className="h-20 rounded-[22px] border-4 border-white shadow-sm"
-                style={{ background: item.hex }}
-              />
+                className="grid h-20 place-items-center rounded-[22px] border-4 border-white bg-white shadow-sm"
+              >
+                <Image src={`/art/ball-${item.id}.svg`} alt="" width={48} height={48} unoptimized className="size-12 object-contain" />
+              </button>
             ))}
           </div>
         </div>

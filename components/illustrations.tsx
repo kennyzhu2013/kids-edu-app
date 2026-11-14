@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { cn } from "@/lib/utils";
 
 export function LogoMark({ className }: { className?: string }) {
@@ -94,6 +95,9 @@ const BALLS: Record<string, string> = {
 };
 
 export function TokenArt({ token, className }: { token: string; className?: string }) {
+  if (token.startsWith("/") || token.startsWith("http://") || token.startsWith("https://")) {
+    return <Image src={token} alt="" width={88} height={88} unoptimized className={cn("size-16 object-contain", className)} />;
+  }
   if (token.startsWith("ball-") || token.startsWith("apple-")) {
     const fill = BALLS[token] ?? "#ff8a5b";
     const apple = token.startsWith("apple-");

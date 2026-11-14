@@ -15,33 +15,33 @@
     "牛奶",
     "面包"
   ],
-  "audioIntro": "asset:audio/lang-starter-04-intro",
+  "audioIntro": "/audio/lang-starter-04/intro.mp3",
   "introScript": "吃饭啦。米饭香香，苹果甜甜，牛奶营养，面包软软。",
   "introScriptZh": "吃饭啦。米饭香香，苹果甜甜，牛奶营养，面包软软。",
   "listenTitle": "食物",
-  "listenVisual": "饭",
+  "listenVisual": "/art/listen-meal.svg",
   "steps": [
     {
       "id": "q1",
       "type": "tap",
-      "promptAudio": "asset:audio/q1",
+      "promptAudio": "/audio/lang-starter-04/q1.mp3",
       "promptText": "听「米饭」，点米饭",
       "promptSpeak": "米饭",
       "choices": [
         {
           "id": "apple",
           "label": "苹果",
-          "visual": "苹"
+          "visual": "/art/apple-red.svg"
         },
         {
           "id": "rice",
           "label": "米饭",
-          "visual": "米"
+          "visual": "/art/rice.svg"
         },
         {
           "id": "milk",
           "label": "牛奶",
-          "visual": "奶"
+          "visual": "/art/milk.svg"
         }
       ],
       "answer": "rice"
@@ -49,24 +49,24 @@
     {
       "id": "q2",
       "type": "tap",
-      "promptAudio": "asset:audio/q2",
+      "promptAudio": "/audio/lang-starter-04/q2.mp3",
       "promptText": "听「苹果」，点苹果",
       "promptSpeak": "苹果",
       "choices": [
         {
           "id": "bread",
           "label": "面包",
-          "visual": "面"
+          "visual": "/art/bread.svg"
         },
         {
           "id": "milk",
           "label": "牛奶",
-          "visual": "奶"
+          "visual": "/art/milk.svg"
         },
         {
           "id": "apple",
           "label": "苹果",
-          "visual": "苹"
+          "visual": "/art/apple-red.svg"
         }
       ],
       "answer": "apple"
@@ -74,24 +74,24 @@
     {
       "id": "q3",
       "type": "tap",
-      "promptAudio": "asset:audio/q3",
+      "promptAudio": "/audio/lang-starter-04/q3.mp3",
       "promptText": "听「牛奶」，点牛奶",
       "promptSpeak": "牛奶",
       "choices": [
         {
           "id": "milk",
           "label": "牛奶",
-          "visual": "奶"
+          "visual": "/art/milk.svg"
         },
         {
           "id": "rice",
           "label": "米饭",
-          "visual": "米"
+          "visual": "/art/rice.svg"
         },
         {
           "id": "bread",
           "label": "面包",
-          "visual": "面"
+          "visual": "/art/bread.svg"
         }
       ],
       "answer": "milk"
@@ -99,24 +99,24 @@
     {
       "id": "q4",
       "type": "tap",
-      "promptAudio": "asset:audio/q4",
+      "promptAudio": "/audio/lang-starter-04/q4.mp3",
       "promptText": "跟读还没接。先点「我要吃苹果」",
       "promptSpeak": "我要吃苹果",
       "choices": [
         {
           "id": "rice",
           "label": "我要吃饭",
-          "visual": "饭"
+          "visual": "/art/listen-meal.svg"
         },
         {
           "id": "apple",
           "label": "我要吃苹果",
-          "visual": "苹"
+          "visual": "/art/apple-red.svg"
         },
         {
           "id": "milk",
           "label": "我要喝奶",
-          "visual": "奶"
+          "visual": "/art/milk.svg"
         }
       ],
       "answer": "apple",

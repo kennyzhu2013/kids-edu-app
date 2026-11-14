@@ -4,58 +4,105 @@
   "packId": "eng-starter",
   "title": "Body",
   "order": 5,
-  "ageBand": ["A", "B", "C"],
-  "vocab": ["eyes", "nose", "mouth", "hands"],
-  "audioIntro": "asset:audio/eng-starter-05-intro",
+  "ageBand": [
+    "A",
+    "B",
+    "C"
+  ],
+  "vocab": [
+    "eyes",
+    "nose",
+    "mouth",
+    "hands"
+  ],
+  "audioIntro": "/audio/eng-starter-05/intro.mp3",
   "introScript": "This is my body! Eyes — look! Nose — sniff! Mouth — smile! Hands — clap! Touch your nose!",
   "introScriptZh": "这是我的身体。眼睛 eyes 看一看，鼻子 nose 闻一闻，嘴巴 mouth 笑一笑，小手 hands 拍一拍。",
   "listenTitle": "Body",
-  "listenVisual": "body",
+  "listenVisual": "/art/listen-body.svg",
   "steps": [
     {
       "id": "q1",
       "type": "tap",
-      "promptAudio": "asset:audio/eng-starter-05-nose",
+      "promptAudio": "/audio/eng-starter-05/q1.mp3",
       "promptText": "听「Touch your nose」，点鼻子",
       "promptSpeak": "Touch your nose",
       "choices": [
-        { "id": "eyes", "label": "眼睛 eyes", "visual": "eyes" },
-        { "id": "nose", "label": "鼻子 nose", "visual": "nose" },
-        { "id": "mouth", "label": "嘴巴 mouth", "visual": "mouth" }
+        {
+          "id": "eyes",
+          "label": "眼睛 eyes",
+          "visual": "/art/eyes.svg"
+        },
+        {
+          "id": "nose",
+          "label": "鼻子 nose",
+          "visual": "/art/nose.svg"
+        },
+        {
+          "id": "mouth",
+          "label": "嘴巴 mouth",
+          "visual": "/art/mouth.svg"
+        }
       ],
       "answer": "nose"
     },
     {
       "id": "q2",
       "type": "tap",
-      "promptAudio": "asset:audio/eng-starter-05-eyes",
+      "promptAudio": "/audio/eng-starter-05/q2.mp3",
       "promptText": "听「Touch your eyes」，点眼睛",
       "promptSpeak": "Touch your eyes",
       "choices": [
-        { "id": "hands", "label": "小手 hands", "visual": "hands" },
-        { "id": "mouth", "label": "嘴巴 mouth", "visual": "mouth" },
-        { "id": "eyes", "label": "眼睛 eyes", "visual": "eyes" }
+        {
+          "id": "hands",
+          "label": "小手 hands",
+          "visual": "/art/hands.svg"
+        },
+        {
+          "id": "mouth",
+          "label": "嘴巴 mouth",
+          "visual": "/art/mouth.svg"
+        },
+        {
+          "id": "eyes",
+          "label": "眼睛 eyes",
+          "visual": "/art/eyes.svg"
+        }
       ],
       "answer": "eyes"
     },
     {
       "id": "q3",
       "type": "tap",
-      "promptAudio": "asset:audio/eng-starter-05-hands",
+      "promptAudio": "/audio/eng-starter-05/q3.mp3",
       "promptText": "听「Touch your hands」，点小手",
       "promptSpeak": "Touch your hands",
       "choices": [
-        { "id": "hands", "label": "小手 hands", "visual": "hands" },
-        { "id": "nose", "label": "鼻子 nose", "visual": "nose" },
-        { "id": "eyes", "label": "眼睛 eyes", "visual": "eyes" }
+        {
+          "id": "hands",
+          "label": "小手 hands",
+          "visual": "/art/hands.svg"
+        },
+        {
+          "id": "nose",
+          "label": "鼻子 nose",
+          "visual": "/art/nose.svg"
+        },
+        {
+          "id": "eyes",
+          "label": "眼睛 eyes",
+          "visual": "/art/eyes.svg"
+        }
       ],
       "answer": "hands"
     },
     {
       "id": "q4",
       "type": "speak",
-      "ages": ["C"],
-      "promptAudio": "asset:audio/eng-starter-05-hand",
+      "ages": [
+        "C"
+      ],
+      "promptAudio": "/audio/eng-starter-05/q4.mp3",
       "promptText": "跟读：This is my hand",
       "promptSpeak": "This is my hand",
       "speakText": "This is my hand",

@@ -14,33 +14,33 @@
     "分",
     "每人"
   ],
-  "audioIntro": "asset:audio/math-life-01-intro",
+  "audioIntro": "/audio/math-life-01/intro.mp3",
   "introScript": "水果要分一分。两边一样多才公平。",
   "introScriptZh": "水果要分一分。两边一样多才公平。",
   "listenTitle": "分水果",
-  "listenVisual": "水果",
+  "listenVisual": "/art/listen-fruit.svg",
   "steps": [
     {
       "id": "q1",
       "type": "tap",
-      "promptAudio": "asset:audio/q1",
+      "promptAudio": "/audio/math-life-01/q1.mp3",
       "promptText": "哪一组两边一样多？",
       "promptSpeak": "一样多",
       "choices": [
         {
           "id": "same",
           "label": "3 和 3",
-          "visual": "同"
+          "visual": "/art/same.svg"
         },
         {
           "id": "more",
           "label": "5 和 2",
-          "visual": "多"
+          "visual": "/art/more.svg"
         },
         {
           "id": "less",
           "label": "1 和 4",
-          "visual": "少"
+          "visual": "/art/less.svg"
         }
       ],
       "answer": "same"
@@ -48,24 +48,24 @@
     {
       "id": "q2",
       "type": "tap",
-      "promptAudio": "asset:audio/q2",
+      "promptAudio": "/audio/math-life-01/q2.mp3",
       "promptText": "6 个苹果分给 2 个人，每人几个？",
       "promptSpeak": "每人几个",
       "choices": [
         {
           "id": "two",
           "label": "2 个",
-          "visual": "2"
+          "visual": "/art/num-2.svg"
         },
         {
           "id": "three",
           "label": "3 个",
-          "visual": "3"
+          "visual": "/art/num-3.svg"
         },
         {
           "id": "six",
           "label": "6 个",
-          "visual": "6"
+          "visual": "/art/num-6.svg"
         }
       ],
       "answer": "three"
@@ -73,24 +73,24 @@
     {
       "id": "q3",
       "type": "tap",
-      "promptAudio": "asset:audio/q3",
+      "promptAudio": "/audio/math-life-01/q3.mp3",
       "promptText": "7 个苹果能平均分给 2 个人吗？",
       "promptSpeak": "能均分吗",
       "choices": [
         {
           "id": "yes",
           "label": "能",
-          "visual": "能"
+          "visual": "/art/yes.svg"
         },
         {
           "id": "no",
           "label": "不能",
-          "visual": "不"
+          "visual": "/art/no.svg"
         },
         {
           "id": "idk",
           "label": "不知道",
-          "visual": "问"
+          "visual": "/art/ask.svg"
         }
       ],
       "answer": "no",

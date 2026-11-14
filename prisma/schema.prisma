@@ -39,6 +39,8 @@ model Child {
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
   progress  Progress[]
+  todayPlans TodayPlan[]
+  gameQuotas GameQuota[]
 
   @@index([userId])
 }
@@ -180,6 +182,35 @@ model ParentLock {
   failCount   Int       @default(0)
   lockedUntil DateTime?
   updatedAt   DateTime  @updatedAt
+}
+
+/// 当天固定的今日任务。重启后仍显示同一组关卡和完成勾。
+model TodayPlan {
+  id        String   @id @default(cuid())
+  childId   String
+  child     Child    @relation(fields: [childId], references: [id], onDelete: Cascade)
+  day       String
+  ageBand   String
+  levelIds  String[]
+  updatedAt DateTime @updatedAt
+
+  @@unique([childId, day])
+  @@index([childId])
+}
+
+/// 游戏每日次数。按孩子、游戏和本地日期计。
+model GameQuota {
+  id        String   @id @default(cuid())
+  childId   String
+  child     Child    @relation(fields: [childId], references: [id], onDelete: Cascade)
+  gameId    String
+  day       String
+  used      Int      @default(0)
+  bonus     Int      @default(0)
+  updatedAt DateTime @updatedAt
+
+  @@unique([childId, gameId, day])
+  @@index([childId, day])
 }
 
 /// 素材登记。运行时内容只引用 assetId，正式环境再解析成 CDN URL。

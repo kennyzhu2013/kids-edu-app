@@ -1,6 +1,7 @@
 import { HttpError, jsonOk, asNumber, asString } from "@/lib/api/http";
 import { currentChild, db, uid, type Memory, type ProgressRecord } from "@/lib/api/memory";
 import { requireUser } from "@/lib/api/modules/auth";
+import { persistProgress, persistTodayPlan } from "@/lib/api/persist";
 
 const SUBJECT_ORDER = ["lang", "math", "eng", "life"] as const;
 const PACKS_BY_SUBJECT: Record<(typeof SUBJECT_ORDER)[number], string[]> = {
@@ -11,7 +12,7 @@ const PACKS_BY_SUBJECT: Record<(typeof SUBJECT_ORDER)[number], string[]> = {
 };
 const START_ORDER = { A: 1, B: 2, C: 3 } as const;
 
-export function getToday(request: Request, url: URL) {
+export async function getToday(request: Request, url: URL) {
   requireUser(request);
   const child = currentChild(db(), url.searchParams.get("childId"));
   if (!child) throw new HttpError(403, "FORBIDDEN", "还没有孩子档案");
@@ -22,6 +23,7 @@ export function getToday(request: Request, url: URL) {
       .map((item) => item.levelId),
   );
   const tasks = tasksForToday(state, child.id, child.ageBand, done);
+  await persistTodayPlan(child.id);
   const finished = tasks.filter((task) => task.status === "done").length;
   const continueTask = tasks.find((task) => task.status !== "done") ?? tasks[0];
   const childRows = state.progress.filter((item) => item.childId === child.id);
@@ -109,7 +111,7 @@ function dailyTask(state: Memory, subjectId: (typeof SUBJECT_ORDER)[number], age
   };
 }
 
-export function completeLevel(request: Request, levelId: string, body: Record<string, unknown>) {
+export async function completeLevel(request: Request, levelId: string, body: Record<string, unknown>) {
   requireUser(request);
   const urlChild = asString(body.childId);
   const child = currentChild(db(), urlChild || null);
@@ -143,6 +145,7 @@ export function completeLevel(request: Request, levelId: string, body: Record<st
     previous.durationSec += duration;
     previous.completedAt = now;
     previous.clientEventId = clientEventId ?? previous.clientEventId;
+    await persistProgress(previous);
     return jsonOk({
       progress: previous,
       rewards: { stars: previous.stars, copy: "Great job!" },
@@ -162,6 +165,7 @@ export function completeLevel(request: Request, levelId: string, body: Record<st
     completedAt: now,
   };
   db().progress.push(created);
+  await persistProgress(created);
   return jsonOk({
     progress: created,
     rewards: { stars, copy: "Great job!" },

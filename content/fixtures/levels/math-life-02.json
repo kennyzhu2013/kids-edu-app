@@ -14,33 +14,33 @@
     "更贵",
     "够不够"
   ],
-  "audioIntro": "asset:audio/math-life-02-intro",
+  "audioIntro": "/audio/math-life-02/intro.mp3",
   "introScript": "饼干 2 元，牛奶 3 元。哪个更贵？加起来够不够？",
   "introScriptZh": "饼干 2 元，牛奶 3 元。哪个更贵？加起来够不够？",
   "listenTitle": "买东西",
-  "listenVisual": "买",
+  "listenVisual": "/art/listen-shop.svg",
   "steps": [
     {
       "id": "q1",
       "type": "tap",
-      "promptAudio": "asset:audio/q1",
+      "promptAudio": "/audio/math-life-02/q1.mp3",
       "promptText": "哪个更贵？",
       "promptSpeak": "更贵",
       "choices": [
         {
           "id": "cookie",
           "label": "饼干 2 元",
-          "visual": "2"
+          "visual": "/art/num-2.svg"
         },
         {
           "id": "milk",
           "label": "牛奶 3 元",
-          "visual": "3"
+          "visual": "/art/num-3.svg"
         },
         {
           "id": "same",
           "label": "一样贵",
-          "visual": "同"
+          "visual": "/art/same.svg"
         }
       ],
       "answer": "milk"
@@ -48,24 +48,24 @@
     {
       "id": "q2",
       "type": "tap",
-      "promptAudio": "asset:audio/q2",
+      "promptAudio": "/audio/math-life-02/q2.mp3",
       "promptText": "2 加 3 等于几？",
       "promptSpeak": "2+3",
       "choices": [
         {
           "id": "four",
           "label": "4",
-          "visual": "4"
+          "visual": "/art/num-4.svg"
         },
         {
           "id": "five",
           "label": "5",
-          "visual": "5"
+          "visual": "/art/num-5.svg"
         },
         {
           "id": "six",
           "label": "6",
-          "visual": "6"
+          "visual": "/art/num-6.svg"
         }
       ],
       "answer": "five"
@@ -73,24 +73,24 @@
     {
       "id": "q3",
       "type": "tap",
-      "promptAudio": "asset:audio/q3",
+      "promptAudio": "/audio/math-life-02/q3.mp3",
       "promptText": "手里有 5 元，够不够买两样？",
       "promptSpeak": "够不够",
       "choices": [
         {
           "id": "yes",
           "label": "够",
-          "visual": "够"
+          "visual": "/art/enough.svg"
         },
         {
           "id": "no",
           "label": "不够",
-          "visual": "不"
+          "visual": "/art/no.svg"
         },
         {
           "id": "idk",
           "label": "不知道",
-          "visual": "问"
+          "visual": "/art/ask.svg"
         }
       ],
       "answer": "yes",

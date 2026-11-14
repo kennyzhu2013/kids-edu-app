@@ -15,7 +15,18 @@ npm run dev
 
 浏览器打开 [http://127.0.0.1:41731](http://127.0.0.1:41731)。
 
-`npm install` 会执行 `prisma generate`。开发服务器不连接 PostgreSQL，接口数据在进程内存里，刷新进程会丢掉订单和进度。
+`npm install` 会执行 `prisma generate`。没设 `DATABASE_URL` 时，接口数据在进程内存里，重启会丢掉进度和订单，游戏次数记在浏览器里。
+
+要让进度跨重启保留，用本机 PostgreSQL：
+
+```bash
+docker compose up -d
+cp .env.example .env
+npx prisma migrate deploy
+npm run dev
+```
+
+`.env` 里的 `DATABASE_URL` 指向 `postgresql://postgres:postgres@localhost:5432/zonghe_qimeng`。这时关卡星星、完成记录、今日任务和每个孩子每天的游戏次数写进数据库。短信、微信、广告和支付仍是桩，订单还在内存里。没装数据库就不要设置 `DATABASE_URL`，`npm run dev` 照旧。
 
 校验内容夹具：
 
@@ -37,7 +48,7 @@ SEED_DATABASE=1 npm run seed
 
 | 变量 | 现在的作用 |
 | --- | --- |
-| `DATABASE_URL` | 只有 `SEED_DATABASE=1` 或执行迁移时用到 |
+| `DATABASE_URL` | 设了就用 PostgreSQL 保存进度、今日任务和游戏次数。不设则只用内存 |
 | `PARENT_LOCK_PIN` | 家长锁演示密码，默认 `2580` |
 | `ADMIN_TOKEN` | 后台接口请求头 `x-admin-token`，默认 `dev-admin` |
 | `SMS_*` / `WECHAT_*` / `PAY_*` / `AD_*` | 占位。未接入 |
@@ -119,7 +130,7 @@ docs/source/          关卡脚本、接口清单、任务看板、Figma 打勾�
 
 ## 内容
 
-四科启蒙各 5 关都在 `content/fixtures/levels/`，目录里标了可玩。今日页按孩子年龄从语言、数学、英语、认知各抽一关，当天固定：3–4 岁从第 1 关起，并且不排数学生活；4–5 岁从第 2 关起；5–6 岁从第 3 关起。玩完的任务显示「完成」，继续卡跳到下一科。听讲稿来自关卡脚本，点选用占位图。音频资源还是 `asset:` 占位：有真实地址才播文件，否则用系统朗读，读不出来就看屏幕上的字。对错有很轻的提示音，设备不支持就静音。B/C 的跟读还没做。
+四科启蒙各 5 关都在 `content/fixtures/levels/`，目录里标了可玩。今日页按孩子年龄从语言、数学、英语、认知各抽一关，当天固定：3–4 岁从第 1 关起，并且不排数学生活；4–5 岁从第 2 关起；5–6 岁从第 3 关起。玩完的任务显示「完成」，继续卡跳到下一科。听讲稿和点选提示的音频在 `public/audio/<关卡 id>/`，是本机用 espeak-ng 合成的 mp3。点「听一听」会播这些文件。文件缺失或播不出来时，仍用系统朗读，再不行就看屏幕上的字。插画在 `public/art/`，关卡和五款游戏都引用这些 SVG。对错还有很轻的提示音。要重新生成：安装 `espeak-ng` 和 `ffmpeg` 后运行 `node scripts/generate-audio.mjs` 与 `node scripts/generate-art.mjs`。B/C 的跟读还没做。
 
 五款小游戏在 `content/fixtures/games/`。每日次数记在浏览器里，玩完一局减 1，第二天重新计数。看广告和会员都还是桩：广告按钮会加 1 次，不播真广告。
 

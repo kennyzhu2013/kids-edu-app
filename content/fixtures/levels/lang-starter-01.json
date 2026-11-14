@@ -17,33 +17,33 @@
     "爸爸",
     "妈妈"
   ],
-  "audioIntro": "asset:audio/lang-starter-01-intro",
+  "audioIntro": "/audio/lang-starter-01/intro.mp3",
   "introScript": "这是眼睛，这是鼻子，这是嘴巴，这是手。家里有爸爸，有妈妈。",
   "introScriptZh": "这是眼睛，这是鼻子，这是嘴巴，这是手。家里有爸爸，有妈妈。",
   "listenTitle": "身体与家人",
-  "listenVisual": "body",
+  "listenVisual": "/art/listen-body.svg",
   "steps": [
     {
       "id": "q1",
       "type": "tap",
-      "promptAudio": "asset:audio/q1",
+      "promptAudio": "/audio/lang-starter-01/q1.mp3",
       "promptText": "听「眼睛」，点眼睛",
       "promptSpeak": "眼睛",
       "choices": [
         {
           "id": "nose",
           "label": "鼻子",
-          "visual": "鼻"
+          "visual": "/art/nose.svg"
         },
         {
           "id": "eye",
           "label": "眼睛",
-          "visual": "眼"
+          "visual": "/art/eye.svg"
         },
         {
           "id": "mouth",
           "label": "嘴巴",
-          "visual": "嘴"
+          "visual": "/art/mouth.svg"
         }
       ],
       "answer": "eye"
@@ -51,24 +51,24 @@
     {
       "id": "q2",
       "type": "tap",
-      "promptAudio": "asset:audio/q2",
+      "promptAudio": "/audio/lang-starter-01/q2.mp3",
       "promptText": "听「手」，点手",
       "promptSpeak": "手",
       "choices": [
         {
           "id": "hand",
           "label": "手",
-          "visual": "手"
+          "visual": "/art/hand.svg"
         },
         {
           "id": "nose",
           "label": "鼻子",
-          "visual": "鼻"
+          "visual": "/art/nose.svg"
         },
         {
           "id": "mouth",
           "label": "嘴巴",
-          "visual": "嘴"
+          "visual": "/art/mouth.svg"
         }
       ],
       "answer": "hand"
@@ -76,24 +76,24 @@
     {
       "id": "q3",
       "type": "tap",
-      "promptAudio": "asset:audio/q3",
+      "promptAudio": "/audio/lang-starter-01/q3.mp3",
       "promptText": "听「妈妈」，点妈妈",
       "promptSpeak": "妈妈",
       "choices": [
         {
           "id": "dad",
           "label": "爸爸",
-          "visual": "爸"
+          "visual": "/art/dad.svg"
         },
         {
           "id": "mom",
           "label": "妈妈",
-          "visual": "妈"
+          "visual": "/art/mom.svg"
         },
         {
           "id": "kid",
           "label": "宝宝",
-          "visual": "宝"
+          "visual": "/art/baby.svg"
         }
       ],
       "answer": "mom"

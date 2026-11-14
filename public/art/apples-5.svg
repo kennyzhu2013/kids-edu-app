@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 88">
+<rect width="120" height="88" rx="17" fill="#fff3da"/>
+<circle cx="22" cy="22" r="16" fill="#ff5a5a"/><path d="M22 6c4-7 11-7 13-2-6 0-10 3-13 2z" fill="#3dcb7a"/><path d="M22 6c-1-6 3-8 4-8" stroke="#6b4638" stroke-width="2" fill="none"/>
+<circle cx="50" cy="22" r="16" fill="#ff5a5a"/><path d="M50 6c4-7 11-7 13-2-6 0-10 3-13 2z" fill="#3dcb7a"/><path d="M50 6c-1-6 3-8 4-8" stroke="#6b4638" stroke-width="2" fill="none"/>
+<circle cx="78" cy="22" r="16" fill="#ff5a5a"/><path d="M78 6c4-7 11-7 13-2-6 0-10 3-13 2z" fill="#3dcb7a"/><path d="M78 6c-1-6 3-8 4-8" stroke="#6b4638" stroke-width="2" fill="none"/>
+<circle cx="22" cy="48" r="16" fill="#ff5a5a"/><path d="M22 32c4-7 11-7 13-2-6 0-10 3-13 2z" fill="#3dcb7a"/><path d="M22 32c-1-6 3-8 4-8" stroke="#6b4638" stroke-width="2" fill="none"/>
+<circle cx="50" cy="48" r="16" fill="#ff5a5a"/><path d="M50 32c4-7 11-7 13-2-6 0-10 3-13 2z" fill="#3dcb7a"/><path d="M50 32c-1-6 3-8 4-8" stroke="#6b4638" stroke-width="2" fill="none"/>
+</svg>

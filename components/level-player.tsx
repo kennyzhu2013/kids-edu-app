@@ -1,6 +1,7 @@
 "use client";
 
 import { Volume2, X } from "lucide-react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { KidScene, TokenArt } from "@/components/illustrations";
@@ -228,7 +229,10 @@ export function LevelPlayer({ levelId }: { levelId: string }) {
           <p className="mt-3 text-center text-sm font-bold text-primary">听一听</p>
           {voiceNote ? <p className="mt-1 text-center text-sm font-bold text-muted-foreground">{voiceNote}</p> : null}
           <div className="mx-auto mt-4 w-full max-w-[280px]">
-            {(level.listenVisual ?? "hello") === "hello" ? (
+            {(level.listenVisual ?? "/art/listen-hello.svg").startsWith("/") ||
+            (level.listenVisual ?? "").startsWith("http") ? (
+              <Image src={level.listenVisual ?? "/art/listen-hello.svg"} alt="" width={280} height={168} unoptimized className="mx-auto h-auto w-full" />
+            ) : (level.listenVisual ?? "hello") === "hello" ? (
               <KidScene scene="hello" />
             ) : (
               <TokenArt token={level.listenVisual ?? "hello"} className="mx-auto" />
@@ -315,7 +319,14 @@ export function LevelPlayer({ levelId }: { levelId: string }) {
                   {choice.visual ? (
                     <TokenArt token={choice.visual} className="shrink-0" />
                   ) : (
-                    <KidScene scene={choice.scene ?? "hello"} className="w-28 shrink-0" />
+                    <Image
+                      src={`/art/scene-${choice.scene ?? "hello"}.svg`}
+                      alt=""
+                      width={112}
+                      height={64}
+                      unoptimized
+                      className="h-16 w-28 shrink-0 object-contain"
+                    />
                   )}
                   <span className="text-lg font-black">{choice.label}</span>
                 </button>

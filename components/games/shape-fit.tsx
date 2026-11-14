@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useRef, useState } from "react";
 import { GameChrome, GameDone, GameReady, useRoundTimer } from "@/components/games/chrome";
 import { playCue } from "@/lib/client/speech";
@@ -10,13 +11,7 @@ type ShapeGame = Extract<GameDocument, { kind: "shape-fit" }>;
 type ShapeId = ShapeGame["shapes"][number]["id"];
 
 function ShapeGlyph({ id, className }: { id: ShapeId; className?: string }) {
-  return (
-    <svg viewBox="0 0 80 80" className={cn("size-16", className)} aria-hidden>
-      {id === "circle" ? <circle cx="40" cy="40" r="26" fill="#ff8a5b" /> : null}
-      {id === "square" ? <rect x="16" y="16" width="48" height="48" rx="6" fill="#4aa3ff" /> : null}
-      {id === "triangle" ? <polygon points="40,12 68,66 12,66" fill="#3dcb7a" /> : null}
-    </svg>
-  );
+  return <Image src={`/art/shape-${id}.svg`} alt="" width={64} height={64} unoptimized className={cn("size-16 object-contain", className)} />;
 }
 
 export function ShapeFit({

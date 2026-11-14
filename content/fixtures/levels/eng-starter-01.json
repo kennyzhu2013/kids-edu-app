@@ -4,38 +4,70 @@
   "packId": "eng-starter",
   "title": "Hello & Bye",
   "order": 1,
-  "ageBand": ["A", "B", "C"],
-  "vocab": ["Hello", "Bye-bye", "Hi"],
-  "audioIntro": "asset:audio/eng-starter-01-intro",
+  "ageBand": [
+    "A",
+    "B",
+    "C"
+  ],
+  "vocab": [
+    "Hello",
+    "Bye-bye",
+    "Hi"
+  ],
+  "audioIntro": "/audio/eng-starter-01/intro.mp3",
   "introScript": "Hi! I'm Mia. When we meet friends, we say Hello! Wave your hand — Hello! When we leave, we say Bye-bye! Wave — Bye-bye!",
   "introScriptZh": "嗨！我是 Mia。见到朋友说 Hello，挥挥手。离开的时候说 Bye-bye，再挥挥手。",
   "listenTitle": "Hello",
-  "listenVisual": "hello",
+  "listenVisual": "/art/listen-hello.svg",
   "nextLevelId": "eng-starter-02",
   "steps": [
     {
       "id": "q1",
       "type": "tap",
-      "promptAudio": "asset:audio/eng-starter-01-q1",
+      "promptAudio": "/audio/eng-starter-01/q1.mp3",
       "promptText": "听「Hello」，点选打招呼的小朋友",
       "promptSpeak": "Hello",
       "choices": [
-        { "id": "choice-wave", "label": "打招呼", "scene": "hello" },
-        { "id": "choice-leave", "label": "说再见", "scene": "bye" },
-        { "id": "choice-sit", "label": "安静坐着", "scene": "sit" }
+        {
+          "id": "choice-wave",
+          "label": "打招呼",
+          "scene": "hello"
+        },
+        {
+          "id": "choice-leave",
+          "label": "说再见",
+          "scene": "bye"
+        },
+        {
+          "id": "choice-sit",
+          "label": "安静坐着",
+          "scene": "sit"
+        }
       ],
       "answer": "choice-wave"
     },
     {
       "id": "q2",
       "type": "tap",
-      "promptAudio": "asset:audio/eng-starter-01-q2",
+      "promptAudio": "/audio/eng-starter-01/q2.mp3",
       "promptText": "听「Bye-bye」，点选再见的小朋友",
       "promptSpeak": "Bye-bye",
       "choices": [
-        { "id": "choice-wave", "label": "打招呼", "scene": "hello" },
-        { "id": "choice-leave", "label": "说再见", "scene": "bye" },
-        { "id": "choice-sit", "label": "安静坐着", "scene": "sit" }
+        {
+          "id": "choice-wave",
+          "label": "打招呼",
+          "scene": "hello"
+        },
+        {
+          "id": "choice-leave",
+          "label": "说再见",
+          "scene": "bye"
+        },
+        {
+          "id": "choice-sit",
+          "label": "安静坐着",
+          "scene": "sit"
+        }
       ],
       "answer": "choice-leave"
     }

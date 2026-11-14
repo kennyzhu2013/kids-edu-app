@@ -14,33 +14,33 @@
     "第2",
     "第3"
   ],
-  "audioIntro": "asset:audio/math-life-03-intro",
+  "audioIntro": "/audio/math-life-03/intro.mp3",
   "introScript": "排队啦。从前数：第 1、第 2、第 3。",
   "introScriptZh": "排队啦。从前数：第 1、第 2、第 3。",
   "listenTitle": "排队几号",
-  "listenVisual": "队",
+  "listenVisual": "/art/listen-queue.svg",
   "steps": [
     {
       "id": "q1",
       "type": "tap",
-      "promptAudio": "asset:audio/q1",
+      "promptAudio": "/audio/math-life-03/q1.mp3",
       "promptText": "点队伍里的第 1 个",
       "promptSpeak": "第1",
       "choices": [
         {
           "id": "p1",
           "label": "第 1 个",
-          "visual": "1"
+          "visual": "/art/num-1.svg"
         },
         {
           "id": "p2",
           "label": "第 2 个",
-          "visual": "2"
+          "visual": "/art/num-2.svg"
         },
         {
           "id": "p3",
           "label": "第 3 个",
-          "visual": "3"
+          "visual": "/art/num-3.svg"
         }
       ],
       "answer": "p1"
@@ -48,24 +48,24 @@
     {
       "id": "q2",
       "type": "tap",
-      "promptAudio": "asset:audio/q2",
+      "promptAudio": "/audio/math-life-03/q2.mp3",
       "promptText": "点第 3 个",
       "promptSpeak": "第3",
       "choices": [
         {
           "id": "p1",
           "label": "第 1 个",
-          "visual": "1"
+          "visual": "/art/num-1.svg"
         },
         {
           "id": "p3",
           "label": "第 3 个",
-          "visual": "3"
+          "visual": "/art/num-3.svg"
         },
         {
           "id": "p2",
           "label": "第 2 个",
-          "visual": "2"
+          "visual": "/art/num-2.svg"
         }
       ],
       "answer": "p3"
@@ -73,24 +73,24 @@
     {
       "id": "q3",
       "type": "tap",
-      "promptAudio": "asset:audio/q3",
+      "promptAudio": "/audio/math-life-03/q3.mp3",
       "promptText": "从后面数第 2 个是谁？",
       "promptSpeak": "从后数",
       "choices": [
         {
           "id": "p2",
           "label": "第 2 个",
-          "visual": "2"
+          "visual": "/art/num-2.svg"
         },
         {
           "id": "p3",
           "label": "第 3 个",
-          "visual": "3"
+          "visual": "/art/num-3.svg"
         },
         {
           "id": "p1",
           "label": "第 1 个",
-          "visual": "1"
+          "visual": "/art/num-1.svg"
         }
       ],
       "answer": "p2",

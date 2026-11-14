@@ -4,7 +4,9 @@
   "gameId": "game-habit-order",
   "title": "洗手顺序挑战",
   "titleEn": "Habit Order",
-  "knowledgeTags": ["habits"],
+  "knowledgeTags": [
+    "habits"
+  ],
   "dailyFree": 3,
   "durationSec": 90,
   "rounds": "1关",
@@ -14,9 +16,25 @@
   "guide": "广告+1或会员无限",
   "assetsNote": "顺序来自生活认知「洗手步骤」。点卡片依次放入，也可以拖到格子里。",
   "steps": [
-    { "id": "wet", "label": "打湿小手", "visual": "湿" },
-    { "id": "soap", "label": "搓肥皂", "visual": "皂" },
-    { "id": "rinse", "label": "冲干净", "visual": "冲" },
-    { "id": "dry", "label": "擦干", "visual": "干" }
+    {
+      "id": "wet",
+      "label": "打湿小手",
+      "visual": "/art/wet.svg"
+    },
+    {
+      "id": "soap",
+      "label": "搓肥皂",
+      "visual": "/art/soap.svg"
+    },
+    {
+      "id": "rinse",
+      "label": "冲干净",
+      "visual": "/art/rinse.svg"
+    },
+    {
+      "id": "dry",
+      "label": "擦干",
+      "visual": "/art/dry.svg"
+    }
   ]
 }

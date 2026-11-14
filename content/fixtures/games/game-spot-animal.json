@@ -4,7 +4,9 @@
   "gameId": "game-spot-animal",
   "title": "动物找不同",
   "titleEn": "Spot Animal",
-  "knowledgeTags": ["animals"],
+  "knowledgeTags": [
+    "animals"
+  ],
   "dailyFree": 3,
   "durationSec": 60,
   "rounds": "3轮递增",
@@ -14,9 +16,21 @@
   "guide": "广告+1或会员无限",
   "assetsNote": "猫狗鸟鱼用色块，没有实拍。",
   "animals": [
-    { "id": "cat", "label": "猫" },
-    { "id": "dog", "label": "狗" },
-    { "id": "bird", "label": "鸟" },
-    { "id": "fish", "label": "鱼" }
+    {
+      "id": "cat",
+      "label": "猫"
+    },
+    {
+      "id": "dog",
+      "label": "狗"
+    },
+    {
+      "id": "bird",
+      "label": "鸟"
+    },
+    {
+      "id": "fish",
+      "label": "鱼"
+    }
   ]
 }

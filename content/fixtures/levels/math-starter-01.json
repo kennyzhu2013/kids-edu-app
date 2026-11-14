@@ -16,33 +16,33 @@
     "4",
     "5"
   ],
-  "audioIntro": "asset:audio/math-starter-01-intro",
+  "audioIntro": "/audio/math-starter-01/intro.mp3",
   "introScript": "一起来数一数。这里有三颗苹果，再找四颗星星。",
   "introScriptZh": "一起来数一数。这里有三颗苹果，再找四颗星星。",
   "listenTitle": "数数1-5",
-  "listenVisual": "numbers",
+  "listenVisual": "/art/listen-numbers.svg",
   "steps": [
     {
       "id": "q1",
       "type": "tap",
-      "promptAudio": "asset:audio/q1",
+      "promptAudio": "/audio/math-starter-01/q1.mp3",
       "promptText": "听「三」，点 3 个苹果",
       "promptSpeak": "三",
       "choices": [
         {
           "id": "two",
           "label": "2 个",
-          "visual": "2"
+          "visual": "/art/num-2.svg"
         },
         {
           "id": "three",
           "label": "3 个",
-          "visual": "3"
+          "visual": "/art/num-3.svg"
         },
         {
           "id": "five",
           "label": "5 个",
-          "visual": "5"
+          "visual": "/art/num-5.svg"
         }
       ],
       "answer": "three"
@@ -50,24 +50,24 @@
     {
       "id": "q2",
       "type": "tap",
-      "promptAudio": "asset:audio/q2",
+      "promptAudio": "/audio/math-starter-01/q2.mp3",
       "promptText": "听「四」，点 4 颗星",
       "promptSpeak": "四",
       "choices": [
         {
           "id": "s3",
           "label": "3 颗",
-          "visual": "3"
+          "visual": "/art/num-3.svg"
         },
         {
           "id": "s5",
           "label": "5 颗",
-          "visual": "5"
+          "visual": "/art/num-5.svg"
         },
         {
           "id": "s4",
           "label": "4 颗",
-          "visual": "4"
+          "visual": "/art/num-4.svg"
         }
       ],
       "answer": "s4"
@@ -75,24 +75,24 @@
     {
       "id": "q3",
       "type": "tap",
-      "promptAudio": "asset:audio/q3",
+      "promptAudio": "/audio/math-starter-01/q3.mp3",
       "promptText": "听「五」，点数字 5",
       "promptSpeak": "五",
       "choices": [
         {
           "id": "n3",
           "label": "3",
-          "visual": "3"
+          "visual": "/art/num-3.svg"
         },
         {
           "id": "n5",
           "label": "5",
-          "visual": "5"
+          "visual": "/art/num-5.svg"
         },
         {
           "id": "n4",
           "label": "4",
-          "visual": "4"
+          "visual": "/art/num-4.svg"
         }
       ],
       "answer": "n5"

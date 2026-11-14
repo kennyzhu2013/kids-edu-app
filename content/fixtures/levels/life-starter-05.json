@@ -14,33 +14,33 @@
     "停",
     "陌生人"
   ],
-  "audioIntro": "asset:audio/life-starter-05-intro",
+  "audioIntro": "/audio/life-starter-05/intro.mp3",
   "introScript": "红灯要停一停。不跟陌生人走。过马路要牵着大人的手。",
   "introScriptZh": "红灯要停一停。不跟陌生人走。过马路要牵着大人的手。",
   "listenTitle": "安全",
-  "listenVisual": "停",
+  "listenVisual": "/art/stop.svg",
   "steps": [
     {
       "id": "q1",
       "type": "tap",
-      "promptAudio": "asset:audio/q1",
+      "promptAudio": "/audio/life-starter-05/q1.mp3",
       "promptText": "红灯亮了，该怎么做？",
       "promptSpeak": "红灯",
       "choices": [
         {
           "id": "go",
           "label": "跑过去",
-          "visual": "跑"
+          "visual": "/art/run.svg"
         },
         {
           "id": "stop",
           "label": "停一停",
-          "visual": "停"
+          "visual": "/art/stop.svg"
         },
         {
           "id": "look",
           "label": "闭眼睛",
-          "visual": "闭"
+          "visual": "/art/eyes-closed.svg"
         }
       ],
       "answer": "stop"
@@ -48,24 +48,24 @@
     {
       "id": "q2",
       "type": "tap",
-      "promptAudio": "asset:audio/q2",
+      "promptAudio": "/audio/life-starter-05/q2.mp3",
       "promptText": "陌生人说「跟我走」，你选什么？",
       "promptSpeak": "陌生人",
       "choices": [
         {
           "id": "go",
           "label": "跟着走",
-          "visual": "跟"
+          "visual": "/art/follow.svg"
         },
         {
           "id": "no",
           "label": "不跟，找认识的大人",
-          "visual": "不"
+          "visual": "/art/no.svg"
         },
         {
           "id": "candy",
           "label": "要糖果",
-          "visual": "糖"
+          "visual": "/art/candy.svg"
         }
       ],
       "answer": "no"
@@ -73,24 +73,24 @@
     {
       "id": "q3",
       "type": "tap",
-      "promptAudio": "asset:audio/q3",
+      "promptAudio": "/audio/life-starter-05/q3.mp3",
       "promptText": "过马路时该怎么做？",
       "promptSpeak": "过马路",
       "choices": [
         {
           "id": "hand",
           "label": "牵大人的手",
-          "visual": "牵"
+          "visual": "/art/hold.svg"
         },
         {
           "id": "run",
           "label": "自己跑",
-          "visual": "跑"
+          "visual": "/art/run.svg"
         },
         {
           "id": "stop",
           "label": "站在路中间",
-          "visual": "站"
+          "visual": "/art/stand.svg"
         }
       ],
       "answer": "hand"

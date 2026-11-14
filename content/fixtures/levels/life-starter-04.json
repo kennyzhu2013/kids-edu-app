@@ -15,33 +15,33 @@
     "难过",
     "害怕"
   ],
-  "audioIntro": "asset:audio/life-starter-04-intro",
+  "audioIntro": "/audio/life-starter-04/intro.mp3",
   "introScript": "笑眯眯是开心，皱眉是生气，掉眼泪是难过，发抖是害怕。",
   "introScriptZh": "笑眯眯是开心，皱眉是生气，掉眼泪是难过，发抖是害怕。",
   "listenTitle": "情绪脸谱",
-  "listenVisual": "脸",
+  "listenVisual": "/art/feelings.svg",
   "steps": [
     {
       "id": "q1",
       "type": "tap",
-      "promptAudio": "asset:audio/q1",
+      "promptAudio": "/audio/life-starter-04/q1.mp3",
       "promptText": "笑眯眯是什么心情？",
       "promptSpeak": "开心",
       "choices": [
         {
           "id": "sad",
           "label": "难过",
-          "visual": "难"
+          "visual": "/art/sad.svg"
         },
         {
           "id": "happy",
           "label": "开心",
-          "visual": "开"
+          "visual": "/art/happy.svg"
         },
         {
           "id": "angry",
           "label": "生气",
-          "visual": "气"
+          "visual": "/art/angry.svg"
         }
       ],
       "answer": "happy"
@@ -49,24 +49,24 @@
     {
       "id": "q2",
       "type": "tap",
-      "promptAudio": "asset:audio/q2",
+      "promptAudio": "/audio/life-starter-04/q2.mp3",
       "promptText": "掉眼泪是什么心情？",
       "promptSpeak": "难过",
       "choices": [
         {
           "id": "scared",
           "label": "害怕",
-          "visual": "怕"
+          "visual": "/art/scared.svg"
         },
         {
           "id": "angry",
           "label": "生气",
-          "visual": "气"
+          "visual": "/art/angry.svg"
         },
         {
           "id": "sad",
           "label": "难过",
-          "visual": "难"
+          "visual": "/art/sad.svg"
         }
       ],
       "answer": "sad"
@@ -74,24 +74,24 @@
     {
       "id": "q3",
       "type": "tap",
-      "promptAudio": "asset:audio/q3",
+      "promptAudio": "/audio/life-starter-04/q3.mp3",
       "promptText": "玩具坏了，更像哪种心情？",
       "promptSpeak": "玩具坏了",
       "choices": [
         {
           "id": "happy",
           "label": "开心",
-          "visual": "开"
+          "visual": "/art/happy.svg"
         },
         {
           "id": "sad",
           "label": "难过",
-          "visual": "难"
+          "visual": "/art/sad.svg"
         },
         {
           "id": "angry",
           "label": "生气",
-          "visual": "气"
+          "visual": "/art/angry.svg"
         }
       ],
       "answer": "sad",

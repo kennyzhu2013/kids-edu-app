@@ -15,33 +15,33 @@
     "自行车",
     "飞机"
   ],
-  "audioIntro": "asset:audio/life-starter-03-intro",
+  "audioIntro": "/audio/life-starter-03/intro.mp3",
   "introScript": "嘀嘀，汽车来了。公交车可以坐好多人。自行车用脚蹬。飞机飞得又高又远。",
   "introScriptZh": "嘀嘀，汽车来了。公交车可以坐好多人。自行车用脚蹬。飞机飞得又高又远。",
   "listenTitle": "交通工具",
-  "listenVisual": "车",
+  "listenVisual": "/art/car.svg",
   "steps": [
     {
       "id": "q1",
       "type": "tap",
-      "promptAudio": "asset:audio/q1",
+      "promptAudio": "/audio/life-starter-03/q1.mp3",
       "promptText": "听「汽车」，点汽车",
       "promptSpeak": "汽车",
       "choices": [
         {
           "id": "bus",
           "label": "公交车",
-          "visual": "公"
+          "visual": "/art/bus.svg"
         },
         {
           "id": "car",
           "label": "汽车",
-          "visual": "汽"
+          "visual": "/art/car.svg"
         },
         {
           "id": "bike",
           "label": "自行车",
-          "visual": "自"
+          "visual": "/art/bike.svg"
         }
       ],
       "answer": "car"
@@ -49,24 +49,24 @@
     {
       "id": "q2",
       "type": "tap",
-      "promptAudio": "asset:audio/q2",
+      "promptAudio": "/audio/life-starter-03/q2.mp3",
       "promptText": "听「飞机」，点飞机",
       "promptSpeak": "飞机",
       "choices": [
         {
           "id": "plane",
           "label": "飞机",
-          "visual": "飞"
+          "visual": "/art/plane.svg"
         },
         {
           "id": "bike",
           "label": "自行车",
-          "visual": "自"
+          "visual": "/art/bike.svg"
         },
         {
           "id": "bus",
           "label": "公交车",
-          "visual": "公"
+          "visual": "/art/bus.svg"
         }
       ],
       "answer": "plane"
@@ -74,24 +74,24 @@
     {
       "id": "q3",
       "type": "tap",
-      "promptAudio": "asset:audio/q3",
+      "promptAudio": "/audio/life-starter-03/q3.mp3",
       "promptText": "去很远的地方，坐什么？",
       "promptSpeak": "很远",
       "choices": [
         {
           "id": "bike",
           "label": "自行车",
-          "visual": "自"
+          "visual": "/art/bike.svg"
         },
         {
           "id": "plane",
           "label": "飞机",
-          "visual": "飞"
+          "visual": "/art/plane.svg"
         },
         {
           "id": "car",
           "label": "汽车",
-          "visual": "汽"
+          "visual": "/art/car.svg"
         }
       ],
       "answer": "plane",

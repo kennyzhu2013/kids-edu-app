@@ -16,8 +16,12 @@ import { Screen } from "@/components/screen";
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import { ApiError, api, failureKind, type FailureKind } from "@/lib/client/api";
 import {
+  applyServerQuotas,
   consumePlay,
   grantBonusPlay,
+  localDayKey,
+  mergeServerQuota,
+  readChild,
   readStore,
   remainingPlays,
   saveEntitlementFlags,
@@ -57,6 +61,15 @@ export function GamesScreen() {
         saveEntitlementFlags({ vip: nextVip, noAds });
         setGames(gameData.games);
         setProblem(null);
+        const childId = readChild()?.id;
+        if (!childId) return;
+        api<{ persisted: boolean; day: string; quotas: Array<{ gameId: string; used: number; bonus: number }> }>(
+          `/api/games/quota?childId=${encodeURIComponent(childId)}&day=${encodeURIComponent(localDayKey())}`,
+        )
+          .then((quota) => {
+            if (!ignore && quota.persisted) applyServerQuotas(quota.day, quota.quotas);
+          })
+          .catch(() => undefined);
       })
       .catch((error: unknown) => {
         if (!ignore) setProblem(failureKind(error));
@@ -116,9 +129,18 @@ export function GamesScreen() {
             method: "POST",
             body: JSON.stringify({ gameId, adToken: "stub" }),
           })
-            .catch(() => undefined)
+            .then(() =>
+              api<{ persisted: boolean; day: string; gameId: string; used: number; bonus: number }>(`/api/games/${gameId}/bonus`, {
+                method: "POST",
+                body: JSON.stringify({ childId: readChild()?.id, day: localDayKey() }),
+              }),
+            )
+            .then((quota) => {
+              if (quota.persisted) mergeServerQuota(quota.day, quota);
+              else grantBonusPlay(gameId);
+            })
+            .catch(() => grantBonusPlay(gameId))
             .finally(() => {
-              grantBonusPlay(gameId);
               setBlocked(null);
               router.push(`/games/${gameId}`);
             });
@@ -220,8 +242,17 @@ export function GameScreen() {
               method: "POST",
               body: JSON.stringify({ gameId: game.gameId, adToken: "stub" }),
             })
-              .catch(() => undefined)
-              .finally(() => grantBonusPlay(game.gameId));
+            .then(() =>
+              api<{ persisted: boolean; day: string; gameId: string; used: number; bonus: number }>(`/api/games/${game.gameId}/bonus`, {
+                method: "POST",
+                body: JSON.stringify({ childId: readChild()?.id, day: localDayKey() }),
+              }),
+            )
+            .then((quota) => {
+              if (quota.persisted) mergeServerQuota(quota.day, quota);
+              else grantBonusPlay(game.gameId);
+            })
+            .catch(() => grantBonusPlay(game.gameId));
           }}
         />
       </Screen>
@@ -236,7 +267,16 @@ export function GameScreen() {
         onFinish={() => {
           if (spent.current || readStore().vip) return;
           spent.current = true;
-          consumePlay(game.gameId);
+          const childId = readChild()?.id;
+          void api<{ persisted: boolean; day: string; gameId: string; used: number; bonus: number }>(`/api/games/${game.gameId}/consume`, {
+            method: "POST",
+            body: JSON.stringify({ childId, day: localDayKey() }),
+          })
+            .then((quota) => {
+              if (quota.persisted) mergeServerQuota(quota.day, quota);
+              else consumePlay(game.gameId);
+            })
+            .catch(() => consumePlay(game.gameId));
         }}
       />
     );

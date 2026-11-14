@@ -104,7 +104,7 @@ export function CountDash({
                   onClick={() => tap(piece)}
                   className={cn("grid place-items-center rounded-[20px] bg-white py-2 shadow-sm", on && "opacity-40")}
                 >
-                  <TokenArt token={piece.kind === "apple" ? "apple-red" : "stars-1"} />
+                  <TokenArt token={piece.kind === "apple" ? "/art/apple.svg" : "/art/star.svg"} />
                 </button>
               );
             })}

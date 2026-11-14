@@ -4,65 +4,124 @@
   "packId": "eng-starter",
   "title": "Colors",
   "order": 2,
-  "ageBand": ["A", "B", "C"],
-  "vocab": ["red", "yellow", "blue", "green"],
-  "audioIntro": "asset:audio/eng-starter-02-intro",
+  "ageBand": [
+    "A",
+    "B",
+    "C"
+  ],
+  "vocab": [
+    "red",
+    "yellow",
+    "blue",
+    "green"
+  ],
+  "audioIntro": "/audio/eng-starter-02/intro.mp3",
   "introScript": "Look! Four colorful balls. This is red. This is yellow. This is blue. And this is green. Can you find the colors?",
   "introScriptZh": "看，四颗彩球。红色 red，黄色 yellow，蓝色 blue，绿色 green。你能找到它们吗？",
   "listenTitle": "Colors",
-  "listenVisual": "colors",
+  "listenVisual": "/art/listen-colors.svg",
   "nextLevelId": "eng-starter-03",
   "steps": [
     {
       "id": "q1",
       "type": "tap",
-      "promptAudio": "asset:audio/eng-starter-02-red",
+      "promptAudio": "/audio/eng-starter-02/q1.mp3",
       "promptText": "听「red」，点红色的球",
       "promptSpeak": "red",
       "choices": [
-        { "id": "yellow", "label": "黄色", "visual": "ball-yellow" },
-        { "id": "red", "label": "红色", "visual": "ball-red" },
-        { "id": "blue", "label": "蓝色", "visual": "ball-blue" }
+        {
+          "id": "yellow",
+          "label": "黄色",
+          "visual": "/art/ball-yellow.svg"
+        },
+        {
+          "id": "red",
+          "label": "红色",
+          "visual": "/art/ball-red.svg"
+        },
+        {
+          "id": "blue",
+          "label": "蓝色",
+          "visual": "/art/ball-blue.svg"
+        }
       ],
       "answer": "red"
     },
     {
       "id": "q2",
       "type": "tap",
-      "promptAudio": "asset:audio/eng-starter-02-yellow",
+      "promptAudio": "/audio/eng-starter-02/q2.mp3",
       "promptText": "听「yellow」，点黄色的球",
       "promptSpeak": "yellow",
       "choices": [
-        { "id": "green", "label": "绿色", "visual": "ball-green" },
-        { "id": "blue", "label": "蓝色", "visual": "ball-blue" },
-        { "id": "yellow", "label": "黄色", "visual": "ball-yellow" }
+        {
+          "id": "green",
+          "label": "绿色",
+          "visual": "/art/ball-green.svg"
+        },
+        {
+          "id": "blue",
+          "label": "蓝色",
+          "visual": "/art/ball-blue.svg"
+        },
+        {
+          "id": "yellow",
+          "label": "黄色",
+          "visual": "/art/ball-yellow.svg"
+        }
       ],
       "answer": "yellow"
     },
     {
       "id": "q3",
       "type": "tap",
-      "promptAudio": "asset:audio/eng-starter-02-green",
+      "promptAudio": "/audio/eng-starter-02/q3.mp3",
       "promptText": "听「green」，点绿色的球",
       "promptSpeak": "green",
       "choices": [
-        { "id": "green", "label": "绿色", "visual": "ball-green" },
-        { "id": "red", "label": "红色", "visual": "ball-red" },
-        { "id": "blue", "label": "蓝色", "visual": "ball-blue" }
+        {
+          "id": "green",
+          "label": "绿色",
+          "visual": "/art/ball-green.svg"
+        },
+        {
+          "id": "red",
+          "label": "红色",
+          "visual": "/art/ball-red.svg"
+        },
+        {
+          "id": "blue",
+          "label": "蓝色",
+          "visual": "/art/ball-blue.svg"
+        }
       ],
       "answer": "green"
     },
     {
       "id": "q4",
       "type": "tap",
-      "ages": ["C"],
-      "promptAudio": "asset:audio/eng-starter-02-apple",
+      "ages": [
+        "C"
+      ],
+      "promptAudio": "/audio/eng-starter-02/q4.mp3",
       "promptText": "听「Where is the red apple?」，点红苹果",
       "promptSpeak": "Where is the red apple?",
       "choices": [
-        { "id": "apple-yellow", "label": "黄苹果", "visual": "apple-yellow" },
-        { "id": "apple-red", "label": "红苹果", "visual": "apple-red" },
-        { "id": "ball-green", "label": "绿球", "visual": "ball-green" }
+        {
+          "id": "apple-yellow",
+          "label": "黄苹果",
+          "visual": "/art/apple-yellow.svg"
+        },
+        {
+          "id": "apple-red",
+          "label": "红苹果",
+          "visual": "/art/apple-red.svg"
+        },
+        {
+          "id": "ball-green",
+          "label": "绿球",
+          "visual": "/art/ball-green.svg"
+        }
       ],
       "answer": "apple-red"
     }

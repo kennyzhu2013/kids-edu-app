@@ -14,33 +14,33 @@
     "方形",
     "三角形"
   ],
-  "audioIntro": "asset:audio/math-starter-03-intro",
+  "audioIntro": "/audio/math-starter-03/intro.mp3",
   "introScript": "圆圆的像皮球，方方的像积木，尖尖的是三角形。",
   "introScriptZh": "圆圆的像皮球，方方的像积木，尖尖的是三角形。",
   "listenTitle": "形状",
-  "listenVisual": "形状",
+  "listenVisual": "/art/listen-shapes.svg",
   "steps": [
     {
       "id": "q1",
       "type": "tap",
-      "promptAudio": "asset:audio/q1",
+      "promptAudio": "/audio/math-starter-03/q1.mp3",
       "promptText": "听「圆形」，点圆",
       "promptSpeak": "圆形",
       "choices": [
         {
           "id": "sq",
           "label": "方形",
-          "visual": "方"
+          "visual": "/art/shape-square.svg"
         },
         {
           "id": "ci",
           "label": "圆形",
-          "visual": "圆"
+          "visual": "/art/shape-circle.svg"
         },
         {
           "id": "tr",
           "label": "三角形",
-          "visual": "角"
+          "visual": "/art/shape-triangle.svg"
         }
       ],
       "answer": "ci"
@@ -48,24 +48,24 @@
     {
       "id": "q2",
       "type": "tap",
-      "promptAudio": "asset:audio/q2",
+      "promptAudio": "/audio/math-starter-03/q2.mp3",
       "promptText": "听「方形」，点方",
       "promptSpeak": "方形",
       "choices": [
         {
           "id": "sq",
           "label": "方形",
-          "visual": "方"
+          "visual": "/art/shape-square.svg"
         },
         {
           "id": "tr",
           "label": "三角形",
-          "visual": "角"
+          "visual": "/art/shape-triangle.svg"
         },
         {
           "id": "ci",
           "label": "圆形",
-          "visual": "圆"
+          "visual": "/art/shape-circle.svg"
         }
       ],
       "answer": "sq"
@@ -73,24 +73,24 @@
     {
       "id": "q3",
       "type": "tap",
-      "promptAudio": "asset:audio/q3",
+      "promptAudio": "/audio/math-starter-03/q3.mp3",
       "promptText": "听「三角形」，点三角",
       "promptSpeak": "三角形",
       "choices": [
         {
           "id": "ci",
           "label": "圆形",
-          "visual": "圆"
+          "visual": "/art/shape-circle.svg"
         },
         {
           "id": "tr",
           "label": "三角形",
-          "visual": "角"
+          "visual": "/art/shape-triangle.svg"
         },
         {
           "id": "sq",
           "label": "方形",
-          "visual": "方"
+          "visual": "/art/shape-square.svg"
         }
       ],
       "answer": "tr"
@@ -98,24 +98,24 @@
     {
       "id": "q4",
       "type": "tap",
-      "promptAudio": "asset:audio/q4",
+      "promptAudio": "/audio/math-starter-03/q4.mp3",
       "promptText": "车轮是什么形状？",
       "promptSpeak": "圆形",
       "choices": [
         {
           "id": "sq",
           "label": "方形",
-          "visual": "方"
+          "visual": "/art/shape-square.svg"
         },
         {
           "id": "ci",
           "label": "圆形",
-          "visual": "圆"
+          "visual": "/art/shape-circle.svg"
         },
         {
           "id": "tr",
           "label": "三角形",
-          "visual": "角"
+          "visual": "/art/shape-triangle.svg"
         }
       ],
       "answer": "ci",

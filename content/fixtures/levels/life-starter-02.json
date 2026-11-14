@@ -15,33 +15,33 @@
     "冲洗",
     "擦干"
   ],
-  "audioIntro": "asset:audio/life-starter-02-intro",
+  "audioIntro": "/audio/life-starter-02/intro.mp3",
   "introScript": "洗手四步：先打湿小手，再搓肥皂，冲干净，最后擦干。",
   "introScriptZh": "洗手四步：先打湿小手，再搓肥皂，冲干净，最后擦干。",
   "listenTitle": "洗手步骤",
-  "listenVisual": "手",
+  "listenVisual": "/art/hand.svg",
   "steps": [
     {
       "id": "q1",
       "type": "tap",
-      "promptAudio": "asset:audio/q1",
+      "promptAudio": "/audio/life-starter-02/q1.mp3",
       "promptText": "洗手的第一步是什么？",
       "promptSpeak": "第一步",
       "choices": [
         {
           "id": "soap",
           "label": "搓肥皂",
-          "visual": "皂"
+          "visual": "/art/soap.svg"
         },
         {
           "id": "wet",
           "label": "打湿小手",
-          "visual": "湿"
+          "visual": "/art/wet.svg"
         },
         {
           "id": "dry",
           "label": "擦干",
-          "visual": "干"
+          "visual": "/art/dry.svg"
         }
       ],
       "answer": "wet"
@@ -49,24 +49,24 @@
     {
       "id": "q2",
       "type": "tap",
-      "promptAudio": "asset:audio/q2",
+      "promptAudio": "/audio/life-starter-02/q2.mp3",
       "promptText": "打湿之后，下一步？",
       "promptSpeak": "下一步",
       "choices": [
         {
           "id": "dry",
           "label": "擦干",
-          "visual": "干"
+          "visual": "/art/dry.svg"
         },
         {
           "id": "soap",
           "label": "搓肥皂",
-          "visual": "皂"
+          "visual": "/art/soap.svg"
         },
         {
           "id": "rinse",
           "label": "冲洗",
-          "visual": "冲"
+          "visual": "/art/rinse.svg"
         }
       ],
       "answer": "soap"
@@ -74,24 +74,24 @@
     {
       "id": "q3",
       "type": "tap",
-      "promptAudio": "asset:audio/q3",
+      "promptAudio": "/audio/life-starter-02/q3.mp3",
       "promptText": "冲干净之后，最后一步？",
       "promptSpeak": "最后",
       "choices": [
         {
           "id": "soap",
           "label": "搓肥皂",
-          "visual": "皂"
+          "visual": "/art/soap.svg"
         },
         {
           "id": "wet",
           "label": "打湿小手",
-          "visual": "湿"
+          "visual": "/art/wet.svg"
         },
         {
           "id": "dry",
           "label": "擦干",
-          "visual": "干"
+          "visual": "/art/dry.svg"
         }
       ],
       "answer": "dry"

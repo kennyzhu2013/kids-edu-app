@@ -15,33 +15,33 @@
     "蓝",
     "绿"
   ],
-  "audioIntro": "asset:audio/lang-starter-03-intro",
+  "audioIntro": "/audio/lang-starter-03/intro.mp3",
   "introScript": "红红的苹果，黄黄的香蕉，蓝蓝的天空，绿绿的叶子。",
   "introScriptZh": "红红的苹果，黄黄的香蕉，蓝蓝的天空，绿绿的叶子。",
   "listenTitle": "颜色",
-  "listenVisual": "colors",
+  "listenVisual": "/art/listen-colors.svg",
   "steps": [
     {
       "id": "q1",
       "type": "tap",
-      "promptAudio": "asset:audio/q1",
+      "promptAudio": "/audio/lang-starter-03/q1.mp3",
       "promptText": "听「红」，点红色的",
       "promptSpeak": "红",
       "choices": [
         {
           "id": "yellow",
           "label": "黄色",
-          "visual": "黄"
+          "visual": "/art/swatch-yellow.svg"
         },
         {
           "id": "red",
           "label": "红色",
-          "visual": "红"
+          "visual": "/art/swatch-red.svg"
         },
         {
           "id": "blue",
           "label": "蓝色",
-          "visual": "蓝"
+          "visual": "/art/swatch-blue.svg"
         }
       ],
       "answer": "red"
@@ -49,24 +49,24 @@
     {
       "id": "q2",
       "type": "tap",
-      "promptAudio": "asset:audio/q2",
+      "promptAudio": "/audio/lang-starter-03/q2.mp3",
       "promptText": "听「黄」，点黄色的",
       "promptSpeak": "黄",
       "choices": [
         {
           "id": "green",
           "label": "绿色",
-          "visual": "绿"
+          "visual": "/art/swatch-green.svg"
         },
         {
           "id": "blue",
           "label": "蓝色",
-          "visual": "蓝"
+          "visual": "/art/swatch-blue.svg"
         },
         {
           "id": "yellow",
           "label": "黄色",
-          "visual": "黄"
+          "visual": "/art/swatch-yellow.svg"
         }
       ],
       "answer": "yellow"
@@ -74,24 +74,24 @@
     {
       "id": "q3",
       "type": "tap",
-      "promptAudio": "asset:audio/q3",
+      "promptAudio": "/audio/lang-starter-03/q3.mp3",
       "promptText": "听「绿」，点绿色的",
       "promptSpeak": "绿",
       "choices": [
         {
           "id": "green",
           "label": "绿色",
-          "visual": "绿"
+          "visual": "/art/swatch-green.svg"
         },
         {
           "id": "red",
           "label": "红色",
-          "visual": "红"
+          "visual": "/art/swatch-red.svg"
         },
         {
           "id": "blue",
           "label": "蓝色",
-          "visual": "蓝"
+          "visual": "/art/swatch-blue.svg"
         }
       ],
       "answer": "green"

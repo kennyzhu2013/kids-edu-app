@@ -5,8 +5,10 @@ import { createChild, listChildren, switchChild, updateChild } from "@/lib/api/m
 import { getGame, getLevel, getPack, listGames, listPacks, listSubjects } from "@/lib/api/modules/content";
 import { confirmOrder, createOrder, listOrders } from "@/lib/api/modules/orders";
 import { updateParentLock, verifyParentLock } from "@/lib/api/modules/parent-lock";
+import { changeQuota, listQuota } from "@/lib/api/modules/quota";
 import { completeLevel, getToday, progressSummary } from "@/lib/api/modules/progress";
 import { listEntitlements, unlockWithAd } from "@/lib/api/modules/unlock";
+import { ensureReady } from "@/lib/api/persist";
 
 export async function dispatch(
   request: Request,
@@ -15,6 +17,7 @@ export async function dispatch(
   params: Record<string, string>,
 ) {
   try {
+    await ensureReady();
     const url = new URL(request.url);
     const key = `${method} ${path}`;
     const body = method === "GET" || method === "DELETE" ? {} : await readJson(request);
@@ -22,7 +25,7 @@ export async function dispatch(
       case "POST /auth/sms/send":
         return sendSms(body);
       case "POST /auth/sms/login":
-        return loginSms(body);
+        return await loginSms(body);
       case "POST /auth/wechat":
         return loginWechat(body);
       case "GET /me":
@@ -30,15 +33,15 @@ export async function dispatch(
       case "GET /children":
         return listChildren(request);
       case "POST /children":
-        return createChild(request, body);
+        return await createChild(request, body);
       case "PATCH /children/:id":
-        return updateChild(request, params.id, body);
+        return await updateChild(request, params.id, body);
       case "POST /children/:id/switch":
-        return switchChild(request, params.id);
+        return await switchChild(request, params.id);
       case "GET /today":
-        return getToday(request, url);
+        return await getToday(request, url);
       case "POST /progress/levels/:levelId/complete":
-        return completeLevel(request, params.levelId, body);
+        return await completeLevel(request, params.levelId, body);
       case "GET /progress/summary":
         return progressSummary(request, url);
       case "GET /subjects":
@@ -51,6 +54,12 @@ export async function dispatch(
         return getLevel(params.id);
       case "GET /games":
         return listGames(url);
+      case "GET /games/quota":
+        return listQuota(request, url);
+      case "POST /games/:id/consume":
+        return await changeQuota(request, params.id, body, "used");
+      case "POST /games/:id/bonus":
+        return await changeQuota(request, params.id, body, "bonus");
       case "GET /games/:id":
         return getGame(params.id);
       case "POST /unlock/ad":

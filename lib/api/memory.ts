@@ -60,7 +60,7 @@ type SmsTicket = {
   lastSentAt: number;
 };
 
-export const CONTENT_REV = 4;
+export const CONTENT_REV = 5;
 
 export type Memory = {
   contentRev: number;
@@ -91,6 +91,7 @@ export type Memory = {
   gameConfigs: Record<string, GameDocument>;
   assets: AssetRecord[];
   todayPlans: Record<string, { day: string; ageBand: "A" | "B" | "C"; levelIds: string[] }>;
+  gameQuotas: Record<string, { childId: string; gameId: string; day: string; used: number; bonus: number }>;
 };
 
 const globalStore = globalThis as typeof globalThis & { __qimengMemory?: Memory };
@@ -113,6 +114,7 @@ export function db(): Memory {
   if (globalStore.__qimengMemory) {
     if (globalStore.__qimengMemory.contentRev !== CONTENT_REV) applyContent(globalStore.__qimengMemory);
     if (!globalStore.__qimengMemory.todayPlans) globalStore.__qimengMemory.todayPlans = {};
+    if (!globalStore.__qimengMemory.gameQuotas) globalStore.__qimengMemory.gameQuotas = {};
     return globalStore.__qimengMemory;
   }
   if (memory) return memory;
@@ -163,6 +165,7 @@ export function db(): Memory {
       },
     ],
     todayPlans: {},
+    gameQuotas: {},
   };
   applyContent(memory);
   globalStore.__qimengMemory = memory;

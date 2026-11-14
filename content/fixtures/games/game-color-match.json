@@ -4,7 +4,9 @@
   "gameId": "game-color-match",
   "title": "颜色配对",
   "titleEn": "Color Match",
-  "knowledgeTags": ["colors"],
+  "knowledgeTags": [
+    "colors"
+  ],
   "dailyFree": 3,
   "durationSec": 45,
   "rounds": "限时一局",
@@ -14,9 +16,29 @@
   "guide": "广告+1或会员无限",
   "assetsNote": "色块与篮子",
   "colors": [
-    { "id": "red", "label": "红色", "labelEn": "red", "hex": "#ff5a5a" },
-    { "id": "yellow", "label": "黄色", "labelEn": "yellow", "hex": "#ffc83d" },
-    { "id": "blue", "label": "蓝色", "labelEn": "blue", "hex": "#4aa3ff" },
-    { "id": "green", "label": "绿色", "labelEn": "green", "hex": "#3dcb7a" }
+    {
+      "id": "red",
+      "label": "红色",
+      "labelEn": "red",
+      "hex": "#ff5a5a"
+    },
+    {
+      "id": "yellow",
+      "label": "黄色",
+      "labelEn": "yellow",
+      "hex": "#ffc83d"
+    },
+    {
+      "id": "blue",
+      "label": "蓝色",
+      "labelEn": "blue",
+      "hex": "#4aa3ff"
+    },
+    {
+      "id": "green",
+      "label": "绿色",
+      "labelEn": "green",
+      "hex": "#3dcb7a"
+    }
   ]
 }

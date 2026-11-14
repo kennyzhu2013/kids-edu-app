@@ -15,33 +15,33 @@
     "热",
     "冷"
   ],
-  "audioIntro": "asset:audio/life-starter-01-intro",
+  "audioIntro": "/audio/life-starter-01/intro.mp3",
   "introScript": "下雨要带伞，冷了穿棉袄，热了戴帽子遮太阳。",
   "introScriptZh": "下雨要带伞，冷了穿棉袄，热了戴帽子遮太阳。",
   "listenTitle": "天气与穿衣",
-  "listenVisual": "伞",
+  "listenVisual": "/art/umbrella.svg",
   "steps": [
     {
       "id": "q1",
       "type": "tap",
-      "promptAudio": "asset:audio/q1",
+      "promptAudio": "/audio/life-starter-01/q1.mp3",
       "promptText": "下雨了，该带什么？",
       "promptSpeak": "下雨",
       "choices": [
         {
           "id": "hat",
           "label": "帽子",
-          "visual": "帽"
+          "visual": "/art/hat.svg"
         },
         {
           "id": "umbrella",
           "label": "雨伞",
-          "visual": "伞"
+          "visual": "/art/umbrella.svg"
         },
         {
           "id": "coat",
           "label": "棉袄",
-          "visual": "袄"
+          "visual": "/art/coat.svg"
         }
       ],
       "answer": "umbrella"
@@ -49,24 +49,24 @@
     {
       "id": "q2",
       "type": "tap",
-      "promptAudio": "asset:audio/q2",
+      "promptAudio": "/audio/life-starter-01/q2.mp3",
       "promptText": "好冷，该穿什么？",
       "promptSpeak": "好冷",
       "choices": [
         {
           "id": "coat",
           "label": "棉袄",
-          "visual": "袄"
+          "visual": "/art/coat.svg"
         },
         {
           "id": "hat",
           "label": "帽子",
-          "visual": "帽"
+          "visual": "/art/hat.svg"
         },
         {
           "id": "umbrella",
           "label": "雨伞",
-          "visual": "伞"
+          "visual": "/art/umbrella.svg"
         }
       ],
       "answer": "coat"
@@ -74,24 +74,24 @@
     {
       "id": "q3",
       "type": "tap",
-      "promptAudio": "asset:audio/q3",
+      "promptAudio": "/audio/life-starter-01/q3.mp3",
       "promptText": "大太阳，很热，戴什么？",
       "promptSpeak": "很热",
       "choices": [
         {
           "id": "umbrella",
           "label": "雨伞",
-          "visual": "伞"
+          "visual": "/art/umbrella.svg"
         },
         {
           "id": "coat",
           "label": "棉袄",
-          "visual": "袄"
+          "visual": "/art/coat.svg"
         },
         {
           "id": "hat",
           "label": "帽子",
-          "visual": "帽"
+          "visual": "/art/hat.svg"
         }
       ],
       "answer": "hat"

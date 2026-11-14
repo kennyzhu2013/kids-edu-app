@@ -15,33 +15,33 @@
     "长",
     "短"
   ],
-  "audioIntro": "asset:audio/math-starter-04-intro",
+  "audioIntro": "/audio/math-starter-04/intro.mp3",
   "introScript": "这个球好大，那个好小。这支笔很长，那支很短。",
   "introScriptZh": "这个球好大，那个好小。这支笔很长，那支很短。",
   "listenTitle": "大小长短",
-  "listenVisual": "大小",
+  "listenVisual": "/art/listen-size.svg",
   "steps": [
     {
       "id": "q1",
       "type": "tap",
-      "promptAudio": "asset:audio/q1",
+      "promptAudio": "/audio/math-starter-04/q1.mp3",
       "promptText": "点大的球",
       "promptSpeak": "大",
       "choices": [
         {
           "id": "big",
           "label": "大球",
-          "visual": "大"
+          "visual": "/art/big.svg"
         },
         {
           "id": "small",
           "label": "小球",
-          "visual": "小"
+          "visual": "/art/small.svg"
         },
         {
           "id": "mid",
           "label": "中球",
-          "visual": "中"
+          "visual": "/art/mid.svg"
         }
       ],
       "answer": "big"
@@ -49,24 +49,24 @@
     {
       "id": "q2",
       "type": "tap",
-      "promptAudio": "asset:audio/q2",
+      "promptAudio": "/audio/math-starter-04/q2.mp3",
       "promptText": "点短的笔",
       "promptSpeak": "短",
       "choices": [
         {
           "id": "long",
           "label": "长笔",
-          "visual": "长"
+          "visual": "/art/long.svg"
         },
         {
           "id": "short",
           "label": "短笔",
-          "visual": "短"
+          "visual": "/art/short.svg"
         },
         {
           "id": "mid",
           "label": "中笔",
-          "visual": "中"
+          "visual": "/art/mid.svg"
         }
       ],
       "answer": "short"
@@ -74,24 +74,24 @@
     {
       "id": "q3",
       "type": "tap",
-      "promptAudio": "asset:audio/q3",
+      "promptAudio": "/audio/math-starter-04/q3.mp3",
       "promptText": "点小的动物",
       "promptSpeak": "小",
       "choices": [
         {
           "id": "big",
           "label": "大象",
-          "visual": "大"
+          "visual": "/art/big.svg"
         },
         {
           "id": "small",
           "label": "蚂蚁",
-          "visual": "小"
+          "visual": "/art/small.svg"
         },
         {
           "id": "mid",
           "label": "小猫",
-          "visual": "猫"
+          "visual": "/art/cat.svg"
         }
       ],
       "answer": "small"

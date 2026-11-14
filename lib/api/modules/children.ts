@@ -1,6 +1,7 @@
 import { HttpError, jsonOk, asString } from "@/lib/api/http";
 import { db, uid, type ChildRecord } from "@/lib/api/memory";
 import { requireUser } from "@/lib/api/modules/auth";
+import { persistChild, persistCurrentChild } from "@/lib/api/persist";
 
 const MAX_CHILDREN = 4;
 
@@ -34,7 +35,7 @@ export function listChildren(request: Request) {
   return jsonOk({ children: db().children.map(toPublic) });
 }
 
-export function createChild(request: Request, body: Record<string, unknown>) {
+export async function createChild(request: Request, body: Record<string, unknown>) {
   requireUser(request);
   const state = db();
   if (state.children.length >= MAX_CHILDREN) {
@@ -56,10 +57,12 @@ export function createChild(request: Request, body: Record<string, unknown>) {
     isCurrent: true,
   };
   state.children.push(child);
+  await persistChild(child);
+  await persistCurrentChild(state.user.id, child.id);
   return jsonOk({ child: toPublic(child) }, 201);
 }
 
-export function updateChild(request: Request, id: string, body: Record<string, unknown>) {
+export async function updateChild(request: Request, id: string, body: Record<string, unknown>) {
   requireUser(request);
   const child = ownChild(id);
   if ("nickname" in body) {
@@ -71,12 +74,14 @@ export function updateChild(request: Request, id: string, body: Record<string, u
   }
   if ("ageBand" in body) child.ageBand = parseAgeBand(body.ageBand);
   if ("avatar" in body) child.avatar = asString(body.avatar) || null;
+  await persistChild(child);
   return jsonOk({ child: toPublic(child) });
 }
 
-export function switchChild(request: Request, id: string) {
+export async function switchChild(request: Request, id: string) {
   requireUser(request);
   const child = ownChild(id);
   for (const item of db().children) item.isCurrent = item.id === child.id;
+  await persistCurrentChild(db().user.id, child.id);
   return jsonOk({ currentChildId: child.id });
 }

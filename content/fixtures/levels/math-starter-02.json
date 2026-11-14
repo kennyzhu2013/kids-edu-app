@@ -14,33 +14,33 @@
     "更少",
     "一样多"
   ],
-  "audioIntro": "asset:audio/math-starter-02-intro",
+  "audioIntro": "/audio/math-starter-02/intro.mp3",
   "introScript": "左边有好多，右边少一点。哪边更多？哪边更少？",
   "introScriptZh": "左边有好多，右边少一点。哪边更多？哪边更少？",
   "listenTitle": "多少比较",
-  "listenVisual": "多少",
+  "listenVisual": "/art/listen-more.svg",
   "steps": [
     {
       "id": "q1",
       "type": "tap",
-      "promptAudio": "asset:audio/q1",
+      "promptAudio": "/audio/math-starter-02/q1.mp3",
       "promptText": "哪边更多？点数量多的一边",
       "promptSpeak": "更多",
       "choices": [
         {
           "id": "few",
           "label": "2 个苹果",
-          "visual": "少"
+          "visual": "/art/less.svg"
         },
         {
           "id": "many",
           "label": "5 个苹果",
-          "visual": "多"
+          "visual": "/art/more.svg"
         },
         {
           "id": "mid",
           "label": "3 个苹果",
-          "visual": "中"
+          "visual": "/art/mid.svg"
         }
       ],
       "answer": "many"
@@ -48,24 +48,24 @@
     {
       "id": "q2",
       "type": "tap",
-      "promptAudio": "asset:audio/q2",
+      "promptAudio": "/audio/math-starter-02/q2.mp3",
       "promptText": "哪边更少？点数量少的一边",
       "promptSpeak": "更少",
       "choices": [
         {
           "id": "few",
           "label": "1 颗星",
-          "visual": "少"
+          "visual": "/art/less.svg"
         },
         {
           "id": "many",
           "label": "4 颗星",
-          "visual": "多"
+          "visual": "/art/more.svg"
         },
         {
           "id": "mid",
           "label": "3 颗星",
-          "visual": "中"
+          "visual": "/art/mid.svg"
         }
       ],
       "answer": "few"
@@ -73,24 +73,24 @@
     {
       "id": "q3",
       "type": "tap",
-      "promptAudio": "asset:audio/q3",
+      "promptAudio": "/audio/math-starter-02/q3.mp3",
       "promptText": "这两边一样多吗？",
       "promptSpeak": "一样多",
       "choices": [
         {
           "id": "yes",
           "label": "一样多",
-          "visual": "同"
+          "visual": "/art/same.svg"
         },
         {
           "id": "no",
           "label": "不一样",
-          "visual": "异"
+          "visual": "/art/different.svg"
         },
         {
           "id": "idk",
           "label": "不知道",
-          "visual": "问"
+          "visual": "/art/ask.svg"
         }
       ],
       "answer": "yes"
