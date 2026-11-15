@@ -60,7 +60,7 @@ type SmsTicket = {
   lastSentAt: number;
 };
 
-export const CONTENT_REV = 5;
+export const CONTENT_REV = 6;
 
 export type Memory = {
   contentRev: number;

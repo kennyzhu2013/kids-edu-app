@@ -97,6 +97,40 @@
       "ages": [
         "C"
       ]
+    },
+    {
+      "id": "q-drag",
+      "type": "drag",
+      "promptText": "球进圆盒，积木进方盒",
+      "promptSpeak": "整理玩具",
+      "baskets": [
+        {
+          "id": "round",
+          "label": "圆盒",
+          "visual": "/art/shape-circle.svg"
+        },
+        {
+          "id": "box",
+          "label": "方盒",
+          "visual": "/art/shape-square.svg"
+        }
+      ],
+      "choices": [
+        {
+          "id": "ball",
+          "label": "球",
+          "visual": "/art/ball-red.svg",
+          "basket": "round"
+        },
+        {
+          "id": "block",
+          "label": "积木",
+          "visual": "/art/blocks.svg",
+          "basket": "box"
+        }
+      ],
+      "answer": "placed",
+      "promptAudio": "/audio/math-life-05/q-drag.mp3"
     }
   ],
   "rewardStars": 3,

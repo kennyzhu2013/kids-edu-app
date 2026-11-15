@@ -58,6 +58,7 @@
         "promptText": { "type": "string" },
         "promptSpeak": { "type": "string" },
         "choices": { "type": "array" },
+        "baskets": { "type": "array" },
         "answer": {
           "oneOf": [
             { "type": "string" },

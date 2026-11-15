@@ -95,6 +95,41 @@
         }
       ],
       "answer": "dry"
+    },
+    {
+      "id": "q-sort",
+      "type": "sort",
+      "promptText": "洗手要按顺序排好",
+      "promptSpeak": "排一排洗手",
+      "choices": [
+        {
+          "id": "wet",
+          "label": "打湿",
+          "visual": "/art/wet.svg"
+        },
+        {
+          "id": "soap",
+          "label": "搓皂",
+          "visual": "/art/soap.svg"
+        },
+        {
+          "id": "rinse",
+          "label": "冲水",
+          "visual": "/art/rinse.svg"
+        },
+        {
+          "id": "dry",
+          "label": "擦干",
+          "visual": "/art/dry.svg"
+        }
+      ],
+      "answer": [
+        "wet",
+        "soap",
+        "rinse",
+        "dry"
+      ],
+      "promptAudio": "/audio/life-starter-02/q-sort.mp3"
     }
   ],
   "rewardStars": 3,

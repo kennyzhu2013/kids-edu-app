@@ -1,0 +1,91 @@
+{
+  "schemaVersion": 1,
+  "ageBand": [
+    "A",
+    "B",
+    "C"
+  ],
+  "rewardStars": 3,
+  "id": "life-starter-08",
+  "packId": "life-starter",
+  "title": "吃饭礼貌",
+  "order": 8,
+  "vocab": [
+    "请",
+    "谢谢"
+  ],
+  "audioIntro": "/audio/life-starter-08/intro.mp3",
+  "introScript": "想吃的时候说请，吃完说谢谢。",
+  "introScriptZh": "想吃的时候说请，吃完说谢谢。",
+  "listenTitle": "吃饭",
+  "listenVisual": "/art/listen-meal.svg",
+  "nextLevelId": "life-starter-09",
+  "steps": [
+    {
+      "id": "q1",
+      "type": "tap",
+      "promptText": "想要苹果，先说什么？",
+      "promptSpeak": "请",
+      "choices": [
+        {
+          "id": "please",
+          "label": "请",
+          "visual": "/art/apple-red.svg"
+        },
+        {
+          "id": "run",
+          "label": "跑开",
+          "visual": "/art/run.svg"
+        }
+      ],
+      "answer": "please",
+      "promptAudio": "/audio/life-starter-08/q1.mp3"
+    },
+    {
+      "id": "q2",
+      "type": "speak",
+      "ages": [
+        "C"
+      ],
+      "promptText": "跟读：请给我苹果",
+      "promptSpeak": "请给我苹果",
+      "speakText": "请给我苹果",
+      "answer": "spoken",
+      "promptAudio": "/audio/life-starter-08/q2.mp3"
+    },
+    {
+      "id": "q3",
+      "type": "speak",
+      "ages": [
+        "B"
+      ],
+      "promptText": "跟读：谢谢",
+      "promptSpeak": "谢谢",
+      "speakText": "谢谢",
+      "answer": "spoken",
+      "promptAudio": "/audio/life-starter-08/q3.mp3"
+    },
+    {
+      "id": "q4",
+      "type": "tap",
+      "promptText": "吃完了说什么？",
+      "promptSpeak": "谢谢",
+      "choices": [
+        {
+          "id": "thanks",
+          "label": "谢谢",
+          "visual": "/art/happy.svg"
+        },
+        {
+          "id": "run",
+          "label": "跑开",
+          "visual": "/art/run.svg"
+        }
+      ],
+      "answer": "thanks",
+      "promptAudio": "/audio/life-starter-08/q4.mp3"
+    }
+  ],
+  "rewardCopy": "有礼貌！",
+  "rewardCopyZh": "有礼貌！"
+}

@@ -1,0 +1,67 @@
+{
+  "schemaVersion": 1,
+  "ageBand": [
+    "A",
+    "B",
+    "C"
+  ],
+  "rewardStars": 3,
+  "id": "life-starter-09",
+  "packId": "life-starter",
+  "title": "求助",
+  "order": 9,
+  "vocab": [
+    "帮忙",
+    "电话"
+  ],
+  "audioIntro": "/audio/life-starter-09/intro.mp3",
+  "introScript": "需要帮助就告诉大人。要紧的事可以打电话。",
+  "introScriptZh": "需要帮助就告诉大人。要紧的事可以打电话。",
+  "listenTitle": "求助",
+  "listenVisual": "/art/phone.svg",
+  "nextLevelId": "life-starter-10",
+  "steps": [
+    {
+      "id": "q1",
+      "type": "tap",
+      "promptText": "找不到妈妈，可以？",
+      "promptSpeak": "告诉大人",
+      "choices": [
+        {
+          "id": "tell",
+          "label": "告诉大人",
+          "visual": "/art/mom.svg"
+        },
+        {
+          "id": "follow",
+          "label": "跟陌生人",
+          "visual": "/art/no.svg"
+        }
+      ],
+      "answer": "tell",
+      "promptAudio": "/audio/life-starter-09/q1.mp3"
+    },
+    {
+      "id": "q2",
+      "type": "tap",
+      "promptText": "要紧的事用什么？",
+      "promptSpeak": "电话",
+      "choices": [
+        {
+          "id": "phone",
+          "label": "电话",
+          "visual": "/art/phone.svg"
+        },
+        {
+          "id": "candy",
+          "label": "糖果",
+          "visual": "/art/candy.svg"
+        }
+      ],
+      "answer": "phone",
+      "promptAudio": "/audio/life-starter-09/q2.mp3"
+    }
+  ],
+  "rewardCopy": "会求助，真勇敢！",
+  "rewardCopyZh": "会求助，真勇敢！"
+}

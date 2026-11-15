@@ -8,6 +8,13 @@ export const choiceSchema = z.object({
   scene: z.enum(["hello", "bye", "sit"]).optional(),
   visual: z.string().optional(),
   asset: z.string().optional(),
+  basket: z.string().optional(),
+});
+
+export const basketSchema = z.object({
+  id: z.string(),
+  label: z.string(),
+  visual: z.string().optional(),
 });
 
 export const stepSchema = z.object({
@@ -25,6 +32,7 @@ export const stepSchema = z.object({
   promptText: z.string().optional(),
   promptSpeak: z.string().optional(),
   choices: z.array(choiceSchema).optional(),
+  baskets: z.array(basketSchema).optional(),
   answer: z.union([z.string(), z.array(z.string())]),
   speakText: z.string().optional(),
   ages: z.array(ageBandSchema).optional(),

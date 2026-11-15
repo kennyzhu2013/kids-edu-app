@@ -1,0 +1,93 @@
+{
+  "schemaVersion": 1,
+  "ageBand": [
+    "A",
+    "B",
+    "C"
+  ],
+  "rewardStars": 3,
+  "id": "life-starter-07",
+  "packId": "life-starter",
+  "title": "整理房间",
+  "order": 7,
+  "vocab": [
+    "玩具",
+    "盒子"
+  ],
+  "audioIntro": "/audio/life-starter-07/intro.mp3",
+  "introScript": "玩完的玩具要回家，放进盒子里。",
+  "introScriptZh": "玩完的玩具要回家，放进盒子里。",
+  "listenTitle": "整理",
+  "listenVisual": "/art/toybox.svg",
+  "nextLevelId": "life-starter-08",
+  "steps": [
+    {
+      "id": "q1",
+      "type": "drag",
+      "promptText": "玩具放进盒子，苹果留在桌上",
+      "promptSpeak": "整理一下",
+      "baskets": [
+        {
+          "id": "box",
+          "label": "玩具盒",
+          "visual": "/art/toybox.svg"
+        },
+        {
+          "id": "table",
+          "label": "桌子",
+          "visual": "/art/apple-red.svg"
+        }
+      ],
+      "choices": [
+        {
+          "id": "ball",
+          "label": "球",
+          "visual": "/art/ball-red.svg",
+          "basket": "box"
+        },
+        {
+          "id": "apple",
+          "label": "苹果",
+          "visual": "/art/apple-red.svg",
+          "basket": "table"
+        }
+      ],
+      "answer": "placed",
+      "promptAudio": "/audio/life-starter-07/q1.mp3"
+    },
+    {
+      "id": "q2",
+      "type": "speak",
+      "ages": [
+        "B"
+      ],
+      "promptText": "跟读：收玩具",
+      "promptSpeak": "收玩具",
+      "speakText": "收玩具",
+      "answer": "spoken",
+      "promptAudio": "/audio/life-starter-07/q2.mp3"
+    },
+    {
+      "id": "q3",
+      "type": "tap",
+      "promptText": "球应该放进哪里？",
+      "promptSpeak": "玩具盒",
+      "choices": [
+        {
+          "id": "box",
+          "label": "玩具盒",
+          "visual": "/art/toybox.svg"
+        },
+        {
+          "id": "run",
+          "label": "扔掉",
+          "visual": "/art/no.svg"
+        }
+      ],
+      "answer": "box",
+      "promptAudio": "/audio/life-starter-07/q3.mp3"
+    }
+  ],
+  "rewardCopy": "房间整齐啦！",
+  "rewardCopyZh": "房间整齐啦！"
+}

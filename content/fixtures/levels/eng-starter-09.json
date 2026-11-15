@@ -1,0 +1,79 @@
+{
+  "schemaVersion": 1,
+  "ageBand": [
+    "A",
+    "B",
+    "C"
+  ],
+  "rewardStars": 3,
+  "id": "eng-starter-09",
+  "packId": "eng-starter",
+  "title": "Clothes",
+  "order": 9,
+  "vocab": [
+    "hat",
+    "coat"
+  ],
+  "audioIntro": "/audio/eng-starter-09/intro.mp3",
+  "introScript": "A hat for the sun. A coat when it is cold.",
+  "introScriptZh": "太阳大，戴帽子。天冷了，穿外套。",
+  "listenTitle": "Clothes",
+  "listenVisual": "/art/hat.svg",
+  "nextLevelId": "eng-starter-10",
+  "steps": [
+    {
+      "id": "q1",
+      "type": "tap",
+      "promptText": "听「hat」，点帽子",
+      "promptSpeak": "hat",
+      "choices": [
+        {
+          "id": "coat",
+          "label": "外套",
+          "visual": "/art/coat.svg"
+        },
+        {
+          "id": "hat",
+          "label": "帽子",
+          "visual": "/art/hat.svg"
+        }
+      ],
+      "answer": "hat",
+      "promptAudio": "/audio/eng-starter-09/q1.mp3"
+    },
+    {
+      "id": "q2",
+      "type": "tap",
+      "promptText": "听「coat」，点外套",
+      "promptSpeak": "coat",
+      "choices": [
+        {
+          "id": "hat",
+          "label": "帽子",
+          "visual": "/art/hat.svg"
+        },
+        {
+          "id": "coat",
+          "label": "外套",
+          "visual": "/art/coat.svg"
+        }
+      ],
+      "answer": "coat",
+      "promptAudio": "/audio/eng-starter-09/q2.mp3"
+    },
+    {
+      "id": "q3",
+      "type": "speak",
+      "ages": [
+        "B"
+      ],
+      "promptText": "跟读：hat",
+      "promptSpeak": "hat",
+      "speakText": "hat",
+      "answer": "spoken",
+      "promptAudio": "/audio/eng-starter-09/q3.mp3"
+    }
+  ],
+  "rewardCopy": "Nice clothes!",
+  "rewardCopyZh": "穿对啦！"
+}

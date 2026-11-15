@@ -96,6 +96,40 @@
         }
       ],
       "answer": "n5"
+    },
+    {
+      "id": "q-drag",
+      "type": "drag",
+      "promptText": "苹果放进水果篮，星星放进星星盒",
+      "promptSpeak": "分一分",
+      "baskets": [
+        {
+          "id": "fruit",
+          "label": "水果",
+          "visual": "/art/apple-red.svg"
+        },
+        {
+          "id": "sky",
+          "label": "星星",
+          "visual": "/art/star.svg"
+        }
+      ],
+      "choices": [
+        {
+          "id": "apple",
+          "label": "苹果",
+          "visual": "/art/apple-red.svg",
+          "basket": "fruit"
+        },
+        {
+          "id": "star",
+          "label": "星星",
+          "visual": "/art/star.svg",
+          "basket": "sky"
+        }
+      ],
+      "answer": "placed",
+      "promptAudio": "/audio/math-starter-01/q-drag.mp3"
     }
   ],
   "rewardStars": 3,

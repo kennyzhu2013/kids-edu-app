@@ -1,0 +1,75 @@
+{
+  "schemaVersion": 1,
+  "ageBand": [
+    "A",
+    "B",
+    "C"
+  ],
+  "rewardStars": 3,
+  "id": "life-starter-10",
+  "packId": "life-starter",
+  "title": "户外安全",
+  "order": 10,
+  "vocab": [
+    "停",
+    "牵手"
+  ],
+  "audioIntro": "/audio/life-starter-10/intro.mp3",
+  "introScript": "出门牵着大人的手。红灯停一停。",
+  "introScriptZh": "出门牵着大人的手。红灯停一停。",
+  "listenTitle": "户外",
+  "listenVisual": "/art/stop.svg",
+  "steps": [
+    {
+      "id": "q1",
+      "type": "tap",
+      "promptText": "红灯了，应该？",
+      "promptSpeak": "停",
+      "choices": [
+        {
+          "id": "run",
+          "label": "跑",
+          "visual": "/art/run.svg"
+        },
+        {
+          "id": "stop",
+          "label": "停",
+          "visual": "/art/stop.svg"
+        }
+      ],
+      "answer": "stop",
+      "promptAudio": "/audio/life-starter-10/q1.mp3"
+    },
+    {
+      "id": "q2",
+      "type": "sort",
+      "promptText": "过马路：先停，再牵手，再走",
+      "promptSpeak": "排一排",
+      "choices": [
+        {
+          "id": "stop",
+          "label": "停下",
+          "visual": "/art/stop.svg"
+        },
+        {
+          "id": "hold",
+          "label": "牵手",
+          "visual": "/art/hold.svg"
+        },
+        {
+          "id": "go",
+          "label": "再走",
+          "visual": "/art/stand.svg"
+        }
+      ],
+      "answer": [
+        "stop",
+        "hold",
+        "go"
+      ],
+      "promptAudio": "/audio/life-starter-10/q2.mp3"
+    }
+  ],
+  "rewardCopy": "出门也安全！",
+  "rewardCopyZh": "出门也安全！"
+}

@@ -4,6 +4,7 @@ import { Volume2, X } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import { DragBoard, SortBoard, SpeakBoard } from "@/components/level-boards";
 import { KidScene, TokenArt } from "@/components/illustrations";
 import { BigButton } from "@/components/big-button";
 import { LoadingScreen } from "@/components/loading-screen";
@@ -48,6 +49,7 @@ export function LevelPlayer({ levelId }: { levelId: string }) {
   const [speaking, setSpeaking] = useState(false);
   const [voiceNote, setVoiceNote] = useState("");
   const [attempt, setAttempt] = useState(0);
+  const advancing = useRef(false);
   const mistakes = useRef(0);
   const startedAt = useRef(0);
   const eventId = useRef("");
@@ -131,7 +133,7 @@ export function LevelPlayer({ levelId }: { levelId: string }) {
         childId: profile?.id,
         score: Math.round((1 - Math.min(mistakes.current, 2) / 2) * 100),
         stars: earned,
-        duration: Math.max(1, Math.round((Date.now() - startedAt.current) / 1000)),
+        duration: Math.max(1, Math.round((Date.now() - startedAt.current) / 1000)), // eslint-disable-line react-hooks/purity -- 只在答完一关时计算用时
         clientEventId: eventId.current,
       }),
     })
@@ -159,6 +161,24 @@ export function LevelPlayer({ levelId }: { levelId: string }) {
       return;
     }
     playCue("ok");
+    succeed();
+  }
+
+  function miss() {
+    mistakes.current += 1;
+    setFeedback("again");
+    if (mistakes.current >= 2) {
+      setHinted(true);
+      if (step?.type === "speak") {
+        playPrompt(step.promptAudio, step.speakText || step.promptSpeak || "");
+        window.setTimeout(() => succeed(), 900);
+      }
+    }
+  }
+
+  function succeed() {
+    if (advancing.current || busy) return;
+    advancing.current = true;
     setFeedback("good");
     setBusy(true);
     window.setTimeout(() => {
@@ -169,6 +189,7 @@ export function LevelPlayer({ levelId }: { levelId: string }) {
         finish(Math.max(1, level!.rewardStars - mistakes.current));
         return;
       }
+      advancing.current = false;
       setBusy(false);
       setStepIndex((value) => value + 1);
     }, 650);
@@ -247,35 +268,28 @@ export function LevelPlayer({ levelId }: { levelId: string }) {
       ) : null}
 
       {phase === "quiz" && step?.type === "speak" ? (
-        <div className="flex flex-1 flex-col">
-          <button
-            type="button"
-            className="mx-auto mt-5 inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 font-black shadow-sm"
-            onClick={() => {
-              const result = playPrompt(step.promptAudio, step.promptSpeak ?? step.speakText ?? "");
-              setVoiceNote(voiceCaption(result));
-            }}
-          >
-            <Volume2 className="size-5 text-primary" />
-            {step.promptSpeak}
-          </button>
-          {voiceNote ? <p className="mt-2 text-center text-sm text-muted-foreground">{voiceNote}</p> : null}
-          <p className="mt-3 text-center font-bold">{step.promptText}</p>
-          <p className="mt-6 text-center text-3xl font-black">{step.speakText}</p>
-          <p className="mt-3 text-center text-sm text-muted-foreground">跟读还没接麦克风。点下面就算说完。</p>
-          <div className="mt-auto pt-6">
-            <BigButton disabled={busy} onClick={() => choose(typeof step.answer === "string" ? step.answer : "spoken")}>
-              我说完了
-            </BigButton>
-          </div>
-        </div>
+        <SpeakBoard
+          step={step}
+          busy={busy}
+          hinted={hinted}
+          onPass={() => succeed()}
+          onMiss={() => miss()}
+        />
       ) : null}
 
-      {phase === "quiz" && step && step.type !== "speak" && tapChoices.length === 0 ? (
+      {phase === "quiz" && step?.type === "drag" ? (
+        <DragBoard step={step} busy={busy} hinted={hinted} onPass={() => succeed()} onMiss={() => miss()} />
+      ) : null}
+
+      {phase === "quiz" && step?.type === "sort" ? (
+        <SortBoard step={step} busy={busy} hinted={hinted} onPass={() => succeed()} onMiss={() => miss()} />
+      ) : null}
+
+      {phase === "quiz" && step && step.type === "tap" && tapChoices.length === 0 ? (
         <PlayerNotice title="这道题还没有选项" body="先回课程，这道题补好了再来。" href={`/courses/${level.packId}`} action="回课程" />
       ) : null}
 
-      {phase === "quiz" && step && step.type !== "speak" && tapChoices.length > 0 ? (
+      {phase === "quiz" && step?.type === "tap" && tapChoices.length > 0 ? (
         <div className="flex flex-1 flex-col">
           <button
             type="button"
@@ -362,7 +376,7 @@ export function LevelPlayer({ levelId }: { levelId: string }) {
         <div className="flex flex-1 flex-col items-center justify-center text-center">
           <StarResult stars={3} />
           <h1 className="mt-4 text-3xl font-black">这一包玩完啦</h1>
-          <p className="mt-3 text-muted-foreground">五关都可以再玩。</p>
+          <p className="mt-3 text-muted-foreground">这一包的关卡都可以再玩。</p>
           <div className="mt-8 w-full space-y-3">
             <BigButton href={`/courses/${level.packId}`}>回课程</BigButton>
             <BigButton variant="secondary" href="/today">

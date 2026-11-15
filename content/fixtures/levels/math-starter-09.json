@@ -1,0 +1,85 @@
+{
+  "schemaVersion": 1,
+  "ageBand": [
+    "A",
+    "B",
+    "C"
+  ],
+  "rewardStars": 3,
+  "id": "math-starter-09",
+  "packId": "math-starter",
+  "title": "比一比",
+  "order": 9,
+  "vocab": [
+    "多",
+    "少",
+    "一共"
+  ],
+  "audioIntro": "/audio/math-starter-09/intro.mp3",
+  "introScript": "两个苹果再加一个，就变成三个。",
+  "introScriptZh": "两个苹果再加一个，就变成三个。",
+  "listenTitle": "比一比",
+  "listenVisual": "/art/listen-more.svg",
+  "nextLevelId": "math-starter-10",
+  "steps": [
+    {
+      "id": "q1",
+      "type": "tap",
+      "promptText": "2 个再加 1 个，是几个？",
+      "promptSpeak": "3",
+      "choices": [
+        {
+          "id": "2",
+          "label": "2",
+          "visual": "/art/num-2.svg"
+        },
+        {
+          "id": "3",
+          "label": "3",
+          "visual": "/art/num-3.svg"
+        },
+        {
+          "id": "5",
+          "label": "5",
+          "visual": "/art/num-5.svg"
+        }
+      ],
+      "answer": "3",
+      "promptAudio": "/audio/math-starter-09/q1.mp3"
+    },
+    {
+      "id": "q2",
+      "type": "tap",
+      "promptText": "哪边更多？",
+      "promptSpeak": "更多",
+      "choices": [
+        {
+          "id": "more",
+          "label": "更多",
+          "visual": "/art/more.svg"
+        },
+        {
+          "id": "less",
+          "label": "更少",
+          "visual": "/art/less.svg"
+        }
+      ],
+      "answer": "more",
+      "promptAudio": "/audio/math-starter-09/q2.mp3"
+    },
+    {
+      "id": "q3",
+      "type": "speak",
+      "ages": [
+        "C"
+      ],
+      "promptText": "跟读：两个加一个",
+      "promptSpeak": "两个加一个",
+      "speakText": "两个加一个",
+      "answer": "spoken",
+      "promptAudio": "/audio/math-starter-09/q3.mp3"
+    }
+  ],
+  "rewardCopy": "会比较也会加一点！",
+  "rewardCopyZh": "会比较也会加一点！"
+}

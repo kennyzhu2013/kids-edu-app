@@ -137,6 +137,18 @@
       "promptSpeak": "It's a fish",
       "speakText": "It's a fish",
       "answer": "spoken"
+    },
+    {
+      "id": "q-speak-b",
+      "type": "speak",
+      "ages": [
+        "B"
+      ],
+      "promptText": "跟读：fish",
+      "promptSpeak": "fish",
+      "speakText": "fish",
+      "answer": "spoken",
+      "promptAudio": "/audio/eng-starter-03/q-speak-b.mp3"
     }
   ],
   "rewardStars": 3,

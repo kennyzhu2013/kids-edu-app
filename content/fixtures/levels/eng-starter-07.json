@@ -1,0 +1,90 @@
+{
+  "schemaVersion": 1,
+  "ageBand": [
+    "A",
+    "B",
+    "C"
+  ],
+  "rewardStars": 3,
+  "id": "eng-starter-07",
+  "packId": "eng-starter",
+  "title": "Food",
+  "order": 7,
+  "vocab": [
+    "apple",
+    "milk",
+    "bread"
+  ],
+  "audioIntro": "/audio/eng-starter-07/intro.mp3",
+  "introScript": "Yummy food. Apple, milk, and bread.",
+  "introScriptZh": "好吃的东西。苹果、牛奶和面包。",
+  "listenTitle": "Food",
+  "listenVisual": "/art/listen-meal.svg",
+  "nextLevelId": "eng-starter-08",
+  "steps": [
+    {
+      "id": "q1",
+      "type": "tap",
+      "promptText": "听「apple」，点苹果",
+      "promptSpeak": "apple",
+      "choices": [
+        {
+          "id": "milk",
+          "label": "牛奶",
+          "visual": "/art/milk.svg"
+        },
+        {
+          "id": "apple",
+          "label": "苹果",
+          "visual": "/art/apple-red.svg"
+        },
+        {
+          "id": "bread",
+          "label": "面包",
+          "visual": "/art/bread.svg"
+        }
+      ],
+      "answer": "apple",
+      "promptAudio": "/audio/eng-starter-07/q1.mp3"
+    },
+    {
+      "id": "q2",
+      "type": "tap",
+      "promptText": "听「milk」，点牛奶",
+      "promptSpeak": "milk",
+      "choices": [
+        {
+          "id": "bread",
+          "label": "面包",
+          "visual": "/art/bread.svg"
+        },
+        {
+          "id": "milk",
+          "label": "牛奶",
+          "visual": "/art/milk.svg"
+        },
+        {
+          "id": "apple",
+          "label": "苹果",
+          "visual": "/art/apple-red.svg"
+        }
+      ],
+      "answer": "milk",
+      "promptAudio": "/audio/eng-starter-07/q2.mp3"
+    },
+    {
+      "id": "q3",
+      "type": "speak",
+      "ages": [
+        "B"
+      ],
+      "promptText": "跟读：apple",
+      "promptSpeak": "apple",
+      "speakText": "apple",
+      "answer": "spoken",
+      "promptAudio": "/audio/eng-starter-07/q3.mp3"
+    }
+  ],
+  "rewardCopy": "Yummy!",
+  "rewardCopyZh": "好吃！"
+}

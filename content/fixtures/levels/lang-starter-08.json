@@ -1,0 +1,91 @@
+{
+  "schemaVersion": 1,
+  "ageBand": [
+    "A",
+    "B",
+    "C"
+  ],
+  "rewardStars": 3,
+  "id": "lang-starter-08",
+  "packId": "lang-starter",
+  "title": "一句小诗",
+  "order": 8,
+  "vocab": [
+    "太阳",
+    "月亮"
+  ],
+  "audioIntro": "/audio/lang-starter-08/intro.mp3",
+  "introScript": "太阳出来红彤彤，月亮出来亮晶晶。",
+  "introScriptZh": "太阳出来红彤彤，月亮出来亮晶晶。",
+  "listenTitle": "一句小诗",
+  "listenVisual": "/art/sun.svg",
+  "nextLevelId": "lang-starter-09",
+  "steps": [
+    {
+      "id": "q1",
+      "type": "tap",
+      "promptText": "听「太阳」，点太阳",
+      "promptSpeak": "太阳",
+      "choices": [
+        {
+          "id": "moon",
+          "label": "月亮",
+          "visual": "/art/moon.svg"
+        },
+        {
+          "id": "sun",
+          "label": "太阳",
+          "visual": "/art/sun.svg"
+        }
+      ],
+      "answer": "sun",
+      "promptAudio": "/audio/lang-starter-08/q1.mp3"
+    },
+    {
+      "id": "q2",
+      "type": "speak",
+      "ages": [
+        "B"
+      ],
+      "promptText": "跟读：太阳",
+      "promptSpeak": "太阳",
+      "speakText": "太阳",
+      "answer": "spoken",
+      "promptAudio": "/audio/lang-starter-08/q2.mp3"
+    },
+    {
+      "id": "q3",
+      "type": "speak",
+      "ages": [
+        "C"
+      ],
+      "promptText": "跟读：月亮出来亮晶晶",
+      "promptSpeak": "月亮出来亮晶晶",
+      "speakText": "月亮出来亮晶晶",
+      "answer": "spoken",
+      "promptAudio": "/audio/lang-starter-08/q3.mp3"
+    },
+    {
+      "id": "q4",
+      "type": "tap",
+      "promptText": "听「月亮」，点月亮",
+      "promptSpeak": "月亮",
+      "choices": [
+        {
+          "id": "sun",
+          "label": "太阳",
+          "visual": "/art/sun.svg"
+        },
+        {
+          "id": "moon",
+          "label": "月亮",
+          "visual": "/art/moon.svg"
+        }
+      ],
+      "answer": "moon",
+      "promptAudio": "/audio/lang-starter-08/q4.mp3"
+    }
+  ],
+  "rewardCopy": "小诗读完啦！",
+  "rewardCopyZh": "小诗读完啦！"
+}

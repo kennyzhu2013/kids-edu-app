@@ -1,0 +1,76 @@
+{
+  "schemaVersion": 1,
+  "ageBand": [
+    "A",
+    "B",
+    "C"
+  ],
+  "rewardStars": 3,
+  "id": "life-starter-06",
+  "packId": "life-starter",
+  "title": "刷牙",
+  "order": 6,
+  "vocab": [
+    "牙刷",
+    "牙膏"
+  ],
+  "audioIntro": "/audio/life-starter-06/intro.mp3",
+  "introScript": "刷牙要挤一点牙膏，上上下下刷干净。",
+  "introScriptZh": "刷牙要挤一点牙膏，上上下下刷干净。",
+  "listenTitle": "刷牙",
+  "listenVisual": "/art/tooth.svg",
+  "nextLevelId": "life-starter-07",
+  "steps": [
+    {
+      "id": "q1",
+      "type": "tap",
+      "promptText": "刷牙用什么？",
+      "promptSpeak": "牙刷",
+      "choices": [
+        {
+          "id": "brush",
+          "label": "牙刷",
+          "visual": "/art/brush.svg"
+        },
+        {
+          "id": "soap",
+          "label": "肥皂",
+          "visual": "/art/soap.svg"
+        }
+      ],
+      "answer": "brush",
+      "promptAudio": "/audio/life-starter-06/q1.mp3"
+    },
+    {
+      "id": "q2",
+      "type": "sort",
+      "promptText": "先挤牙膏，再刷牙，最后漱口",
+      "promptSpeak": "排一排刷牙",
+      "choices": [
+        {
+          "id": "paste",
+          "label": "挤牙膏",
+          "visual": "/art/tooth.svg"
+        },
+        {
+          "id": "brush",
+          "label": "刷牙",
+          "visual": "/art/brush.svg"
+        },
+        {
+          "id": "rinse",
+          "label": "漱口",
+          "visual": "/art/rinse.svg"
+        }
+      ],
+      "answer": [
+        "paste",
+        "brush",
+        "rinse"
+      ],
+      "promptAudio": "/audio/life-starter-06/q2.mp3"
+    }
+  ],
+  "rewardCopy": "牙齿亮晶晶！",
+  "rewardCopyZh": "牙齿亮晶晶！"
+}

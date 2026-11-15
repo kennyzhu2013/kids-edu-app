@@ -96,11 +96,46 @@
         }
       ],
       "answer": "mountain"
+    },
+    {
+      "id": "q-drag",
+      "type": "drag",
+      "promptText": "日配太阳，月配月亮",
+      "promptSpeak": "找一找",
+      "baskets": [
+        {
+          "id": "sun",
+          "label": "太阳",
+          "visual": "/art/sun.svg"
+        },
+        {
+          "id": "moon",
+          "label": "月亮",
+          "visual": "/art/moon.svg"
+        }
+      ],
+      "choices": [
+        {
+          "id": "ri",
+          "label": "日",
+          "visual": "/art/sun.svg",
+          "basket": "sun"
+        },
+        {
+          "id": "yue",
+          "label": "月",
+          "visual": "/art/moon.svg",
+          "basket": "moon"
+        }
+      ],
+      "answer": "placed",
+      "promptAudio": "/audio/lang-starter-05/q-drag.mp3"
     }
   ],
   "rewardStars": 3,
   "rewardCopy": "汉字小考古家！",
   "rewardCopyZh": "汉字小考古家！",
   "assetsNote": "没有实拍素材。图用色块和字块代替，旁白用浏览器语音。",
-  "aDiff": "从图画认汉字"
+  "aDiff": "从图画认汉字",
+  "nextLevelId": "lang-starter-06"
 }

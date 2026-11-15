@@ -1,0 +1,90 @@
+{
+  "schemaVersion": 1,
+  "ageBand": [
+    "A",
+    "B",
+    "C"
+  ],
+  "rewardStars": 3,
+  "id": "eng-starter-08",
+  "packId": "eng-starter",
+  "title": "Actions",
+  "order": 8,
+  "vocab": [
+    "run",
+    "jump",
+    "stand"
+  ],
+  "audioIntro": "/audio/eng-starter-08/intro.mp3",
+  "introScript": "Let's move! Run, jump, and stand.",
+  "introScriptZh": "动一动。跑一跑，跳一跳，站好。",
+  "listenTitle": "Actions",
+  "listenVisual": "/art/run.svg",
+  "nextLevelId": "eng-starter-09",
+  "steps": [
+    {
+      "id": "q1",
+      "type": "tap",
+      "promptText": "听「run」，点跑步",
+      "promptSpeak": "run",
+      "choices": [
+        {
+          "id": "jump",
+          "label": "跳",
+          "visual": "/art/jump.svg"
+        },
+        {
+          "id": "run",
+          "label": "跑",
+          "visual": "/art/run.svg"
+        },
+        {
+          "id": "stand",
+          "label": "站",
+          "visual": "/art/stand.svg"
+        }
+      ],
+      "answer": "run",
+      "promptAudio": "/audio/eng-starter-08/q1.mp3"
+    },
+    {
+      "id": "q2",
+      "type": "tap",
+      "promptText": "听「jump」，点跳",
+      "promptSpeak": "jump",
+      "choices": [
+        {
+          "id": "stand",
+          "label": "站",
+          "visual": "/art/stand.svg"
+        },
+        {
+          "id": "jump",
+          "label": "跳",
+          "visual": "/art/jump.svg"
+        },
+        {
+          "id": "run",
+          "label": "跑",
+          "visual": "/art/run.svg"
+        }
+      ],
+      "answer": "jump",
+      "promptAudio": "/audio/eng-starter-08/q2.mp3"
+    },
+    {
+      "id": "q3",
+      "type": "speak",
+      "ages": [
+        "C"
+      ],
+      "promptText": "跟读：I can jump",
+      "promptSpeak": "I can jump",
+      "speakText": "I can jump",
+      "answer": "spoken",
+      "promptAudio": "/audio/eng-starter-08/q3.mp3"
+    }
+  ],
+  "rewardCopy": "You can move!",
+  "rewardCopyZh": "动得真好！"
+}

@@ -1,0 +1,81 @@
+{
+  "schemaVersion": 1,
+  "ageBand": [
+    "A",
+    "B",
+    "C"
+  ],
+  "rewardStars": 3,
+  "id": "lang-starter-10",
+  "packId": "lang-starter",
+  "title": "语文复习",
+  "order": 10,
+  "vocab": [
+    "猫",
+    "红",
+    "日"
+  ],
+  "audioIntro": "/audio/lang-starter-10/intro.mp3",
+  "introScript": "复习小猫、红色和太阳。",
+  "introScriptZh": "复习小猫、红色和太阳。",
+  "listenTitle": "语文复习",
+  "listenVisual": "/art/listen-animals.svg",
+  "steps": [
+    {
+      "id": "q1",
+      "type": "tap",
+      "promptText": "听「红」，点红色",
+      "promptSpeak": "红",
+      "choices": [
+        {
+          "id": "cat",
+          "label": "猫",
+          "visual": "/art/cat.svg"
+        },
+        {
+          "id": "red",
+          "label": "红",
+          "visual": "/art/swatch-red.svg"
+        },
+        {
+          "id": "sun",
+          "label": "日",
+          "visual": "/art/sun.svg"
+        }
+      ],
+      "answer": "red",
+      "promptAudio": "/audio/lang-starter-10/q1.mp3"
+    },
+    {
+      "id": "q2",
+      "type": "sort",
+      "promptText": "按一、二、三排好",
+      "promptSpeak": "排好一二三",
+      "choices": [
+        {
+          "id": "one",
+          "label": "一",
+          "visual": "/art/num-1.svg"
+        },
+        {
+          "id": "two",
+          "label": "二",
+          "visual": "/art/num-2.svg"
+        },
+        {
+          "id": "three",
+          "label": "三",
+          "visual": "/art/num-3.svg"
+        }
+      ],
+      "answer": [
+        "one",
+        "two",
+        "three"
+      ],
+      "promptAudio": "/audio/lang-starter-10/q2.mp3"
+    }
+  ],
+  "rewardCopy": "语文复习完成！",
+  "rewardCopyZh": "语文复习完成！"
+}

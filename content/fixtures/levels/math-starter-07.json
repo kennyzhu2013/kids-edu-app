@@ -1,0 +1,82 @@
+{
+  "schemaVersion": 1,
+  "ageBand": [
+    "A",
+    "B",
+    "C"
+  ],
+  "rewardStars": 3,
+  "id": "math-starter-07",
+  "packId": "math-starter",
+  "title": "第几",
+  "order": 7,
+  "vocab": [
+    "第1",
+    "第2",
+    "第3"
+  ],
+  "audioIntro": "/audio/math-starter-07/intro.mp3",
+  "introScript": "排队时，最前面是第 1，后面是第 2、第 3。",
+  "introScriptZh": "排队时，最前面是第 1，后面是第 2、第 3。",
+  "listenTitle": "第几",
+  "listenVisual": "/art/listen-queue.svg",
+  "nextLevelId": "math-starter-08",
+  "steps": [
+    {
+      "id": "q1",
+      "type": "tap",
+      "promptText": "最前面是第几？",
+      "promptSpeak": "第1",
+      "choices": [
+        {
+          "id": "2",
+          "label": "第2",
+          "visual": "/art/num-2.svg"
+        },
+        {
+          "id": "1",
+          "label": "第1",
+          "visual": "/art/num-1.svg"
+        },
+        {
+          "id": "3",
+          "label": "第3",
+          "visual": "/art/num-3.svg"
+        }
+      ],
+      "answer": "1",
+      "promptAudio": "/audio/math-starter-07/q1.mp3"
+    },
+    {
+      "id": "q2",
+      "type": "sort",
+      "promptText": "按第 1、第 2、第 3 排好",
+      "promptSpeak": "排好顺序",
+      "choices": [
+        {
+          "id": "first",
+          "label": "第1",
+          "visual": "/art/num-1.svg"
+        },
+        {
+          "id": "second",
+          "label": "第2",
+          "visual": "/art/num-2.svg"
+        },
+        {
+          "id": "third",
+          "label": "第3",
+          "visual": "/art/num-3.svg"
+        }
+      ],
+      "answer": [
+        "first",
+        "second",
+        "third"
+      ],
+      "promptAudio": "/audio/math-starter-07/q2.mp3"
+    }
+  ],
+  "rewardCopy": "第几都知道！",
+  "rewardCopyZh": "第几都知道！"
+}

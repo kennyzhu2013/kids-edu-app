@@ -99,6 +99,40 @@
         "B",
         "C"
       ]
+    },
+    {
+      "id": "q-drag",
+      "type": "drag",
+      "promptText": "地上跑的放一边，天上飞的放一边",
+      "promptSpeak": "分一分",
+      "baskets": [
+        {
+          "id": "ground",
+          "label": "地上",
+          "visual": "/art/car.svg"
+        },
+        {
+          "id": "sky",
+          "label": "天上",
+          "visual": "/art/plane.svg"
+        }
+      ],
+      "choices": [
+        {
+          "id": "car",
+          "label": "汽车",
+          "visual": "/art/car.svg",
+          "basket": "ground"
+        },
+        {
+          "id": "plane",
+          "label": "飞机",
+          "visual": "/art/plane.svg",
+          "basket": "sky"
+        }
+      ],
+      "answer": "placed",
+      "promptAudio": "/audio/life-starter-03/q-drag.mp3"
     }
   ],
   "rewardStars": 3,

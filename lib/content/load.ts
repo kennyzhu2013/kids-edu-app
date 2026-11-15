@@ -9,16 +9,31 @@ import eng02 from "@/content/fixtures/levels/eng-starter-02.json";
 import eng03 from "@/content/fixtures/levels/eng-starter-03.json";
 import eng04 from "@/content/fixtures/levels/eng-starter-04.json";
 import eng05 from "@/content/fixtures/levels/eng-starter-05.json";
+import eng06 from "@/content/fixtures/levels/eng-starter-06.json";
+import eng07 from "@/content/fixtures/levels/eng-starter-07.json";
+import eng08 from "@/content/fixtures/levels/eng-starter-08.json";
+import eng09 from "@/content/fixtures/levels/eng-starter-09.json";
+import eng10 from "@/content/fixtures/levels/eng-starter-10.json";
 import lang01 from "@/content/fixtures/levels/lang-starter-01.json";
 import lang02 from "@/content/fixtures/levels/lang-starter-02.json";
 import lang03 from "@/content/fixtures/levels/lang-starter-03.json";
 import lang04 from "@/content/fixtures/levels/lang-starter-04.json";
 import lang05 from "@/content/fixtures/levels/lang-starter-05.json";
+import lang06 from "@/content/fixtures/levels/lang-starter-06.json";
+import lang07 from "@/content/fixtures/levels/lang-starter-07.json";
+import lang08 from "@/content/fixtures/levels/lang-starter-08.json";
+import lang09 from "@/content/fixtures/levels/lang-starter-09.json";
+import lang10 from "@/content/fixtures/levels/lang-starter-10.json";
 import life01 from "@/content/fixtures/levels/life-starter-01.json";
 import life02 from "@/content/fixtures/levels/life-starter-02.json";
 import life03 from "@/content/fixtures/levels/life-starter-03.json";
 import life04 from "@/content/fixtures/levels/life-starter-04.json";
 import life05 from "@/content/fixtures/levels/life-starter-05.json";
+import life06 from "@/content/fixtures/levels/life-starter-06.json";
+import life07 from "@/content/fixtures/levels/life-starter-07.json";
+import life08 from "@/content/fixtures/levels/life-starter-08.json";
+import life09 from "@/content/fixtures/levels/life-starter-09.json";
+import life10 from "@/content/fixtures/levels/life-starter-10.json";
 import mathLife01 from "@/content/fixtures/levels/math-life-01.json";
 import mathLife02 from "@/content/fixtures/levels/math-life-02.json";
 import mathLife03 from "@/content/fixtures/levels/math-life-03.json";
@@ -29,6 +44,11 @@ import math02 from "@/content/fixtures/levels/math-starter-02.json";
 import math03 from "@/content/fixtures/levels/math-starter-03.json";
 import math04 from "@/content/fixtures/levels/math-starter-04.json";
 import math05 from "@/content/fixtures/levels/math-starter-05.json";
+import math06 from "@/content/fixtures/levels/math-starter-06.json";
+import math07 from "@/content/fixtures/levels/math-starter-07.json";
+import math08 from "@/content/fixtures/levels/math-starter-08.json";
+import math09 from "@/content/fixtures/levels/math-starter-09.json";
+import math10 from "@/content/fixtures/levels/math-starter-10.json";
 import {
   catalogSchema,
   gameDocumentSchema,
@@ -44,16 +64,31 @@ const levelFiles = [
   eng03,
   eng04,
   eng05,
+  eng06,
+  eng07,
+  eng08,
+  eng09,
+  eng10,
   lang01,
   lang02,
   lang03,
   lang04,
   lang05,
+  lang06,
+  lang07,
+  lang08,
+  lang09,
+  lang10,
   life01,
   life02,
   life03,
   life04,
   life05,
+  life06,
+  life07,
+  life08,
+  life09,
+  life10,
   mathLife01,
   mathLife02,
   mathLife03,
@@ -64,6 +99,11 @@ const levelFiles = [
   math03,
   math04,
   math05,
+  math06,
+  math07,
+  math08,
+  math09,
+  math10,
 ];
 
 function parseOrThrow<T>(name: string, result: { success: true; data: T } | { success: false; error: { issues: unknown[] } }): T {

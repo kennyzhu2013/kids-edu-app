@@ -1,0 +1,87 @@
+{
+  "schemaVersion": 1,
+  "ageBand": [
+    "A",
+    "B",
+    "C"
+  ],
+  "rewardStars": 3,
+  "id": "lang-starter-09",
+  "packId": "lang-starter",
+  "title": "象形再认",
+  "order": 9,
+  "vocab": [
+    "山",
+    "水",
+    "火"
+  ],
+  "audioIntro": "/audio/lang-starter-09/intro.mp3",
+  "introScript": "山高高，水弯弯，火苗跳。",
+  "introScriptZh": "山高高，水弯弯，火苗跳。",
+  "listenTitle": "象形再认",
+  "listenVisual": "/art/mountain.svg",
+  "nextLevelId": "lang-starter-10",
+  "steps": [
+    {
+      "id": "q1",
+      "type": "tap",
+      "promptText": "听「水」，点水",
+      "promptSpeak": "水",
+      "choices": [
+        {
+          "id": "mountain",
+          "label": "山",
+          "visual": "/art/mountain.svg"
+        },
+        {
+          "id": "water",
+          "label": "水",
+          "visual": "/art/water.svg"
+        },
+        {
+          "id": "fire",
+          "label": "火",
+          "visual": "/art/fire.svg"
+        }
+      ],
+      "answer": "water",
+      "promptAudio": "/audio/lang-starter-09/q1.mp3"
+    },
+    {
+      "id": "q2",
+      "type": "drag",
+      "promptText": "山配高山，火配火苗",
+      "promptSpeak": "配一配",
+      "baskets": [
+        {
+          "id": "mountain",
+          "label": "山",
+          "visual": "/art/mountain.svg"
+        },
+        {
+          "id": "fire",
+          "label": "火",
+          "visual": "/art/fire.svg"
+        }
+      ],
+      "choices": [
+        {
+          "id": "shan",
+          "label": "山",
+          "visual": "/art/mountain.svg",
+          "basket": "mountain"
+        },
+        {
+          "id": "huo",
+          "label": "火",
+          "visual": "/art/fire.svg",
+          "basket": "fire"
+        }
+      ],
+      "answer": "placed",
+      "promptAudio": "/audio/lang-starter-09/q2.mp3"
+    }
+  ],
+  "rewardCopy": "象形字又认识啦！",
+  "rewardCopyZh": "象形字又认识啦！"
+}

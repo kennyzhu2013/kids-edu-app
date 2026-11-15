@@ -98,11 +98,46 @@
         "B",
         "C"
       ]
+    },
+    {
+      "id": "q-drag",
+      "type": "drag",
+      "promptText": "圆形进圆盒，方形进方盒",
+      "promptSpeak": "分一分形状",
+      "baskets": [
+        {
+          "id": "round",
+          "label": "圆盒",
+          "visual": "/art/shape-circle.svg"
+        },
+        {
+          "id": "box",
+          "label": "方盒",
+          "visual": "/art/shape-square.svg"
+        }
+      ],
+      "choices": [
+        {
+          "id": "circle",
+          "label": "圆形",
+          "visual": "/art/shape-circle.svg",
+          "basket": "round"
+        },
+        {
+          "id": "square",
+          "label": "方形",
+          "visual": "/art/shape-square.svg",
+          "basket": "box"
+        }
+      ],
+      "answer": "placed",
+      "promptAudio": "/audio/math-starter-05/q-drag.mp3"
     }
   ],
   "rewardStars": 3,
   "rewardCopy": "分类小能手！",
   "rewardCopyZh": "分类小能手！",
   "assetsNote": "没有实拍素材。图用色块和字块代替，旁白用浏览器语音。",
-  "aDiff": "按形状和颜色分类"
+  "aDiff": "按形状和颜色分类",
+  "nextLevelId": "math-starter-06"
 }

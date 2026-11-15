@@ -1,0 +1,102 @@
+{
+  "schemaVersion": 1,
+  "ageBand": [
+    "A",
+    "B",
+    "C"
+  ],
+  "rewardStars": 3,
+  "id": "eng-starter-06",
+  "packId": "eng-starter",
+  "title": "Family",
+  "order": 6,
+  "vocab": [
+    "mom",
+    "dad",
+    "baby"
+  ],
+  "audioIntro": "/audio/eng-starter-06/intro.mp3",
+  "introScript": "This is my family. Mom, dad, and a little baby.",
+  "introScriptZh": "这是我的家人。妈妈、爸爸，还有小宝宝。",
+  "listenTitle": "Family",
+  "listenVisual": "/art/listen-hello.svg",
+  "nextLevelId": "eng-starter-07",
+  "steps": [
+    {
+      "id": "q1",
+      "type": "tap",
+      "promptText": "听「mom」，点妈妈",
+      "promptSpeak": "mom",
+      "choices": [
+        {
+          "id": "dad",
+          "label": "爸爸",
+          "visual": "/art/dad.svg"
+        },
+        {
+          "id": "mom",
+          "label": "妈妈",
+          "visual": "/art/mom.svg"
+        },
+        {
+          "id": "baby",
+          "label": "宝宝",
+          "visual": "/art/baby.svg"
+        }
+      ],
+      "answer": "mom",
+      "promptAudio": "/audio/eng-starter-06/q1.mp3"
+    },
+    {
+      "id": "q2",
+      "type": "tap",
+      "promptText": "听「dad」，点爸爸",
+      "promptSpeak": "dad",
+      "choices": [
+        {
+          "id": "mom",
+          "label": "妈妈",
+          "visual": "/art/mom.svg"
+        },
+        {
+          "id": "dad",
+          "label": "爸爸",
+          "visual": "/art/dad.svg"
+        },
+        {
+          "id": "baby",
+          "label": "宝宝",
+          "visual": "/art/baby.svg"
+        }
+      ],
+      "answer": "dad",
+      "promptAudio": "/audio/eng-starter-06/q2.mp3"
+    },
+    {
+      "id": "q3",
+      "type": "speak",
+      "ages": [
+        "B"
+      ],
+      "promptText": "跟读：mom",
+      "promptSpeak": "mom",
+      "speakText": "mom",
+      "answer": "spoken",
+      "promptAudio": "/audio/eng-starter-06/q3.mp3"
+    },
+    {
+      "id": "q4",
+      "type": "speak",
+      "ages": [
+        "C"
+      ],
+      "promptText": "跟读：This is my mom",
+      "promptSpeak": "This is my mom",
+      "speakText": "This is my mom",
+      "answer": "spoken",
+      "promptAudio": "/audio/eng-starter-06/q4.mp3"
+    }
+  ],
+  "rewardCopy": "Family star!",
+  "rewardCopyZh": "家人真棒！"
+}

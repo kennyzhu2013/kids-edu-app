@@ -27,7 +27,7 @@
       "subjectId": "eng",
       "title": "English Starter · Hello World",
       "summary": "问候、颜色、动物、数字和身体。先听，再点。",
-      "levelCount": 5,
+      "levelCount": 10,
       "ageRange": "3–6岁",
       "access": "trial",
       "accent": "#ff8a5b"
@@ -37,7 +37,7 @@
       "subjectId": "math",
       "title": "Math Starter · 数感启蒙",
       "summary": "数数、比较、形状、大小长短和分类。",
-      "levelCount": 5,
+      "levelCount": 10,
       "ageRange": "3–6岁",
       "access": "trial",
       "accent": "#4aa3ff"
@@ -57,7 +57,7 @@
       "subjectId": "lang",
       "title": "语文启蒙 · 听识说",
       "summary": "身体家人、动物、颜色、食物和象形字。",
-      "levelCount": 5,
+      "levelCount": 10,
       "ageRange": "3–6岁",
       "access": "trial",
       "accent": "#ff6b8a"
@@ -67,7 +67,7 @@
       "subjectId": "life",
       "title": "生活认知 · 小习惯",
       "summary": "穿衣、洗手、交通、情绪和安全。",
-      "levelCount": 5,
+      "levelCount": 10,
       "ageRange": "3–6岁",
       "access": "trial",
       "accent": "#2fba8a"
@@ -178,6 +178,101 @@
       "playable": true
     },
     {
+      "id": "eng-starter-06",
+      "packId": "eng-starter",
+      "order": 6,
+      "title": "Family",
+      "goal": "这是我的家人。妈妈、爸爸，还有小宝宝。",
+      "vocab": [
+        "mom",
+        "dad",
+        "baby"
+      ],
+      "rewardCopy": "Family star!",
+      "types": [
+        "tap",
+        "speak"
+      ],
+      "minutes": 2,
+      "playable": true
+    },
+    {
+      "id": "eng-starter-07",
+      "packId": "eng-starter",
+      "order": 7,
+      "title": "Food",
+      "goal": "好吃的东西。苹果、牛奶和面包。",
+      "vocab": [
+        "apple",
+        "milk",
+        "bread"
+      ],
+      "rewardCopy": "Yummy!",
+      "types": [
+        "tap",
+        "speak"
+      ],
+      "minutes": 2,
+      "playable": true
+    },
+    {
+      "id": "eng-starter-08",
+      "packId": "eng-starter",
+      "order": 8,
+      "title": "Actions",
+      "goal": "动一动。跑一跑，跳一跳，站好。",
+      "vocab": [
+        "run",
+        "jump",
+        "stand"
+      ],
+      "rewardCopy": "You can move!",
+      "types": [
+        "tap",
+        "speak"
+      ],
+      "minutes": 2,
+      "playable": true
+    },
+    {
+      "id": "eng-starter-09",
+      "packId": "eng-starter",
+      "order": 9,
+      "title": "Clothes",
+      "goal": "太阳大，戴帽子。天冷了，穿外套。",
+      "vocab": [
+        "hat",
+        "coat"
+      ],
+      "rewardCopy": "Nice clothes!",
+      "types": [
+        "tap",
+        "speak"
+      ],
+      "minutes": 2,
+      "playable": true
+    },
+    {
+      "id": "eng-starter-10",
+      "packId": "eng-starter",
+      "order": 10,
+      "title": "Review",
+      "goal": "复习一下。家人、食物，还有动作。",
+      "vocab": [
+        "mom",
+        "apple",
+        "run"
+      ],
+      "rewardCopy": "Review star!",
+      "types": [
+        "tap",
+        "drag",
+        "speak"
+      ],
+      "minutes": 2,
+      "playable": true
+    },
+    {
       "id": "math-starter-01",
       "packId": "math-starter",
       "order": 1,
@@ -276,6 +371,102 @@
         "drag",
         "sort",
         "tap"
+      ],
+      "minutes": 2,
+      "playable": true
+    },
+    {
+      "id": "math-starter-06",
+      "packId": "math-starter",
+      "order": 6,
+      "title": "数到十",
+      "goal": "五之后是六、七、八、九、十。",
+      "vocab": [
+        "6",
+        "7",
+        "8",
+        "9",
+        "10"
+      ],
+      "rewardCopy": "能数到十啦！",
+      "types": [
+        "tap",
+        "speak"
+      ],
+      "minutes": 2,
+      "playable": true
+    },
+    {
+      "id": "math-starter-07",
+      "packId": "math-starter",
+      "order": 7,
+      "title": "第几",
+      "goal": "排队时，最前面是第 1，后面是第 2、第 3。",
+      "vocab": [
+        "第1",
+        "第2",
+        "第3"
+      ],
+      "rewardCopy": "第几都知道！",
+      "types": [
+        "tap",
+        "sort"
+      ],
+      "minutes": 2,
+      "playable": true
+    },
+    {
+      "id": "math-starter-08",
+      "packId": "math-starter",
+      "order": 8,
+      "title": "找规律",
+      "goal": "红、黄、红、黄，下一个还是红。",
+      "vocab": [
+        "规律",
+        "下一个"
+      ],
+      "rewardCopy": "规律找到啦！",
+      "types": [
+        "tap",
+        "sort"
+      ],
+      "minutes": 2,
+      "playable": true
+    },
+    {
+      "id": "math-starter-09",
+      "packId": "math-starter",
+      "order": 9,
+      "title": "比一比",
+      "goal": "两个苹果再加一个，就变成三个。",
+      "vocab": [
+        "多",
+        "少",
+        "一共"
+      ],
+      "rewardCopy": "会比较也会加一点！",
+      "types": [
+        "tap",
+        "speak"
+      ],
+      "minutes": 2,
+      "playable": true
+    },
+    {
+      "id": "math-starter-10",
+      "packId": "math-starter",
+      "order": 10,
+      "title": "数学复习",
+      "goal": "复习数数、形状和大小。",
+      "vocab": [
+        "5",
+        "圆",
+        "大"
+      ],
+      "rewardCopy": "数学复习完成！",
+      "types": [
+        "tap",
+        "drag"
       ],
       "minutes": 2,
       "playable": true
@@ -483,6 +674,101 @@
       "playable": true
     },
     {
+      "id": "lang-starter-06",
+      "packId": "lang-starter",
+      "order": 6,
+      "title": "数字字",
+      "goal": "一是一根棍，二是两横，三是三横。",
+      "vocab": [
+        "一",
+        "二",
+        "三"
+      ],
+      "rewardCopy": "数字字认识啦！",
+      "types": [
+        "tap",
+        "speak"
+      ],
+      "minutes": 2,
+      "playable": true
+    },
+    {
+      "id": "lang-starter-07",
+      "packId": "lang-starter",
+      "order": 7,
+      "title": "反义词",
+      "goal": "大的对面是小，长的对面是短。",
+      "vocab": [
+        "大",
+        "小",
+        "长",
+        "短"
+      ],
+      "rewardCopy": "反义词真清楚！",
+      "types": [
+        "tap",
+        "speak"
+      ],
+      "minutes": 2,
+      "playable": true
+    },
+    {
+      "id": "lang-starter-08",
+      "packId": "lang-starter",
+      "order": 8,
+      "title": "一句小诗",
+      "goal": "太阳出来红彤彤，月亮出来亮晶晶。",
+      "vocab": [
+        "太阳",
+        "月亮"
+      ],
+      "rewardCopy": "小诗读完啦！",
+      "types": [
+        "tap",
+        "speak"
+      ],
+      "minutes": 2,
+      "playable": true
+    },
+    {
+      "id": "lang-starter-09",
+      "packId": "lang-starter",
+      "order": 9,
+      "title": "象形再认",
+      "goal": "山高高，水弯弯，火苗跳。",
+      "vocab": [
+        "山",
+        "水",
+        "火"
+      ],
+      "rewardCopy": "象形字又认识啦！",
+      "types": [
+        "tap",
+        "drag"
+      ],
+      "minutes": 2,
+      "playable": true
+    },
+    {
+      "id": "lang-starter-10",
+      "packId": "lang-starter",
+      "order": 10,
+      "title": "语文复习",
+      "goal": "复习小猫、红色和太阳。",
+      "vocab": [
+        "猫",
+        "红",
+        "日"
+      ],
+      "rewardCopy": "语文复习完成！",
+      "types": [
+        "tap",
+        "sort"
+      ],
+      "minutes": 2,
+      "playable": true
+    },
+    {
       "id": "life-starter-01",
       "packId": "life-starter",
       "order": 1,
@@ -581,6 +867,95 @@
       "types": [
         "tap",
         "scenario-choice"
+      ],
+      "minutes": 2,
+      "playable": true
+    },
+    {
+      "id": "life-starter-06",
+      "packId": "life-starter",
+      "order": 6,
+      "title": "刷牙",
+      "goal": "刷牙要挤一点牙膏，上上下下刷干净。",
+      "vocab": [
+        "牙刷",
+        "牙膏"
+      ],
+      "rewardCopy": "牙齿亮晶晶！",
+      "types": [
+        "tap",
+        "sort"
+      ],
+      "minutes": 2,
+      "playable": true
+    },
+    {
+      "id": "life-starter-07",
+      "packId": "life-starter",
+      "order": 7,
+      "title": "整理房间",
+      "goal": "玩完的玩具要回家，放进盒子里。",
+      "vocab": [
+        "玩具",
+        "盒子"
+      ],
+      "rewardCopy": "房间整齐啦！",
+      "types": [
+        "drag",
+        "speak"
+      ],
+      "minutes": 2,
+      "playable": true
+    },
+    {
+      "id": "life-starter-08",
+      "packId": "life-starter",
+      "order": 8,
+      "title": "吃饭礼貌",
+      "goal": "想吃的时候说请，吃完说谢谢。",
+      "vocab": [
+        "请",
+        "谢谢"
+      ],
+      "rewardCopy": "有礼貌！",
+      "types": [
+        "tap",
+        "speak"
+      ],
+      "minutes": 2,
+      "playable": true
+    },
+    {
+      "id": "life-starter-09",
+      "packId": "life-starter",
+      "order": 9,
+      "title": "求助",
+      "goal": "需要帮助就告诉大人。要紧的事可以打电话。",
+      "vocab": [
+        "帮忙",
+        "电话"
+      ],
+      "rewardCopy": "会求助，真勇敢！",
+      "types": [
+        "tap"
+      ],
+      "minutes": 2,
+      "playable": true
+    },
+    {
+      "id": "life-starter-10",
+      "packId": "life-starter",
+      "order": 10,
+      "title": "户外安全",
+      "goal": "出门牵着大人的手。红灯停一停。",
+      "vocab": [
+        "停",
+        "牵手"
+      ],
+      "rewardCopy": "出门也安全！",
+      "types": [
+        "tap",
+        "sort"
       ],
       "minutes": 2,
       "playable": true

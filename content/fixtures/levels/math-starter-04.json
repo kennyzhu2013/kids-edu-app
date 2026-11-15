@@ -95,6 +95,35 @@
         }
       ],
       "answer": "small"
+    },
+    {
+      "id": "q-sort",
+      "type": "sort",
+      "promptText": "从小到大排一排",
+      "promptSpeak": "从小到大",
+      "choices": [
+        {
+          "id": "small",
+          "label": "小",
+          "visual": "/art/small.svg"
+        },
+        {
+          "id": "mid",
+          "label": "中",
+          "visual": "/art/mid.svg"
+        },
+        {
+          "id": "big",
+          "label": "大",
+          "visual": "/art/big.svg"
+        }
+      ],
+      "answer": [
+        "small",
+        "mid",
+        "big"
+      ],
+      "promptAudio": "/audio/math-starter-04/q-sort.mp3"
     }
   ],
   "rewardStars": 3,

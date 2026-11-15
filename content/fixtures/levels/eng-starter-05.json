@@ -107,6 +107,18 @@
       "promptSpeak": "This is my hand",
       "speakText": "This is my hand",
       "answer": "spoken"
+    },
+    {
+      "id": "q-speak-b",
+      "type": "speak",
+      "ages": [
+        "B"
+      ],
+      "promptText": "跟读：nose",
+      "promptSpeak": "nose",
+      "speakText": "nose",
+      "answer": "spoken",
+      "promptAudio": "/audio/eng-starter-05/q-speak-b.mp3"
     }
   ],
   "rewardStars": 3,
@@ -115,5 +127,6 @@
   "aDiff": "听指令点部位",
   "bDiff": "指令可以再听一遍，答错再点",
   "cDiff": "跟读 This is my hand。麦克风还没接。",
-  "assetsNote": "身体部位是简笔画热区，不是照片。指令用浏览器语音。"
+  "assetsNote": "身体部位是简笔画热区，不是照片。指令用浏览器语音。",
+  "nextLevelId": "eng-starter-06"
 }

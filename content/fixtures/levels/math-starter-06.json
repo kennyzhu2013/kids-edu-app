@@ -1,0 +1,92 @@
+{
+  "schemaVersion": 1,
+  "ageBand": [
+    "A",
+    "B",
+    "C"
+  ],
+  "rewardStars": 3,
+  "id": "math-starter-06",
+  "packId": "math-starter",
+  "title": "数到十",
+  "order": 6,
+  "vocab": [
+    "6",
+    "7",
+    "8",
+    "9",
+    "10"
+  ],
+  "audioIntro": "/audio/math-starter-06/intro.mp3",
+  "introScript": "五之后是六、七、八、九、十。",
+  "introScriptZh": "五之后是六、七、八、九、十。",
+  "listenTitle": "数到十",
+  "listenVisual": "/art/listen-numbers.svg",
+  "nextLevelId": "math-starter-07",
+  "steps": [
+    {
+      "id": "q1",
+      "type": "tap",
+      "promptText": "听「八」，点 8",
+      "promptSpeak": "八",
+      "choices": [
+        {
+          "id": "6",
+          "label": "6",
+          "visual": "/art/num-6.svg"
+        },
+        {
+          "id": "8",
+          "label": "8",
+          "visual": "/art/num-8.svg"
+        },
+        {
+          "id": "10",
+          "label": "10",
+          "visual": "/art/num-10.svg"
+        }
+      ],
+      "answer": "8",
+      "promptAudio": "/audio/math-starter-06/q1.mp3"
+    },
+    {
+      "id": "q2",
+      "type": "tap",
+      "promptText": "听「十」，点 10",
+      "promptSpeak": "十",
+      "choices": [
+        {
+          "id": "9",
+          "label": "9",
+          "visual": "/art/num-9.svg"
+        },
+        {
+          "id": "10",
+          "label": "10",
+          "visual": "/art/num-10.svg"
+        },
+        {
+          "id": "7",
+          "label": "7",
+          "visual": "/art/num-7.svg"
+        }
+      ],
+      "answer": "10",
+      "promptAudio": "/audio/math-starter-06/q2.mp3"
+    },
+    {
+      "id": "q3",
+      "type": "speak",
+      "ages": [
+        "B"
+      ],
+      "promptText": "跟读：十",
+      "promptSpeak": "十",
+      "speakText": "十",
+      "answer": "spoken",
+      "promptAudio": "/audio/math-starter-06/q3.mp3"
+    }
+  ],
+  "rewardCopy": "能数到十啦！",
+  "rewardCopyZh": "能数到十啦！"
+}

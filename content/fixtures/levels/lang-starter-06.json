@@ -1,0 +1,90 @@
+{
+  "schemaVersion": 1,
+  "ageBand": [
+    "A",
+    "B",
+    "C"
+  ],
+  "rewardStars": 3,
+  "id": "lang-starter-06",
+  "packId": "lang-starter",
+  "title": "数字字",
+  "order": 6,
+  "vocab": [
+    "一",
+    "二",
+    "三"
+  ],
+  "audioIntro": "/audio/lang-starter-06/intro.mp3",
+  "introScript": "一是一根棍，二是两横，三是三横。",
+  "introScriptZh": "一是一根棍，二是两横，三是三横。",
+  "listenTitle": "数字字",
+  "listenVisual": "/art/listen-numbers.svg",
+  "nextLevelId": "lang-starter-07",
+  "steps": [
+    {
+      "id": "q1",
+      "type": "tap",
+      "promptText": "听「二」，点二",
+      "promptSpeak": "二",
+      "choices": [
+        {
+          "id": "1",
+          "label": "一",
+          "visual": "/art/num-1.svg"
+        },
+        {
+          "id": "2",
+          "label": "二",
+          "visual": "/art/num-2.svg"
+        },
+        {
+          "id": "3",
+          "label": "三",
+          "visual": "/art/num-3.svg"
+        }
+      ],
+      "answer": "2",
+      "promptAudio": "/audio/lang-starter-06/q1.mp3"
+    },
+    {
+      "id": "q2",
+      "type": "tap",
+      "promptText": "听「三」，点三",
+      "promptSpeak": "三",
+      "choices": [
+        {
+          "id": "2",
+          "label": "二",
+          "visual": "/art/num-2.svg"
+        },
+        {
+          "id": "3",
+          "label": "三",
+          "visual": "/art/num-3.svg"
+        },
+        {
+          "id": "1",
+          "label": "一",
+          "visual": "/art/num-1.svg"
+        }
+      ],
+      "answer": "3",
+      "promptAudio": "/audio/lang-starter-06/q2.mp3"
+    },
+    {
+      "id": "q3",
+      "type": "speak",
+      "ages": [
+        "B"
+      ],
+      "promptText": "跟读：二",
+      "promptSpeak": "二",
+      "speakText": "二",
+      "answer": "spoken",
+      "promptAudio": "/audio/lang-starter-06/q3.mp3"
+    }
+  ],
+  "rewardCopy": "数字字认识啦！",
+  "rewardCopyZh": "数字字认识啦！"
+}

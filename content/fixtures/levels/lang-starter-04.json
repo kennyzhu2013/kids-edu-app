@@ -123,6 +123,30 @@
       "ages": [
         "C"
       ]
+    },
+    {
+      "id": "q-speak-b",
+      "type": "speak",
+      "ages": [
+        "B"
+      ],
+      "promptText": "跟读：苹果",
+      "promptSpeak": "苹果",
+      "speakText": "苹果",
+      "answer": "spoken",
+      "promptAudio": "/audio/lang-starter-04/q-speak-b.mp3"
+    },
+    {
+      "id": "q-speak-c",
+      "type": "speak",
+      "ages": [
+        "C"
+      ],
+      "promptText": "跟读：我要吃苹果",
+      "promptSpeak": "我要吃苹果",
+      "speakText": "我要吃苹果",
+      "answer": "spoken",
+      "promptAudio": "/audio/lang-starter-04/q-speak-c.mp3"
     }
   ],
   "rewardStars": 3,

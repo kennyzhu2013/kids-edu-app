@@ -1,0 +1,86 @@
+{
+  "schemaVersion": 1,
+  "ageBand": [
+    "A",
+    "B",
+    "C"
+  ],
+  "rewardStars": 3,
+  "id": "math-starter-10",
+  "packId": "math-starter",
+  "title": "数学复习",
+  "order": 10,
+  "vocab": [
+    "5",
+    "圆",
+    "大"
+  ],
+  "audioIntro": "/audio/math-starter-10/intro.mp3",
+  "introScript": "复习数数、形状和大小。",
+  "introScriptZh": "复习数数、形状和大小。",
+  "listenTitle": "复习",
+  "listenVisual": "/art/listen-shapes.svg",
+  "steps": [
+    {
+      "id": "q1",
+      "type": "tap",
+      "promptText": "听「五」，点 5",
+      "promptSpeak": "五",
+      "choices": [
+        {
+          "id": "3",
+          "label": "3",
+          "visual": "/art/num-3.svg"
+        },
+        {
+          "id": "5",
+          "label": "5",
+          "visual": "/art/num-5.svg"
+        },
+        {
+          "id": "8",
+          "label": "8",
+          "visual": "/art/num-8.svg"
+        }
+      ],
+      "answer": "5",
+      "promptAudio": "/audio/math-starter-10/q1.mp3"
+    },
+    {
+      "id": "q2",
+      "type": "drag",
+      "promptText": "圆形放圆盒，大球放大盒",
+      "promptSpeak": "分一分",
+      "baskets": [
+        {
+          "id": "round",
+          "label": "圆盒",
+          "visual": "/art/shape-circle.svg"
+        },
+        {
+          "id": "big",
+          "label": "大盒",
+          "visual": "/art/big.svg"
+        }
+      ],
+      "choices": [
+        {
+          "id": "circle",
+          "label": "圆形",
+          "visual": "/art/shape-circle.svg",
+          "basket": "round"
+        },
+        {
+          "id": "big",
+          "label": "大",
+          "visual": "/art/big.svg",
+          "basket": "big"
+        }
+      ],
+      "answer": "placed",
+      "promptAudio": "/audio/math-starter-10/q2.mp3"
+    }
+  ],
+  "rewardCopy": "数学复习完成！",
+  "rewardCopyZh": "数学复习完成！"
+}

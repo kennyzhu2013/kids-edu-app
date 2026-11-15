@@ -99,6 +99,30 @@
         "B",
         "C"
       ]
+    },
+    {
+      "id": "q-speak-b",
+      "type": "speak",
+      "ages": [
+        "B"
+      ],
+      "promptText": "跟读：喵喵",
+      "promptSpeak": "喵喵",
+      "speakText": "喵喵",
+      "answer": "spoken",
+      "promptAudio": "/audio/lang-starter-02/q-speak-b.mp3"
+    },
+    {
+      "id": "q-speak-c",
+      "type": "speak",
+      "ages": [
+        "C"
+      ],
+      "promptText": "跟读：小猫喵喵叫",
+      "promptSpeak": "小猫喵喵叫",
+      "speakText": "小猫喵喵叫",
+      "answer": "spoken",
+      "promptAudio": "/audio/lang-starter-02/q-speak-c.mp3"
     }
   ],
   "rewardStars": 3,

@@ -1,0 +1,76 @@
+{
+  "schemaVersion": 1,
+  "ageBand": [
+    "A",
+    "B",
+    "C"
+  ],
+  "rewardStars": 3,
+  "id": "math-starter-08",
+  "packId": "math-starter",
+  "title": "找规律",
+  "order": 8,
+  "vocab": [
+    "规律",
+    "下一个"
+  ],
+  "audioIntro": "/audio/math-starter-08/intro.mp3",
+  "introScript": "红、黄、红、黄，下一个还是红。",
+  "introScriptZh": "红、黄、红、黄，下一个还是红。",
+  "listenTitle": "规律",
+  "listenVisual": "/art/listen-colors.svg",
+  "nextLevelId": "math-starter-09",
+  "steps": [
+    {
+      "id": "q1",
+      "type": "tap",
+      "promptText": "红黄红黄，下一个是？",
+      "promptSpeak": "红",
+      "choices": [
+        {
+          "id": "yellow",
+          "label": "黄",
+          "visual": "/art/swatch-yellow.svg"
+        },
+        {
+          "id": "red",
+          "label": "红",
+          "visual": "/art/swatch-red.svg"
+        }
+      ],
+      "answer": "red",
+      "promptAudio": "/audio/math-starter-08/q1.mp3"
+    },
+    {
+      "id": "q2",
+      "type": "sort",
+      "promptText": "排成圆、方、圆",
+      "promptSpeak": "按规律排",
+      "choices": [
+        {
+          "id": "c1",
+          "label": "圆",
+          "visual": "/art/shape-circle.svg"
+        },
+        {
+          "id": "s1",
+          "label": "方",
+          "visual": "/art/shape-square.svg"
+        },
+        {
+          "id": "c2",
+          "label": "圆",
+          "visual": "/art/shape-circle.svg"
+        }
+      ],
+      "answer": [
+        "c1",
+        "s1",
+        "c2"
+      ],
+      "promptAudio": "/audio/math-starter-08/q2.mp3"
+    }
+  ],
+  "rewardCopy": "规律找到啦！",
+  "rewardCopyZh": "规律找到啦！"
+}
