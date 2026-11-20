@@ -1,4 +1,4 @@
-import { LogoMark } from "@/components/illustrations";
+import { Buddy } from "@/components/buddy";
 import { BigButton } from "@/components/big-button";
 
 export function EmptyPanel({
@@ -21,7 +21,7 @@ export function EmptyPanel({
   const Title = titleAs;
   return (
     <div className="px-5 py-10 text-center">
-      <LogoMark className="mx-auto" />
+      <Buddy pose="comfort" className="mx-auto size-28" />
       <Title className="mt-6 text-2xl font-black">{title}</Title>
       <p className="mt-2 leading-6 text-muted-foreground">{body}</p>
       {primaryHref && primaryLabel ? (

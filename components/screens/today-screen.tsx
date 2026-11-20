@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { Buddy } from "@/components/buddy";
 import { EmptyToday } from "@/components/empty-today";
 import { LockBadge } from "@/components/lock-badge";
 import { LoadingScreen } from "@/components/loading-screen";
@@ -94,8 +95,13 @@ export function TodayScreen() {
   return (
     <Screen tabs>
       <div className="px-5 pt-8">
-        <h1 className="text-3xl font-black">嗨，{child.nickname}</h1>
-        <p className="mt-1 font-bold text-muted-foreground">已连学 {data.streakDays} 天</p>
+        <div className="flex items-center gap-3">
+          <Buddy pose="idle" className="size-20 shrink-0" />
+          <div>
+            <h1 className="text-3xl font-black">嗨，{child.nickname}</h1>
+            <p className="mt-1 font-bold text-muted-foreground">小芽陪你，已连学 {data.streakDays} 天</p>
+          </div>
+        </div>
         {current ? (
           <section className="mt-6 rounded-[28px] bg-white p-5 shadow-sm">
             <h2 className="text-2xl font-black">{done ? "再玩：" : "继续："}{current.title}</h2>

@@ -1,11 +1,12 @@
 "use client";
 
 import { Mic, Volume2 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { Buddy } from "@/components/buddy";
 import { TokenArt } from "@/components/illustrations";
 import { BigButton } from "@/components/big-button";
 import { canListen, listenForSpeech } from "@/lib/client/listen-mic";
-import { playCue, playPrompt, voiceCaption, voiceLang } from "@/lib/client/speech";
+import { playCue, playPromptAsync, stopSpeech, voiceLang } from "@/lib/client/speech";
 import { speechMatches } from "@/lib/client/speech-match";
 import type { LevelDocument } from "@/lib/content/schemas";
 import { cn } from "@/lib/utils";
@@ -30,29 +31,43 @@ export function SpeakBoard({
   onMiss: () => void;
 }) {
   const [listening, setListening] = useState(false);
+  const [ready, setReady] = useState(false);
   const [note, setNote] = useState("");
   const [blocked, setBlocked] = useState(!canListen());
+  const attempt = useRef(0);
   const expected = step.speakText || step.promptSpeak || "";
 
-  function playModel() {
-    const result = playPrompt(step.promptAudio, promptLine(step));
-    setNote(voiceCaption(result));
-  }
-
-  async function hear() {
-    if (busy || listening) return;
-    playModel();
+  async function takeTurn(fromClick = false) {
+    if (busy) return;
+    const id = attempt.current + 1;
+    attempt.current = id;
+    if (fromClick) {
+      setListening(false);
+      setReady(false);
+      setNote("");
+    }
+    await playPromptAsync(step.promptAudio, promptLine(step));
+    if (attempt.current !== id) return;
+    setReady(true);
+    setNote("轮到你了");
+    await new Promise((resolve) => window.setTimeout(resolve, 700));
+    if (attempt.current !== id) return;
+    if (blocked || !canListen()) {
+      setBlocked(true);
+      setNote(canListen() ? "麦克风没有打开。可以点「我说完了」。" : "这台浏览器听不了你说话。可以点「我说完了」。");
+      return;
+    }
     setListening(true);
     setNote("正在听…");
     const result = await listenForSpeech(voiceLang(expected));
+    if (attempt.current !== id) return;
     setListening(false);
     if (!result.ok) {
       if (result.reason === "denied" || result.reason === "unavailable") {
         setBlocked(true);
-        setNote(result.reason === "denied" ? "麦克风没有打开。可以点「我说完了」。" : "这台设备听不了。可以点「我说完了」。");
+        setNote(result.reason === "denied" ? "麦克风没有打开。可以点「我说完了」。" : "这台浏览器听不了你说话。可以点「我说完了」。");
       } else {
         setNote("没听清，再试一次。");
-        onMiss();
       }
       return;
     }
@@ -67,29 +82,48 @@ export function SpeakBoard({
     onMiss();
   }
 
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      void takeTurn();
+    }, 0);
+    return () => {
+      window.clearTimeout(timer);
+      attempt.current += 1;
+      stopSpeech();
+    };
+    // 每道跟读题开始时先把示范念完，再打开麦克风。
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [step.id]);
+
   return (
     <div className="flex flex-1 flex-col">
-      <button type="button" className="mx-auto mt-5 inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 font-black shadow-sm" onClick={playModel}>
+      <button type="button" className="mx-auto mt-5 inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 font-black shadow-sm" onClick={() => void takeTurn(true)}>
         <Volume2 className="size-5 text-primary" />
         再听一遍
       </button>
       <p className="mt-3 text-center font-bold">{step.promptText}</p>
       {hinted ? <p className="mt-4 text-center text-3xl font-black text-primary">{expected}</p> : null}
+      <Buddy
+        pose={listening || ready ? "listen" : note.includes("真棒") ? "happy" : note.includes("再试") || note.includes("没听清") ? "comfort" : "speak"}
+        className="mx-auto mt-4 size-24"
+      />
       <button
         type="button"
         aria-label="跟读"
-        disabled={busy || listening || blocked}
-        onClick={() => void hear()}
+        disabled={busy || listening || blocked || !ready}
+        onClick={() => void takeTurn(true)}
         className={cn(
-          "mx-auto mt-6 grid size-28 place-items-center rounded-full bg-primary text-white shadow-md",
+          "mx-auto mt-4 grid size-28 place-items-center rounded-full bg-primary text-white shadow-md",
           listening && "speaker-live",
-          blocked && "opacity-40",
+          (blocked || !ready) && "opacity-40",
         )}
       >
         <Mic className="size-12" />
       </button>
-      <p className="mt-3 text-center text-sm font-bold text-muted-foreground">{listening ? "正在听…" : "点麦克风，跟读这一句"}</p>
-      <p className="mt-2 h-7 text-center text-lg font-black text-primary" role="status">
+      <p className="mt-3 text-center text-sm font-bold text-muted-foreground">
+        {listening ? "正在听…" : ready ? "轮到你了" : "先听小芽说完"}
+      </p>
+      <p className="mt-2 min-h-7 text-center text-lg font-black text-primary" role="status">
         {note}
       </p>
       {blocked ? (
@@ -144,7 +178,9 @@ export function DragBoard({
   return (
     <div className="flex flex-1 flex-col">
       <p className="mt-4 text-center font-bold">{step.promptText}</p>
-      <p className="mt-2 h-7 text-center text-lg font-black text-primary" role="status">
+      <p className="mt-2 flex h-16 items-center justify-center gap-2 text-lg font-black text-primary" role="status">
+        {note.includes("真棒") ? <Buddy pose="happy" className="size-14" /> : null}
+        {note.includes("再试") ? <Buddy pose="comfort" className="size-14" /> : null}
         {note}
       </p>
       <div className="mt-2 grid grid-cols-2 gap-2">
@@ -256,7 +292,9 @@ export function SortBoard({
           </li>
         ))}
       </ol>
-      <p className="mt-3 h-7 text-center text-lg font-black text-primary" role="status">
+      <p className="mt-3 flex h-16 items-center justify-center gap-2 text-lg font-black text-primary" role="status">
+        {note.includes("真棒") ? <Buddy pose="happy" className="size-14" /> : null}
+        {note.includes("再试") ? <Buddy pose="comfort" className="size-14" /> : null}
         {note}
       </p>
       <div className="mt-auto grid grid-cols-2 gap-2">

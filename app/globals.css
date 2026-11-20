@@ -109,10 +109,63 @@ a {
   animation: pulse-ring 1.1s ease-out infinite;
 }
 
+.buddy-wave .buddy-arm {
+  transform-box: fill-box;
+  transform-origin: 0% 80%;
+  animation: buddy-wave 1.6s ease-in-out infinite;
+}
+
+.buddy-lean .buddy-body {
+  transform-box: fill-box;
+  transform-origin: 50% 90%;
+  animation: buddy-lean 1.5s ease-in-out infinite;
+}
+
+.buddy-jump .buddy-body {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: buddy-jump 0.7s ease both;
+}
+
+@keyframes buddy-wave {
+  0%,
+  100% {
+    transform: rotate(10deg);
+  }
+  50% {
+    transform: rotate(-22deg);
+  }
+}
+
+@keyframes buddy-lean {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(-7deg);
+  }
+}
+
+@keyframes buddy-jump {
+  0% {
+    transform: translateY(4px) scale(0.96);
+  }
+  45% {
+    transform: translateY(-12px) scale(1.05);
+  }
+  100% {
+    transform: translateY(0) scale(1);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .star-pop,
   .shake,
-  .speaker-live {
+  .speaker-live,
+  .buddy-wave .buddy-arm,
+  .buddy-lean .buddy-body,
+  .buddy-jump .buddy-body {
     animation: none;
   }
 }

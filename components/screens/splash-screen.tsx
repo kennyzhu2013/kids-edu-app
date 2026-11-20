@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import { LogoMark } from "@/components/illustrations";
+import { Buddy } from "@/components/buddy";
 import { readChild } from "@/lib/client/store";
 
 export function SplashScreen() {
@@ -17,7 +17,7 @@ export function SplashScreen() {
   return (
     <div className="grid min-h-dvh place-items-center px-6 text-center">
       <div>
-        <LogoMark className="mx-auto size-28" />
+        <Buddy pose="idle" className="mx-auto size-32" />
         <p className="mt-8 text-sm font-bold tracking-wide text-muted-foreground">综合启蒙 · 3–6岁</p>
       </div>
     </div>

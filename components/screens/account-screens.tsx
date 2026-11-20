@@ -14,7 +14,7 @@ import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/compone
 import { Input } from "@/components/ui/input";
 import { ageLabel } from "@/lib/age";
 import { SKUS } from "@/lib/billing/skus";
-import { LogoMark } from "@/components/illustrations";
+import { Buddy } from "@/components/buddy";
 import { ApiError, api, failureKind, type FailureKind } from "@/lib/client/api";
 import {
   clearLocalProfile,
@@ -362,7 +362,7 @@ export function ReportScreen() {
           </article>
           {report.completedLevels === 0 ? (
             <article className="rounded-[24px] bg-white p-5 text-center shadow-sm">
-              <LogoMark className="mx-auto size-16" />
+              <Buddy pose="comfort" className="mx-auto size-20" />
               <p className="mt-3 font-black">这周还没开始</p>
               <p className="mt-1 text-sm leading-6 text-muted-foreground">玩完今日的一关，分钟和关数会记在这里。</p>
               <BigButton className="mt-4" href="/today">

@@ -4,6 +4,7 @@ import { Volume2, X } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import { Buddy } from "@/components/buddy";
 import { DragBoard, SortBoard, SpeakBoard } from "@/components/level-boards";
 import { KidScene, TokenArt } from "@/components/illustrations";
 import { BigButton } from "@/components/big-button";
@@ -13,7 +14,7 @@ import { StarResult } from "@/components/star-result";
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import { ApiError, api, failureKind, type FailureKind } from "@/lib/client/api";
 import { readChild, useChild } from "@/lib/client/store";
-import { playCue, playPrompt, stopSpeech, voiceCaption } from "@/lib/client/speech";
+import { playCue, playPrompt, playPromptAsync, stopSpeech, voiceCaption } from "@/lib/client/speech";
 import type { LevelDocument } from "@/lib/content/schemas";
 import type { AgeBand } from "@/lib/age";
 import { cn } from "@/lib/utils";
@@ -118,9 +119,10 @@ export function LevelPlayer({ levelId }: { levelId: string }) {
   const totalDots = 1 + steps.length;
   const activeDot = phase === "listen" ? 0 : phase === "quiz" ? Math.min(stepIndex + 1, totalDots - 1) : totalDots - 1;
 
-  function playIntro() {
-    const result = playPrompt(level!.audioIntro, level!.introScript);
-    setSpeaking(result === "played");
+  async function playIntro() {
+    setSpeaking(true);
+    const result = await playPromptAsync(level!.audioIntro, level!.introScript);
+    setSpeaking(false);
     setVoiceNote(voiceCaption(result));
   }
 
@@ -236,10 +238,11 @@ export function LevelPlayer({ levelId }: { levelId: string }) {
 
       {phase === "listen" ? (
         <div className="flex flex-1 flex-col">
+          <Buddy pose={speaking ? "listen" : "idle"} className="mx-auto mt-4 size-28" />
           <button
             type="button"
             className={cn(
-              "mx-auto mt-6 grid size-20 place-items-center rounded-full bg-primary text-white",
+              "mx-auto mt-4 grid size-20 place-items-center rounded-full bg-primary text-white",
               speaking && "speaker-live",
             )}
             onClick={playIntro}
@@ -306,12 +309,13 @@ export function LevelPlayer({ levelId }: { levelId: string }) {
           <p className="mt-3 text-center font-bold">{step.promptText}</p>
           <p
             className={cn(
-              "mt-3 h-7 text-center text-lg font-black",
+              "mt-3 flex h-16 items-center justify-center gap-2 text-lg font-black",
               feedback === "good" ? "text-leaf" : "text-primary",
               !feedback && "invisible",
             )}
             role="status"
           >
+            {feedback ? <Buddy pose={feedback === "good" ? "happy" : "comfort"} className="size-14" /> : null}
             {feedback === "good" ? "真棒" : "再试一次"}
           </p>
           <div className="mt-2 grid gap-3">
@@ -355,6 +359,7 @@ export function LevelPlayer({ levelId }: { levelId: string }) {
 
       {phase === "result" ? (
         <div className="flex flex-1 flex-col items-center justify-center text-center">
+          <Buddy pose="happy" className="size-28" />
           <StarResult stars={stars} />
           <p className="mt-4 text-sm font-bold text-muted-foreground">星星×{stars}</p>
           <h1 className="mt-2 text-4xl font-black">{level.rewardCopyZh}</h1>
@@ -374,6 +379,7 @@ export function LevelPlayer({ levelId }: { levelId: string }) {
 
       {phase === "pack-done" ? (
         <div className="flex flex-1 flex-col items-center justify-center text-center">
+          <Buddy pose="happy" className="size-28" />
           <StarResult stars={3} />
           <h1 className="mt-4 text-3xl font-black">这一包玩完啦</h1>
           <p className="mt-3 text-muted-foreground">这一包的关卡都可以再玩。</p>
