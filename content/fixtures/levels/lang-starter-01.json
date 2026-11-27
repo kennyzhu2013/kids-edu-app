@@ -21,7 +21,7 @@
   "introScript": "这是眼睛，这是鼻子，这是嘴巴，这是手。家里有爸爸，有妈妈。",
   "introScriptZh": "这是眼睛，这是鼻子，这是嘴巴，这是手。家里有爸爸，有妈妈。",
   "listenTitle": "身体与家人",
-  "listenVisual": "/art/listen-body.svg",
+  "listenVisual": "/art/cover-lang-starter-01.svg",
   "steps": [
     {
       "id": "q1",
@@ -102,7 +102,7 @@
   "rewardStars": 3,
   "rewardCopy": "说得好！认字小芽芽！",
   "rewardCopyZh": "说得好！认字小芽芽！",
-  "assetsNote": "没有实拍素材。图用色块和字块代替，旁白用浏览器语音。",
+  "assetsNote": "插画是原创矢量图，不再用色块占位。旁白是站内音频，缺文件时才用系统朗读。",
   "nextLevelId": "lang-starter-02",
   "aDiff": "听懂身体和家人",
   "knowledgePointIds": [

@@ -21,7 +21,7 @@
   "introScript": "五之后是六、七、八、九、十。",
   "introScriptZh": "五之后是六、七、八、九、十。",
   "listenTitle": "数到十",
-  "listenVisual": "/art/listen-numbers.svg",
+  "listenVisual": "/art/cover-math-starter-06.svg",
   "nextLevelId": "math-starter-07",
   "steps": [
     {

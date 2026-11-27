@@ -18,7 +18,7 @@
   "introScript": "玩完的玩具要回家，放进盒子里。",
   "introScriptZh": "玩完的玩具要回家，放进盒子里。",
   "listenTitle": "整理",
-  "listenVisual": "/art/toybox.svg",
+  "listenVisual": "/art/cover-life-starter-07.svg",
   "nextLevelId": "life-starter-08",
   "steps": [
     {

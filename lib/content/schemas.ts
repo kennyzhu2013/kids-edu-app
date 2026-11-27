@@ -92,6 +92,10 @@ const gameMeta = {
   howTo: z.string(),
   guide: z.string(),
   assetsNote: z.string().optional(),
+  audioIntro: z.string().optional(),
+  introScript: z.string().optional(),
+  promptAudio: z.string().optional(),
+  promptSpeak: z.string().optional(),
 };
 
 const colorSchema = z.object({
@@ -99,6 +103,8 @@ const colorSchema = z.object({
   label: z.string(),
   labelEn: z.string(),
   hex: z.string(),
+  audio: z.string().optional(),
+  speak: z.string().optional(),
 });
 
 export const gameDocumentSchema = z.discriminatedUnion("kind", [
@@ -118,12 +124,20 @@ export const gameDocumentSchema = z.discriminatedUnion("kind", [
     ...gameMeta,
     kind: z.literal("count-dash"),
     targets: z.array(z.number().int().min(1).max(8)).min(1),
+    cues: z.record(z.string(), z.object({ audio: z.string(), speak: z.string() })).optional(),
   }),
   z.object({
     ...gameMeta,
     kind: z.literal("shape-fit"),
     shapes: z
-      .array(z.object({ id: z.enum(["circle", "square", "triangle"]), label: z.string() }))
+      .array(
+        z.object({
+          id: z.enum(["circle", "square", "triangle"]),
+          label: z.string(),
+          audio: z.string().optional(),
+          speak: z.string().optional(),
+        }),
+      )
       .min(2),
   }),
   z.object({

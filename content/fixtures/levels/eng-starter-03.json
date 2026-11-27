@@ -19,7 +19,7 @@
   "introScript": "Meet the animals! Cat — meow meow. Dog — woof woof. Bird — tweet tweet. Fish — blub blub. Listen and find them!",
   "introScriptZh": "来认识动物。猫 cat 会 meow，狗 dog 会 woof，鸟 bird 会 tweet，鱼 fish 会 blub。听一听，再把它们找出来。",
   "listenTitle": "Animals",
-  "listenVisual": "/art/listen-animals.svg",
+  "listenVisual": "/art/cover-eng-starter-03.svg",
   "nextLevelId": "eng-starter-04",
   "steps": [
     {
@@ -157,7 +157,7 @@
   "aDiff": "听名字点图",
   "bDiff": "听叫声 meow，选出 cat",
   "cDiff": "跟读 It's a fish。麦克风还没接，点按钮就算说完。",
-  "assetsNote": "动物是简笔画。叫声用浏览器朗读 meow / woof，不是录音。",
+  "assetsNote": "猫、狗、鸟、鱼是矢量插画。叫声旁白是站内英文音频。",
   "knowledgePointIds": [
     "EN03-001"
   ]

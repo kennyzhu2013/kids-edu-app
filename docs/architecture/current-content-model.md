@@ -132,7 +132,7 @@ catalog.json + levels/*.json + games/*.json
 
 关卡 `audioIntro`、`promptAudio` 使用站内路径，形如 `/audio/math-starter-01/intro.mp3`。文件在 `public/audio/<关卡 id>/`。`playPrompt` 只把 `http(s)` 和以 `/` 开头的字符串当媒体地址；别的字符串（例如将来的 `asset:`）会改走系统朗读。
 
-`getLevel` / `getGame` 的 `assetResolution: "stub"` 表示接口没有把素材 id 换成 CDN 地址。`Asset` 表和内存里的 `asset-mia` 不参与播放。
+`getLevel` / `getGame` 的 `assetResolution: "stub"` 表示接口没有把素材 id 换成 CDN 地址。内存里的 `asset-mia` 已发布，`cdnUrl` 是 `/art/mia.svg`。英语第一关的听一听封面和打招呼场景用的是同一套 Mia 立绘，播放器直接读 `/art/` 路径。
 
 插画是 `choice.visual` 或关卡 `listenVisual` 上的 `/art/...svg`，由 `components/illustrations.tsx` 的 `TokenArt` 或 `next/image` 显示。生成脚本见架构文档，不在请求路径上。
 

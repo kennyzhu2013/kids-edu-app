@@ -18,7 +18,7 @@
   "introScript": "短针指到几，就是几点钟。短针指 3 是 3 点。",
   "introScriptZh": "短针指到几，就是几点钟。短针指 3 是 3 点。",
   "listenTitle": "几点钟整点",
-  "listenVisual": "/art/clock.svg",
+  "listenVisual": "/art/cover-math-life-04.svg",
   "steps": [
     {
       "id": "q1",
@@ -102,7 +102,7 @@
   "rewardStars": 3,
   "rewardCopy": "时间小达人！几点都知道！",
   "rewardCopyZh": "时间小达人！几点都知道！",
-  "assetsNote": "没有实拍素材。图用色块和字块代替，旁白用浏览器语音。",
+  "assetsNote": "插画是原创矢量图，不再用色块占位。旁白是站内音频，缺文件时才用系统朗读。",
   "nextLevelId": "math-life-05",
   "aDiff": "认识整点",
   "knowledgePointIds": [

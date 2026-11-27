@@ -1,5 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 168">
-<rect width="220" height="168" rx="31" fill="#fff3da"/>
-<circle cx="54" cy="82" r="16" fill="#ff5a5a"/><path d="M54 66c4-7 11-7 13-2-6 0-10 3-13 2z" fill="#3dcb7a"/><path d="M54 66c-1-6 3-8 4-8" stroke="#6b4638" stroke-width="2" fill="none"/><ellipse cx="120" cy="96" rx="36" ry="16" fill="#fff"/><ellipse cx="120" cy="90" rx="28" ry="10" fill="#f4e1b5"/><rect x="168" y="70" width="22" height="40" rx="8" fill="#fff"/><rect x="172" y="78" width="14" height="22" rx="4" fill="#f7f3ea"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 168">
+<rect width="280" height="168" rx="32" fill="#fff3da"/>
+<rect y="122" width="280" height="46" fill="#f8e7cf"/>
+<ellipse cx="140" cy="124" rx="108" ry="10" fill="#f0d4b4"/>
+<g transform="translate(40 86) scale(0.62)"><g>
+<ellipse cy="10" rx="24" ry="12" fill="#fff" stroke="#5c4036" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<ellipse cy="6" rx="16" ry="7" fill="#f4e1b5"/>
+<path d="M-18 8c4 6 32 6 36 0" stroke="#f0dcc4" stroke-width="2" fill="none"/>
+</g></g><g transform="translate(106 86) scale(0.62)"><g>
+<path d="M0 -20c16 0 26 14 26 28 0 16-12 26-26 26S-26 24-26 8C-26 -8-14-20 0-20z" fill="#ff5a5a" stroke="#c43c3c" stroke-width="2.5"/>
+<ellipse cx="-8" cy="0" rx="7" ry="10" fill="#fff" opacity="0.28"/>
+<path d="M-1 -20c2-10 9-14 13-11" stroke="#6b4638" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+<path d="M-1 -18c9-9 18-3 20 3-9 0-15 0-20-3z" fill="#2eaf68" stroke="#1a8a62" stroke-width="1.6" stroke-linejoin="round"/>
+</g></g><g transform="translate(172 86) scale(0.62)"><g>
+<rect x="-14" y="-24" width="28" height="46" rx="8" fill="#fff" stroke="#5c4036" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<rect x="-8" y="-6" width="16" height="16" rx="3" fill="#7ec8ff"/>
+<path d="M-6 -24h12v6h-12z" fill="#d9c7b2"/>
+</g></g><g transform="translate(238 86) scale(0.62)"><g>
+<path d="M-24 6c0-16 10-26 24-26s24 10 24 26v12h-48z" fill="#f0b45a" stroke="#5c4036" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M-18 6h36" stroke="#c9895a" stroke-width="2.4" stroke-linecap="round"/>
+<circle cx="-8" cy="-4" r="1.4" fill="#c9895a"/><circle cx="6" cy="-2" r="1.4" fill="#c9895a"/>
+</g></g>
 </svg>

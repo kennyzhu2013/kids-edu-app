@@ -4,6 +4,7 @@ import { X } from "lucide-react";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { BigButton } from "@/components/big-button";
 import { StarResult } from "@/components/star-result";
+import { HearButton } from "@/components/games/voice";
 
 export function GameChrome({
   title,
@@ -40,20 +41,28 @@ export function GameReady({
   howTo,
   remaining,
   onStart,
+  audioIntro,
+  introScript,
 }: {
   title: string;
   titleEn: string;
   howTo: string;
   remaining: string;
   onStart: () => void;
+  audioIntro?: string;
+  introScript?: string;
 }) {
+  const line = introScript || howTo;
   return (
     <div className="flex flex-1 flex-col justify-center text-center">
       <h1 className="text-3xl font-black">{title}</h1>
       <p className="mt-2 text-muted-foreground">{titleEn}</p>
       <p className="mt-4 text-lg font-bold">{howTo}</p>
       <p className="mt-3 text-sm font-black text-primary">{remaining}</p>
-      <div className="mt-8">
+      <div className="mt-6">
+        <HearButton audio={audioIntro} speak={line} />
+      </div>
+      <div className="mt-4">
         <BigButton onClick={onStart}>开始</BigButton>
       </div>
     </div>

@@ -18,7 +18,7 @@
   "introScript": "需要帮助就告诉大人。要紧的事可以打电话。",
   "introScriptZh": "需要帮助就告诉大人。要紧的事可以打电话。",
   "listenTitle": "求助",
-  "listenVisual": "/art/phone.svg",
+  "listenVisual": "/art/cover-life-starter-09.svg",
   "nextLevelId": "life-starter-10",
   "steps": [
     {

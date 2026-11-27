@@ -19,7 +19,7 @@
   "introScript": "嘀嘀，汽车来了。公交车可以坐好多人。自行车用脚蹬。飞机飞得又高又远。",
   "introScriptZh": "嘀嘀，汽车来了。公交车可以坐好多人。自行车用脚蹬。飞机飞得又高又远。",
   "listenTitle": "交通工具",
-  "listenVisual": "/art/car.svg",
+  "listenVisual": "/art/cover-life-starter-03.svg",
   "steps": [
     {
       "id": "q1",
@@ -138,7 +138,7 @@
   "rewardStars": 3,
   "rewardCopy": "出发咯！交通小达人！",
   "rewardCopyZh": "出发咯！交通小达人！",
-  "assetsNote": "没有实拍素材。图用色块和字块代替，旁白用浏览器语音。",
+  "assetsNote": "插画是原创矢量图，不再用色块占位。旁白是站内音频，缺文件时才用系统朗读。",
   "nextLevelId": "life-starter-04",
   "aDiff": "认识交通工具",
   "knowledgePointIds": [

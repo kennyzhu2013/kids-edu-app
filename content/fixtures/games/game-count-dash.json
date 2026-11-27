@@ -14,7 +14,23 @@
   "winTarget": 3,
   "howTo": "看数字，点够那么多个苹果",
   "guide": "广告+1或会员无限",
-  "assetsNote": "苹果和星星是色块。4–6 岁会混进星星，星星不算。",
+  "assetsNote": "苹果和星星是矢量插画。开场说明规则，每一关会念出要点的数量。星星不算。",
+  "audioIntro": "/audio/games/game-count-dash/intro.mp3",
+  "introScript": "数一数冲关。听数字，点那么多个苹果。星星不要点。",
+  "cues": {
+    "2": {
+      "audio": "/audio/games/game-count-dash/2.mp3",
+      "speak": "点两个苹果"
+    },
+    "3": {
+      "audio": "/audio/games/game-count-dash/3.mp3",
+      "speak": "点三个苹果"
+    },
+    "4": {
+      "audio": "/audio/games/game-count-dash/4.mp3",
+      "speak": "点四个苹果"
+    }
+  },
   "targets": [
     2,
     3,

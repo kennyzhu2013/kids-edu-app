@@ -19,7 +19,7 @@
   "introScript": "This is my body! Eyes — look! Nose — sniff! Mouth — smile! Hands — clap! Touch your nose!",
   "introScriptZh": "这是我的身体。眼睛 eyes 看一看，鼻子 nose 闻一闻，嘴巴 mouth 笑一笑，小手 hands 拍一拍。",
   "listenTitle": "Body",
-  "listenVisual": "/art/listen-body.svg",
+  "listenVisual": "/art/cover-eng-starter-05.svg",
   "steps": [
     {
       "id": "q1",
@@ -127,7 +127,7 @@
   "aDiff": "听指令点部位",
   "bDiff": "指令可以再听一遍，答错再点",
   "cDiff": "跟读 This is my hand。麦克风还没接。",
-  "assetsNote": "身体部位是简笔画热区，不是照片。指令用浏览器语音。",
+  "assetsNote": "身体部位是矢量插画。指令旁白是站内英文音频。",
   "nextLevelId": "eng-starter-06",
   "knowledgePointIds": [
     "EN03-005"

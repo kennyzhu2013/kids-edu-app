@@ -14,7 +14,11 @@
   "winTarget": 1,
   "howTo": "把四张洗手卡片排成正确顺序",
   "guide": "广告+1或会员无限",
-  "assetsNote": "顺序来自生活认知「洗手步骤」。点卡片依次放入，也可以拖到格子里。",
+  "assetsNote": "洗手四步是矢量插画，顺序和洗手步骤一致。开场有语音。可以点，也可以拖到格子里。",
+  "audioIntro": "/audio/games/game-habit-order/intro.mp3",
+  "introScript": "洗手顺序挑战。先打湿小手，再搓肥皂，冲干净，最后擦干。",
+  "promptAudio": "/audio/games/game-habit-order/prompt.mp3",
+  "promptSpeak": "按顺序排一排。",
   "steps": [
     {
       "id": "wet",

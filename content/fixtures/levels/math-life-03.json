@@ -18,7 +18,7 @@
   "introScript": "排队啦。从前数：第 1、第 2、第 3。",
   "introScriptZh": "排队啦。从前数：第 1、第 2、第 3。",
   "listenTitle": "排队几号",
-  "listenVisual": "/art/listen-queue.svg",
+  "listenVisual": "/art/cover-math-life-03.svg",
   "steps": [
     {
       "id": "q1",
@@ -102,7 +102,7 @@
   "rewardStars": 3,
   "rewardCopy": "排队小能手！",
   "rewardCopyZh": "排队小能手！",
-  "assetsNote": "没有实拍素材。图用色块和字块代替，旁白用浏览器语音。",
+  "assetsNote": "插画是原创矢量图，不再用色块占位。旁白是站内音频，缺文件时才用系统朗读。",
   "nextLevelId": "math-life-04",
   "aDiff": "认识第几",
   "knowledgePointIds": [

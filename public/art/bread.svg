@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 88 88">
 <rect width="88" height="88" rx="13" fill="#fff3da"/>
-<path d="M18 50c0-14 12-22 26-22s26 8 26 22v10H18z" fill="#f0b45a"/><path d="M22 50h44" stroke="#c9895a" stroke-width="2"/>
+<ellipse cx="44" cy="77" rx="21" ry="5" fill="#f0dcc4"/>
+<g transform="translate(44 45) scale(0.82)"><g>
+<path d="M-24 6c0-16 10-26 24-26s24 10 24 26v12h-48z" fill="#f0b45a" stroke="#5c4036" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M-18 6h36" stroke="#c9895a" stroke-width="2.4" stroke-linecap="round"/>
+<circle cx="-8" cy="-4" r="1.4" fill="#c9895a"/><circle cx="6" cy="-2" r="1.4" fill="#c9895a"/>
+</g></g>
 </svg>

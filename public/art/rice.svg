@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 88 88">
 <rect width="88" height="88" rx="13" fill="#fff3da"/>
-<ellipse cx="44" cy="54" rx="26" ry="14" fill="#fff"/><ellipse cx="44" cy="50" rx="20" ry="8" fill="#f4e1b5"/>
+<ellipse cx="44" cy="77" rx="21" ry="5" fill="#f0dcc4"/>
+<g transform="translate(44 45) scale(0.82)"><g>
+<ellipse cy="10" rx="24" ry="12" fill="#fff" stroke="#5c4036" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<ellipse cy="6" rx="16" ry="7" fill="#f4e1b5"/>
+<path d="M-18 8c4 6 32 6 36 0" stroke="#f0dcc4" stroke-width="2" fill="none"/>
+</g></g>
 </svg>

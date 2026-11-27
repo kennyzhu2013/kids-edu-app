@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useRef, useState } from "react";
 import { GameChrome, GameDone, GameReady, useRoundTimer } from "@/components/games/chrome";
+import { HearButton, speakLine } from "@/components/games/voice";
 import { playCue } from "@/lib/client/speech";
 import type { GameDocument } from "@/lib/content/schemas";
 import { cn } from "@/lib/utils";
@@ -55,18 +56,36 @@ export function ColorMatch({
       end(true);
       return;
     }
-    setColorIndex((value) => value + 1);
+    const nextIndex = colorIndex + 1;
+    const upcoming = game.colors[nextIndex % game.colors.length];
+    setColorIndex(nextIndex);
+    if (upcoming) speakLine(upcoming.audio, upcoming.speak ?? upcoming.label);
   }
 
   return (
     <GameChrome title={game.title} phase={phase} seconds={left} progress={`${score}/${game.winTarget}`} onExit={onExit}>
       {phase === "ready" ? (
-        <GameReady title={game.title} titleEn={game.titleEn} howTo={game.howTo} remaining={remaining} onStart={() => setPhase("play")} />
+        <GameReady
+          title={game.title}
+          titleEn={game.titleEn}
+          howTo={game.howTo}
+          remaining={remaining}
+          audioIntro={game.audioIntro}
+          introScript={game.introScript}
+          onStart={() => {
+            setPhase("play");
+            const first = game.colors[0];
+            if (first) speakLine(first.audio, first.speak ?? first.label);
+          }}
+        />
       ) : null}
       {phase === "play" && color ? (
         <div className={cn("flex flex-1 flex-col", shake && "shake")}>
           <div className="mx-auto mt-8 grid size-40 place-items-center overflow-hidden rounded-[36px] bg-white shadow-md">
             <Image src={`/art/ball-${color.id}.svg`} alt={`${color.label} ${color.labelEn}`} width={112} height={112} unoptimized className="size-28 object-contain" />
+          </div>
+          <div className="mt-4 flex justify-center">
+            <HearButton audio={color.audio} speak={color.speak ?? color.label} label="再听一次" />
           </div>
           <p className="mt-4 h-7 text-center text-lg font-black text-primary" role="status">
             {note}

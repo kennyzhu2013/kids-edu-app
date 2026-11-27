@@ -39,7 +39,7 @@
 | `Order` | `amount` 为分，`channel` 自由字符串 | **没有写库函数** | 不读。订单只在内存 |
 | `Entitlement` | `type` 自由字符串 | **没有写库函数** | 不读。广告解锁和支付入账只在内存，重启即失 |
 | `ParentLock` | `userId` 唯一，字段是 `pinHash` | 只在 `ensureDemoFamily` 创建时写入 `pinHash = "stub-not-a-real-hash"`，`update: {}` 不再改 | 校验不读这张表。明文 PIN 在内存 |
-| `Asset` | `cdnUrl` 可空 | 不写库。内存里有一条写死的 `asset-mia` | 后台列表读内存 |
+| `Asset` | `cdnUrl` 可空 | 不写库。内存里的 `asset-mia` 已发布，地址是 `/art/mia.svg` | 后台列表读内存 |
 
 Schema 注释写「运行时接口仍走内存 + JSON 夹具」。对请求路径这仍然成立。注释没有写明：有 `DATABASE_URL` 时进度、今日、配额、孩子和手机号会回写。以 `persist.ts` 为准。
 

@@ -18,7 +18,7 @@
   "introScript": "饼干 2 元，牛奶 3 元。哪个更贵？加起来够不够？",
   "introScriptZh": "饼干 2 元，牛奶 3 元。哪个更贵？加起来够不够？",
   "listenTitle": "买东西",
-  "listenVisual": "/art/listen-shop.svg",
+  "listenVisual": "/art/cover-math-life-02.svg",
   "steps": [
     {
       "id": "q1",
@@ -102,7 +102,7 @@
   "rewardStars": 3,
   "rewardCopy": "会买东西啦！小管家！",
   "rewardCopyZh": "会买东西啦！小管家！",
-  "assetsNote": "没有实拍素材。图用色块和字块代替，旁白用浏览器语音。",
+  "assetsNote": "插画是原创矢量图，不再用色块占位。旁白是站内音频，缺文件时才用系统朗读。",
   "nextLevelId": "math-life-03",
   "aDiff": "比较价钱",
   "knowledgePointIds": [

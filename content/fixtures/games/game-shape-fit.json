@@ -14,19 +14,27 @@
   "winTarget": 3,
   "howTo": "把圆形、方形或三角放进凹槽",
   "guide": "广告+1或会员无限",
-  "assetsNote": "形状用纯色块。可以点，也可以拖进凹槽。",
+  "assetsNote": "圆形、方形、三角形是矢量插画。开场和每一种形状都有语音。可以点，也可以拖进凹槽。",
+  "audioIntro": "/audio/games/game-shape-fit/intro.mp3",
+  "introScript": "形状拼拼乐。把形状放进一样的洞里。",
   "shapes": [
     {
       "id": "circle",
-      "label": "圆形"
+      "label": "圆形",
+      "audio": "/audio/games/game-shape-fit/circle.mp3",
+      "speak": "圆形"
     },
     {
       "id": "square",
-      "label": "方形"
+      "label": "方形",
+      "audio": "/audio/games/game-shape-fit/square.mp3",
+      "speak": "方形"
     },
     {
       "id": "triangle",
-      "label": "三角"
+      "label": "三角",
+      "audio": "/audio/games/game-shape-fit/triangle.mp3",
+      "speak": "三角形"
     }
   ],
   "knowledgePointIds": [
