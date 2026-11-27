@@ -3,13 +3,14 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Buddy } from "@/components/buddy";
+import { GuardianConsentNotice } from "@/components/guardian-consent";
 import { EmptyToday } from "@/components/empty-today";
 import { LockBadge } from "@/components/lock-badge";
 import { LoadingScreen } from "@/components/loading-screen";
 import { OfflineState } from "@/components/offline-state";
 import { Screen } from "@/components/screen";
 import { BigButton } from "@/components/big-button";
-import { api, failureKind, type FailureKind } from "@/lib/client/api";
+import { ApiError, api, failureKind, type FailureKind } from "@/lib/client/api";
 import { readChild, useChild } from "@/lib/client/store";
 import { cn } from "@/lib/utils";
 
@@ -39,6 +40,9 @@ export function TodayScreen() {
   const [attempt, setAttempt] = useState(0);
   const [data, setData] = useState<TodayPayload | null>(null);
   const [problem, setProblem] = useState<{ childId: string; kind: FailureKind } | null>(null);
+  const [needsConsent, setNeedsConsent] = useState(false);
+  const [accepted, setAccepted] = useState(false);
+  const [consentNote, setConsentNote] = useState("");
 
   useEffect(() => {
     const timer = window.setTimeout(() => {
@@ -58,7 +62,14 @@ export function TodayScreen() {
         setProblem((current) => (current?.childId === childId ? null : current));
       })
       .catch((error: unknown) => {
-        if (!ignore) setProblem({ childId, kind: failureKind(error) });
+        if (ignore) return;
+        if (error instanceof ApiError && error.code === "CONSENT_REQUIRED") {
+          setNeedsConsent(true);
+          setProblem((current) => (current?.childId === childId ? null : current));
+          return;
+        }
+        setNeedsConsent(false);
+        setProblem({ childId, kind: failureKind(error) });
       });
     return () => {
       ignore = true;
@@ -66,6 +77,34 @@ export function TodayScreen() {
   }, [attempt, child]);
 
   if (!child) return <LoadingScreen />;
+  if (needsConsent) {
+    return (
+      <Screen tabs>
+        <div className="px-5 pt-8">
+          <GuardianConsentNotice checked={accepted} onChange={setAccepted} />
+          {consentNote ? <p className="mt-3 text-sm font-bold text-primary">{consentNote}</p> : null}
+          <BigButton
+            className="mt-4"
+            disabled={!accepted}
+            onClick={() => {
+              void api("/api/guardian-consent", {
+                method: "PATCH",
+                body: JSON.stringify({ accepted: true }),
+              })
+                .then(() => {
+                  setNeedsConsent(false);
+                  setConsentNote("");
+                  setAttempt((value) => value + 1);
+                })
+                .catch(() => setConsentNote("同意没记下，可以再试一次。"));
+            }}
+          >
+            同意并进入今日
+          </BigButton>
+        </div>
+      </Screen>
+    );
+  }
   const kind = problem?.childId === child.id ? problem.kind : null;
   if (kind) {
     return (

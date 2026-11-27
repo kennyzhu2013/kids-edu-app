@@ -94,5 +94,8 @@
     }
   ],
   "rewardCopy": "Review star!",
-  "rewardCopyZh": "复习完成！"
+  "rewardCopyZh": "复习完成！",
+  "knowledgePointIds": [
+    "EN04-006"
+  ]
 }

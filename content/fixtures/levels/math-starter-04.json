@@ -44,7 +44,10 @@
           "visual": "/art/mid.svg"
         }
       ],
-      "answer": "big"
+      "answer": "big",
+      "knowledgePointIds": [
+        "MA06-001"
+      ]
     },
     {
       "id": "q2",
@@ -69,7 +72,10 @@
           "visual": "/art/mid.svg"
         }
       ],
-      "answer": "short"
+      "answer": "short",
+      "knowledgePointIds": [
+        "MA06-002"
+      ]
     },
     {
       "id": "q3",
@@ -94,7 +100,10 @@
           "visual": "/art/cat.svg"
         }
       ],
-      "answer": "small"
+      "answer": "small",
+      "knowledgePointIds": [
+        "MA06-001"
+      ]
     },
     {
       "id": "q-sort",
@@ -123,7 +132,10 @@
         "mid",
         "big"
       ],
-      "promptAudio": "/audio/math-starter-04/q-sort.mp3"
+      "promptAudio": "/audio/math-starter-04/q-sort.mp3",
+      "knowledgePointIds": [
+        "MA06-001"
+      ]
     }
   ],
   "rewardStars": 3,
@@ -131,5 +143,9 @@
   "rewardCopyZh": "了不起！大小长短都懂啦！",
   "assetsNote": "没有实拍素材。图用色块和字块代替，旁白用浏览器语音。",
   "nextLevelId": "math-starter-05",
-  "aDiff": "比较大小长短"
+  "aDiff": "比较大小长短",
+  "knowledgePointIds": [
+    "MA06-001",
+    "MA06-002"
+  ]
 }

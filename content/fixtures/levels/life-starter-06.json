@@ -72,5 +72,8 @@
     }
   ],
   "rewardCopy": "牙齿亮晶晶！",
-  "rewardCopyZh": "牙齿亮晶晶！"
+  "rewardCopyZh": "牙齿亮晶晶！",
+  "knowledgePointIds": [
+    "HL01-002"
+  ]
 }

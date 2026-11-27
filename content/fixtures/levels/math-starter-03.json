@@ -43,7 +43,10 @@
           "visual": "/art/shape-triangle.svg"
         }
       ],
-      "answer": "ci"
+      "answer": "ci",
+      "knowledgePointIds": [
+        "MA04-001"
+      ]
     },
     {
       "id": "q2",
@@ -68,7 +71,10 @@
           "visual": "/art/shape-circle.svg"
         }
       ],
-      "answer": "sq"
+      "answer": "sq",
+      "knowledgePointIds": [
+        "MA04-001"
+      ]
     },
     {
       "id": "q3",
@@ -93,7 +99,10 @@
           "visual": "/art/shape-square.svg"
         }
       ],
-      "answer": "tr"
+      "answer": "tr",
+      "knowledgePointIds": [
+        "MA04-001"
+      ]
     },
     {
       "id": "q4",
@@ -121,6 +130,9 @@
       "answer": "ci",
       "ages": [
         "C"
+      ],
+      "knowledgePointIds": [
+        "MA04-001"
       ]
     }
   ],
@@ -129,5 +141,8 @@
   "rewardCopyZh": "形状小专家！",
   "assetsNote": "没有实拍素材。图用色块和字块代替，旁白用浏览器语音。",
   "nextLevelId": "math-starter-04",
-  "aDiff": "听名字找形状"
+  "aDiff": "听名字找形状",
+  "knowledgePointIds": [
+    "MA04-001"
+  ]
 }

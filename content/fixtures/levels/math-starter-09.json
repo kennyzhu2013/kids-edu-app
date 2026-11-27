@@ -45,7 +45,10 @@
         }
       ],
       "answer": "3",
-      "promptAudio": "/audio/math-starter-09/q1.mp3"
+      "promptAudio": "/audio/math-starter-09/q1.mp3",
+      "knowledgePointIds": [
+        "MA02-005"
+      ]
     },
     {
       "id": "q2",
@@ -65,7 +68,10 @@
         }
       ],
       "answer": "more",
-      "promptAudio": "/audio/math-starter-09/q2.mp3"
+      "promptAudio": "/audio/math-starter-09/q2.mp3",
+      "knowledgePointIds": [
+        "MA02-002"
+      ]
     },
     {
       "id": "q3",
@@ -77,9 +83,16 @@
       "promptSpeak": "两个加一个",
       "speakText": "两个加一个",
       "answer": "spoken",
-      "promptAudio": "/audio/math-starter-09/q3.mp3"
+      "promptAudio": "/audio/math-starter-09/q3.mp3",
+      "knowledgePointIds": [
+        "MA02-005"
+      ]
     }
   ],
   "rewardCopy": "会比较也会加一点！",
-  "rewardCopyZh": "会比较也会加一点！"
+  "rewardCopyZh": "会比较也会加一点！",
+  "knowledgePointIds": [
+    "MA02-002",
+    "MA02-005"
+  ]
 }

@@ -137,5 +137,8 @@
   "rewardCopyZh": "双手香香！卫生小标兵！",
   "assetsNote": "没有实拍素材。图用色块和字块代替，旁白用浏览器语音。",
   "nextLevelId": "life-starter-03",
-  "aDiff": "洗手顺序"
+  "aDiff": "洗手顺序",
+  "knowledgePointIds": [
+    "HL01-001"
+  ]
 }

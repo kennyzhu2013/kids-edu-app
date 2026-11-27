@@ -140,5 +140,8 @@
   "rewardCopyZh": "出发咯！交通小达人！",
   "assetsNote": "没有实拍素材。图用色块和字块代替，旁白用浏览器语音。",
   "nextLevelId": "life-starter-04",
-  "aDiff": "认识交通工具"
+  "aDiff": "认识交通工具",
+  "knowledgePointIds": [
+    "SC07-001"
+  ]
 }

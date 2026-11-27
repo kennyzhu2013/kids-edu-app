@@ -106,5 +106,8 @@
   "rewardCopyZh": "情绪小专家！心暖暖！",
   "assetsNote": "没有实拍素材。图用色块和字块代替，旁白用浏览器语音。",
   "nextLevelId": "life-starter-05",
-  "aDiff": "识别心情"
+  "aDiff": "识别心情",
+  "knowledgePointIds": [
+    "SE01-001"
+  ]
 }

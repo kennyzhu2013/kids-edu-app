@@ -128,5 +128,8 @@
   "bDiff": "指令可以再听一遍，答错再点",
   "cDiff": "跟读 This is my hand。麦克风还没接。",
   "assetsNote": "身体部位是简笔画热区，不是照片。指令用浏览器语音。",
-  "nextLevelId": "eng-starter-06"
+  "nextLevelId": "eng-starter-06",
+  "knowledgePointIds": [
+    "EN03-005"
+  ]
 }

@@ -130,5 +130,8 @@
   "rewardCopyZh": "动物王国通关！",
   "assetsNote": "没有实拍素材。图用色块和字块代替，旁白用浏览器语音。",
   "nextLevelId": "lang-starter-03",
-  "aDiff": "听名字找动物"
+  "aDiff": "听名字找动物",
+  "knowledgePointIds": [
+    "ZH04-001"
+  ]
 }

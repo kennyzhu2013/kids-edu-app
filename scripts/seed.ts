@@ -1,4 +1,5 @@
 import { loadCatalog, loadColorMatch, loadGameConfigs, loadPlayableLevels } from "../lib/content/load";
+import { assertSprint1Content } from "../lib/content/sprint1-checks";
 
 async function main() {
   const catalog = loadCatalog();
@@ -47,6 +48,7 @@ async function main() {
     }
   }
 
+  assertSprint1Content();
   console.log("夹具校验通过");
   console.log(`学科 ${catalog.subjects.length} · 课包 ${catalog.packs.length} · 关卡大纲 ${catalog.levels.length} · 游戏 ${catalog.games.length}`);
   console.log(`可玩关卡 ${levels.map((item) => item.id).join(", ")}`);
@@ -64,7 +66,7 @@ async function main() {
     await prisma.$connect();
     await syncCatalog(prisma);
     await ensureDemoFamily(prisma);
-    console.log("已写入 PostgreSQL（家长锁只存占位哈希，并保证小芽档案）。");
+    console.log("已写入 PostgreSQL（课程目录、占位或哈希家长锁，以及小芽档案）。");
   } finally {
     await prisma.$disconnect();
   }

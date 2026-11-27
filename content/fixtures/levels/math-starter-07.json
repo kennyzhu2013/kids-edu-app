@@ -45,7 +45,10 @@
         }
       ],
       "answer": "1",
-      "promptAudio": "/audio/math-starter-07/q1.mp3"
+      "promptAudio": "/audio/math-starter-07/q1.mp3",
+      "knowledgePointIds": [
+        "MA01-003"
+      ]
     },
     {
       "id": "q2",
@@ -74,9 +77,15 @@
         "second",
         "third"
       ],
-      "promptAudio": "/audio/math-starter-07/q2.mp3"
+      "promptAudio": "/audio/math-starter-07/q2.mp3",
+      "knowledgePointIds": [
+        "MA01-003"
+      ]
     }
   ],
   "rewardCopy": "第几都知道！",
-  "rewardCopyZh": "第几都知道！"
+  "rewardCopyZh": "第几都知道！",
+  "knowledgePointIds": [
+    "MA01-003"
+  ]
 }

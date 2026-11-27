@@ -98,5 +98,8 @@
     }
   ],
   "rewardCopy": "Family star!",
-  "rewardCopyZh": "家人真棒！"
+  "rewardCopyZh": "家人真棒！",
+  "knowledgePointIds": [
+    "EN03-006"
+  ]
 }

@@ -71,5 +71,8 @@
     }
   ],
   "rewardCopy": "出门也安全！",
-  "rewardCopyZh": "出门也安全！"
+  "rewardCopyZh": "出门也安全！",
+  "knowledgePointIds": [
+    "HL03-001"
+  ]
 }

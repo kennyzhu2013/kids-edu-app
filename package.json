@@ -8,6 +8,7 @@
     "start": "next start --hostname 0.0.0.0 --port 41731",
     "lint": "eslint",
     "seed": "tsx scripts/seed.ts",
+    "check:sprint1": "tsx scripts/check-sprint1.ts",
     "assets": "node scripts/generate-art.mjs && node scripts/generate-audio.mjs",
     "db:generate": "prisma generate",
     "postinstall": "prisma generate"

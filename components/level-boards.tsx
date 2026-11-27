@@ -27,7 +27,7 @@ export function SpeakBoard({
   step: Step;
   busy: boolean;
   hinted: boolean;
-  onPass: () => void;
+  onPass: (result: "said_right" | "unanswered") => void;
   onMiss: () => void;
 }) {
   const [listening, setListening] = useState(false);
@@ -74,7 +74,7 @@ export function SpeakBoard({
     if (speechMatches(result.text, expected)) {
       playCue("ok");
       setNote("真棒");
-      onPass();
+      onPass("said_right");
       return;
     }
     playCue("again");
@@ -128,7 +128,7 @@ export function SpeakBoard({
       </p>
       {blocked ? (
         <div className="mt-auto pt-6">
-          <BigButton disabled={busy} onClick={onPass}>
+          <BigButton disabled={busy} onClick={() => onPass("unanswered")}>
             我说完了
           </BigButton>
         </div>
@@ -147,7 +147,7 @@ export function DragBoard({
   step: Step;
   busy: boolean;
   hinted: boolean;
-  onPass: () => void;
+  onPass: (placements: Record<string, string>) => void;
   onMiss: () => void;
 }) {
   const baskets = step.baskets ?? [];
@@ -172,7 +172,7 @@ export function DragBoard({
     setSelected(null);
     playCue("ok");
     setNote("真棒");
-    if ((step.choices ?? []).every((item) => next[item.id])) onPass();
+    if ((step.choices ?? []).every((item) => next[item.id])) onPass(next);
   }
 
   return (
@@ -243,7 +243,7 @@ export function SortBoard({
   step: Step;
   busy: boolean;
   hinted: boolean;
-  onPass: () => void;
+  onPass: (order: string[]) => void;
   onMiss: () => void;
 }) {
   const order = Array.isArray(step.answer) ? step.answer : [];
@@ -271,7 +271,7 @@ export function SortBoard({
     }
     playCue("ok");
     setNote("真棒");
-    onPass();
+    onPass(next.flatMap((item) => (item ? [item.id] : [])));
   }
 
   return (

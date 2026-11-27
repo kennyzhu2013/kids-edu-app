@@ -1,4 +1,7 @@
 import type { PrismaClient } from "@prisma/client";
+import { hashPin, isPinHash } from "@/lib/api/pin-hash";
+import { configuredParentPin, isProduction } from "@/lib/api/secrets";
+import { loadCurriculum } from "@/lib/content/curriculum";
 import { loadCatalog, loadGameConfigs, loadPlayableLevels } from "@/lib/content/load";
 
 export async function syncCatalog(prisma: PrismaClient) {
@@ -92,6 +95,76 @@ export async function syncCatalog(prisma: PrismaClient) {
       },
     });
   }
+  await syncCurriculum(prisma);
+}
+
+export async function syncCurriculum(prisma: PrismaClient) {
+  const curriculum = loadCurriculum();
+  const levels = loadPlayableLevels();
+  for (const subject of curriculum.subjects) {
+    await prisma.curriculumSubject.upsert({
+      where: { id: subject.id },
+      update: { name: subject.name, sort: subject.sort, status: subject.status },
+      create: subject,
+    });
+  }
+  for (const course of curriculum.courses) {
+    await prisma.curriculumCourse.upsert({
+      where: { id: course.id },
+      update: {
+        subjectId: course.subjectId,
+        title: course.title,
+        sort: course.sort,
+        status: course.status,
+      },
+      create: course,
+    });
+  }
+  for (const point of curriculum.points) {
+    await prisma.knowledgePoint.upsert({
+      where: { id: point.id },
+      update: {
+        code: point.code,
+        courseId: point.courseId,
+        title: point.title,
+        difficulty: point.difficulty,
+        status: point.status,
+        sort: point.sort,
+        version: point.version,
+        ageTargets: point.ageTargets,
+      },
+      create: {
+        ...point,
+        ageTargets: point.ageTargets,
+      },
+    });
+  }
+  for (const link of curriculum.dependencies) {
+    await prisma.knowledgeDependency.upsert({
+      where: { fromId_toId_relation: { fromId: link.fromId, toId: link.toId, relation: link.relation } },
+      update: {},
+      create: link,
+    });
+  }
+  const rows = levels.flatMap((level) => {
+    const levelRows = level.knowledgePointIds.map((knowledgePointId) => ({
+      levelId: level.id,
+      knowledgePointId,
+      stepId: "",
+    }));
+    const stepRows = level.steps.flatMap((step) =>
+      step.knowledgePointIds.map((knowledgePointId) => ({
+        levelId: level.id,
+        knowledgePointId,
+        stepId: step.id,
+      })),
+    );
+    return [...levelRows, ...stepRows];
+  });
+  await prisma.levelKnowledgePoint.deleteMany({});
+  if (rows.length > 0) {
+    await prisma.levelKnowledgePoint.createMany({ data: rows });
+  }
 }
 
 export async function ensureDemoFamily(prisma: PrismaClient) {
@@ -100,11 +173,22 @@ export async function ensureDemoFamily(prisma: PrismaClient) {
     update: {},
     create: { id: "user-demo", nickname: "家长" },
   });
-  await prisma.parentLock.upsert({
-    where: { userId: "user-demo" },
-    update: {},
-    create: { userId: "user-demo", pinHash: "stub-not-a-real-hash" },
-  });
+  const existingLock = await prisma.parentLock.findUnique({ where: { userId: "user-demo" } });
+  const pin = configuredParentPin();
+  if (!existingLock) {
+    await prisma.parentLock.create({
+      data: {
+        userId: "user-demo",
+        pinHash: isProduction() && pin ? hashPin(pin) : "stub-not-a-real-hash",
+      },
+    });
+  } else if (isProduction() && pin && !isPinHash(existingLock.pinHash)) {
+    // 只替换占位哈希。已经是 scrypt 的记录保持不动。
+    await prisma.parentLock.update({
+      where: { userId: "user-demo" },
+      data: { pinHash: hashPin(pin) },
+    });
+  }
   const count = await prisma.child.count({ where: { userId: "user-demo" } });
   if (count === 0) {
     await prisma.child.create({

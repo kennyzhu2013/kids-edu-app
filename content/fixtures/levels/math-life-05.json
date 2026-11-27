@@ -137,5 +137,8 @@
   "rewardCopy": "整理小能手！房间好整齐！",
   "rewardCopyZh": "整理小能手！房间好整齐！",
   "assetsNote": "没有实拍素材。图用色块和字块代替，旁白用浏览器语音。",
-  "aDiff": "按形状和大小整理"
+  "aDiff": "按形状和大小整理",
+  "knowledgePointIds": [
+    "MA09-004"
+  ]
 }

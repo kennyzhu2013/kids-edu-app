@@ -154,5 +154,8 @@
   "rewardCopyZh": "真香！美食家！",
   "assetsNote": "没有实拍素材。图用色块和字块代替，旁白用浏览器语音。",
   "nextLevelId": "lang-starter-05",
-  "aDiff": "听食物名称"
+  "aDiff": "听食物名称",
+  "knowledgePointIds": [
+    "ZH04-003"
+  ]
 }

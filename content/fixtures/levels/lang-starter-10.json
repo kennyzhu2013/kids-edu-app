@@ -77,5 +77,8 @@
     }
   ],
   "rewardCopy": "语文复习完成！",
-  "rewardCopyZh": "语文复习完成！"
+  "rewardCopyZh": "语文复习完成！",
+  "knowledgePointIds": [
+    "ZH08-001"
+  ]
 }

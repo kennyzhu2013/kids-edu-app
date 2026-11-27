@@ -43,7 +43,12 @@
     "bDiff": { "type": "string" },
     "cDiff": { "type": "string" },
     "assetsNote": { "type": "string" },
-    "charCards": { "type": "array" }
+    "charCards": { "type": "array" },
+    "knowledgePointIds": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "关卡级知识点。运行时以 Zod 为准，这份 JSON Schema 不被加载。"
+    }
   },
   "$defs": {
     "step": {
@@ -65,7 +70,9 @@
             { "type": "array", "items": { "type": "string" } }
           ]
         },
-        "speakText": { "type": "string" }
+        "speakText": { "type": "string" },
+        "ages": { "type": "array", "items": { "enum": ["A", "B", "C"] } },
+        "knowledgePointIds": { "type": "array", "items": { "type": "string" } }
       }
     }
   }

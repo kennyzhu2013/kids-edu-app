@@ -1,3 +1,11 @@
+import { assertProductionDatabase, initialParentPin } from "@/lib/api/secrets";
+import { loadCurriculum } from "@/lib/content/curriculum";
+import type {
+  CurriculumCourseRecord,
+  CurriculumSubjectRecord,
+  KnowledgeDependencyRecord,
+  KnowledgePointRecord,
+} from "@/lib/content/curriculum";
 import { loadCatalog, loadGameConfigs, loadPlayableLevels } from "@/lib/content/load";
 import type { GameDocument, LevelDocument } from "@/lib/content/schemas";
 
@@ -60,7 +68,7 @@ type SmsTicket = {
   lastSentAt: number;
 };
 
-export const CONTENT_REV = 6;
+export const CONTENT_REV = 7;
 
 export type Memory = {
   contentRev: number;
@@ -70,6 +78,7 @@ export type Memory = {
     wechatOpenId: string | null;
     nickname: string;
     role: "parent" | "admin";
+    guardianConsentAt: string | null;
   };
   children: ChildRecord[];
   progress: ProgressRecord[];
@@ -77,6 +86,7 @@ export type Memory = {
   entitlements: EntitlementRecord[];
   parentLock: {
     pin: string;
+    pinHash: string | null;
     failCount: number;
     lockedUntil: number | null;
     sessionToken: string | null;
@@ -87,6 +97,10 @@ export type Memory = {
   levels: ReturnType<typeof loadCatalog>["levels"];
   games: ReturnType<typeof loadCatalog>["games"];
   subjects: ReturnType<typeof loadCatalog>["subjects"];
+  curriculumSubjects: CurriculumSubjectRecord[];
+  curriculumCourses: CurriculumCourseRecord[];
+  knowledgePoints: KnowledgePointRecord[];
+  knowledgeDependencies: KnowledgeDependencyRecord[];
   playableLevels: Record<string, LevelDocument>;
   gameConfigs: Record<string, GameDocument>;
   assets: AssetRecord[];
@@ -101,16 +115,22 @@ let memory: Memory | null = globalStore.__qimengMemory ?? null;
 function applyContent(state: Memory) {
   const catalog = loadCatalog();
   const levels = loadPlayableLevels();
+  const curriculum = loadCurriculum();
   state.contentRev = CONTENT_REV;
   state.packs = structuredClone(catalog.packs);
   state.levels = structuredClone(catalog.levels);
   state.games = structuredClone(catalog.games);
   state.subjects = structuredClone(catalog.subjects);
+  state.curriculumSubjects = structuredClone(curriculum.subjects);
+  state.curriculumCourses = structuredClone(curriculum.courses);
+  state.knowledgePoints = structuredClone(curriculum.points);
+  state.knowledgeDependencies = structuredClone(curriculum.dependencies);
   state.playableLevels = Object.fromEntries(levels.map((level) => [level.id, structuredClone(level)]));
   state.gameConfigs = Object.fromEntries(loadGameConfigs().map((game) => [game.gameId, structuredClone(game)]));
 }
 
 export function db(): Memory {
+  assertProductionDatabase();
   if (globalStore.__qimengMemory) {
     if (globalStore.__qimengMemory.contentRev !== CONTENT_REV) applyContent(globalStore.__qimengMemory);
     if (!globalStore.__qimengMemory.todayPlans) globalStore.__qimengMemory.todayPlans = {};
@@ -126,6 +146,7 @@ export function db(): Memory {
       wechatOpenId: null,
       nickname: "家长",
       role: "parent",
+      guardianConsentAt: null,
     },
     children: [
       {
@@ -141,7 +162,8 @@ export function db(): Memory {
     orders: [],
     entitlements: [],
     parentLock: {
-      pin: process.env.PARENT_LOCK_PIN || "2580",
+      pin: initialParentPin(),
+      pinHash: null,
       failCount: 0,
       lockedUntil: null,
       sessionToken: null,
@@ -152,6 +174,10 @@ export function db(): Memory {
     levels: [],
     games: [],
     subjects: [],
+    curriculumSubjects: [],
+    curriculumCourses: [],
+    knowledgePoints: [],
+    knowledgeDependencies: [],
     playableLevels: {},
     gameConfigs: {},
     assets: [

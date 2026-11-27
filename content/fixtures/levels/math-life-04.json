@@ -104,5 +104,8 @@
   "rewardCopyZh": "时间小达人！几点都知道！",
   "assetsNote": "没有实拍素材。图用色块和字块代替，旁白用浏览器语音。",
   "nextLevelId": "math-life-05",
-  "aDiff": "认识整点"
+  "aDiff": "认识整点",
+  "knowledgePointIds": [
+    "MA08-001"
+  ]
 }

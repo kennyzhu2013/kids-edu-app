@@ -157,5 +157,8 @@
   "aDiff": "听名字点图",
   "bDiff": "听叫声 meow，选出 cat",
   "cDiff": "跟读 It's a fish。麦克风还没接，点按钮就算说完。",
-  "assetsNote": "动物是简笔画。叫声用浏览器朗读 meow / woof，不是录音。"
+  "assetsNote": "动物是简笔画。叫声用浏览器朗读 meow / woof，不是录音。",
+  "knowledgePointIds": [
+    "EN03-001"
+  ]
 }

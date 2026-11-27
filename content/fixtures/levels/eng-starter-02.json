@@ -132,5 +132,8 @@
   "aDiff": "四色球点选，每题仅一色",
   "bDiff": "答错后高亮提示，可以再点一次",
   "cDiff": "增加场景题：Where is the red apple?",
-  "assetsNote": "没有实拍素材。彩球和苹果用色块代替，单词用浏览器语音朗读。"
+  "assetsNote": "没有实拍素材。彩球和苹果用色块代替，单词用浏览器语音朗读。",
+  "knowledgePointIds": [
+    "EN03-003"
+  ]
 }

@@ -1,7 +1,6 @@
-// 综合启蒙 MVP 数据模型桩。
-// 运行时接口仍走内存 + JSON 夹具；连上 PostgreSQL 后执行：
-//   npx prisma migrate dev --name init
-//   SEED_DATABASE=1 npm run seed
+// 综合启蒙数据模型。
+// 开发环境可以不设 DATABASE_URL，接口走内存 + JSON 夹具。
+// 生产环境必须有数据库。新增表用新的迁移，不改已有迁移目录。
 
 generator client {
   provider = "prisma-client-js"
@@ -19,6 +18,8 @@ model User {
   wechatOpenId String?      @unique
   nickname     String?
   role         String       @default("parent")
+  /// 监护人同意隐私说明的时间。空着表示还没有同意，不能当成已经同意。
+  guardianConsentAt DateTime?
   createdAt    DateTime     @default(now())
   updatedAt    DateTime     @updatedAt
   children     Child[]
@@ -45,7 +46,8 @@ model Child {
   @@index([userId])
 }
 
-/// 学科。对应课程馆 Tab：语言 / 数学 / 英语 / 认知。
+/// 产品学科。只给课程馆四个胶囊用：语言 / 数学 / 英语 / 认知。
+/// 规划里的七个模块在 CurriculumSubject，不要写进这张表。
 model Subject {
   id    String @id
   name  String
@@ -96,9 +98,77 @@ model Level {
   createdAt     DateTime   @default(now())
   updatedAt     DateTime   @updatedAt
   progress      Progress[]
+  knowledgeLinks LevelKnowledgePoint[]
 
   @@unique([packId, order])
   @@index([packId])
+}
+
+/// 规划学科。七个模块，不出现在课程馆胶囊里。
+model CurriculumSubject {
+  id      String             @id
+  name    String
+  sort    Int
+  status  String             @default("active")
+  courses CurriculumCourse[]
+}
+
+/// 规划专题。id 形如 MA09。生活数学单独成专题，不并进时间认知。
+model CurriculumCourse {
+  id        String            @id
+  subjectId String
+  subject   CurriculumSubject @relation(fields: [subjectId], references: [id])
+  title     String
+  sort      Int
+  status    String            @default("active")
+  points    KnowledgePoint[]
+
+  @@index([subjectId])
+}
+
+/// 知识点。courseId 只表示所属专题，不表示前置。
+model KnowledgePoint {
+  id               String                 @id
+  code             String                 @unique
+  courseId         String
+  course           CurriculumCourse       @relation(fields: [courseId], references: [id])
+  title            String
+  difficulty       Int                    @default(1)
+  status           String                 @default("active")
+  sort             Int
+  version          Int                    @default(1)
+  ageTargets       Json
+  dependenciesFrom KnowledgeDependency[]  @relation("DependencyFrom")
+  dependenciesTo   KnowledgeDependency[]  @relation("DependencyTo")
+  levelLinks       LevelKnowledgePoint[]
+
+  @@index([courseId])
+}
+
+/// 知识点之间的多对多关系。不用 KnowledgePoint.parentId。
+model KnowledgeDependency {
+  id       String         @id @default(cuid())
+  fromId   String
+  toId     String
+  relation String
+  from     KnowledgePoint @relation("DependencyFrom", fields: [fromId], references: [id], onDelete: Cascade)
+  to       KnowledgePoint @relation("DependencyTo", fields: [toId], references: [id], onDelete: Cascade)
+
+  @@unique([fromId, toId, relation])
+  @@index([toId])
+}
+
+/// 关卡到知识点的索引。播放仍读夹具；删掉这张表不影响开课。
+model LevelKnowledgePoint {
+  id               String         @id @default(cuid())
+  levelId          String
+  level            Level          @relation(fields: [levelId], references: [id], onDelete: Cascade)
+  knowledgePointId String
+  knowledgePoint   KnowledgePoint @relation(fields: [knowledgePointId], references: [id], onDelete: Cascade)
+  stepId           String         @default("")
+
+  @@unique([levelId, knowledgePointId, stepId])
+  @@index([knowledgePointId])
 }
 
 /// 游戏乐园。config 含时长、每日免费次数、胜利条件、素材引用。
@@ -173,7 +243,7 @@ model Entitlement {
   @@index([userId])
 }
 
-/// 家长锁。只存 pinHash，接口桩在接入前用环境变量比对。
+/// 家长锁。只存 pinHash。开发环境的占位哈希不能在生产环境当作演示密码。
 model ParentLock {
   id          String    @id @default(cuid())
   userId      String    @unique

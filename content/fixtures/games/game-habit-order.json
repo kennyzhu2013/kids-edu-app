@@ -36,5 +36,8 @@
       "label": "擦干",
       "visual": "/art/dry.svg"
     }
+  ],
+  "knowledgePointIds": [
+    "HL01-001"
   ]
 }

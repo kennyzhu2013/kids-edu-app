@@ -39,7 +39,10 @@
         }
       ],
       "answer": "red",
-      "promptAudio": "/audio/math-starter-08/q1.mp3"
+      "promptAudio": "/audio/math-starter-08/q1.mp3",
+      "knowledgePointIds": [
+        "MA05-001"
+      ]
     },
     {
       "id": "q2",
@@ -68,9 +71,16 @@
         "s1",
         "c2"
       ],
-      "promptAudio": "/audio/math-starter-08/q2.mp3"
+      "promptAudio": "/audio/math-starter-08/q2.mp3",
+      "knowledgePointIds": [
+        "MA05-002"
+      ]
     }
   ],
   "rewardCopy": "规律找到啦！",
-  "rewardCopyZh": "规律找到啦！"
+  "rewardCopyZh": "规律找到啦！",
+  "knowledgePointIds": [
+    "MA05-001",
+    "MA05-002"
+  ]
 }

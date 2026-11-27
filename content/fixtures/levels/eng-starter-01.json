@@ -78,5 +78,8 @@
   "aDiff": "仅听词点图，无跟读",
   "bDiff": "增加跟读 Hello；可选二次练习 Bye-bye",
   "cDiff": "跟读 Hello, I'm Mia；结算前可再听一次完整问候",
-  "assetsNote": "角色 Mia 立绘；挥手 / 离开两张场景图；Hello / Bye-bye 音频。跟读麦克风尚未接入。"
+  "assetsNote": "角色 Mia 立绘；挥手 / 离开两张场景图；Hello / Bye-bye 音频。跟读麦克风尚未接入。",
+  "knowledgePointIds": [
+    "EN04-001"
+  ]
 }

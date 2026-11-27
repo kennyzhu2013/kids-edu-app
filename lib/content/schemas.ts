@@ -36,6 +36,7 @@ export const stepSchema = z.object({
   answer: z.union([z.string(), z.array(z.string())]),
   speakText: z.string().optional(),
   ages: z.array(ageBandSchema).optional(),
+  knowledgePointIds: z.array(z.string()).optional().default([]),
 });
 
 export const levelDocumentSchema = z.object({
@@ -56,6 +57,7 @@ export const levelDocumentSchema = z.object({
   rewardStars: z.number().int().min(1).max(3),
   rewardCopy: z.string(),
   rewardCopyZh: z.string(),
+  knowledgePointIds: z.array(z.string()).optional().default([]),
   aDiff: z.string().optional(),
   bDiff: z.string().optional(),
   cDiff: z.string().optional(),
@@ -81,6 +83,7 @@ const gameMeta = {
   title: z.string(),
   titleEn: z.string(),
   knowledgeTags: z.array(z.string()),
+  knowledgePointIds: z.array(z.string()).optional().default([]),
   dailyFree: z.number().int(),
   durationSec: z.number().int(),
   rounds: z.string(),
