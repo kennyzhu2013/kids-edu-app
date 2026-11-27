@@ -19,7 +19,7 @@
   "introScript": "Let's move! Run, jump, and stand.",
   "introScriptZh": "动一动。跑一跑，跳一跳，站好。",
   "listenTitle": "Actions",
-  "listenVisual": "/art/run.svg",
+  "listenVisual": "/art/cover-eng-starter-08.svg",
   "nextLevelId": "eng-starter-09",
   "steps": [
     {

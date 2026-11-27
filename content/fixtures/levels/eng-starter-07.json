@@ -19,7 +19,7 @@
   "introScript": "Yummy food. Apple, milk, and bread.",
   "introScriptZh": "好吃的东西。苹果、牛奶和面包。",
   "listenTitle": "Food",
-  "listenVisual": "/art/listen-meal.svg",
+  "listenVisual": "/art/cover-eng-starter-07.svg",
   "nextLevelId": "eng-starter-08",
   "steps": [
     {

@@ -108,56 +108,23 @@ export function speak(text: string): SpeakResult {
   return "played";
 }
 
-type ToneParam = { setValueAtTime: (value: number, time: number) => void; exponentialRampToValueAtTime: (value: number, time: number) => void };
-type ToneNode = { connect: (node: unknown) => void };
-type Oscillator = ToneNode & { type: string; frequency: ToneParam; start: (time: number) => void; stop: (time: number) => void };
-type GainNodeLike = ToneNode & { gain: ToneParam };
-type ToneContext = {
-  state: string;
-  currentTime: number;
-  destination: unknown;
-  resume: () => Promise<void>;
-  createOscillator: () => Oscillator;
-  createGain: () => GainNodeLike;
-};
+const CUE_SRC = {
+  ok: "/audio/sfx/ok.mp3",
+  again: "/audio/sfx/again.mp3",
+} as const;
 
-/** 对错提示音。没有音频文件，设备不支持就静音。 */
+let cueAudio: HTMLAudioElement | null = null;
+
+/** 对错提示音。播放原创的木琴和轻轻的「再试试」，不再用正弦波哔声。 */
 export function playCue(kind: "ok" | "again") {
   if (!soundEnabled() || typeof window === "undefined") return;
-  const Ctx = toneCtor();
-  if (!Ctx) return;
   try {
-    const ctx = sharedContext(Ctx);
-    if (ctx.state === "suspended") void ctx.resume().catch(() => undefined);
-    const now = ctx.currentTime;
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-    osc.type = "sine";
-    osc.frequency.setValueAtTime(kind === "ok" ? 640 : 196, now);
-    if (kind === "ok") osc.frequency.exponentialRampToValueAtTime(880, now + 0.12);
-    gain.gain.setValueAtTime(0.0001, now);
-    gain.gain.exponentialRampToValueAtTime(0.06, now + 0.02);
-    gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.18);
-    osc.connect(gain);
-    gain.connect(ctx.destination);
-    osc.start(now);
-    osc.stop(now + 0.2);
+    cueAudio?.pause();
+    const audio = new Audio(CUE_SRC[kind]);
+    cueAudio = audio;
+    audio.volume = 0.9;
+    void audio.play().catch(() => undefined);
   } catch {
     // 无声设备或自动播放被拦下。
   }
-}
-
-let audioContext: ToneContext | null = null;
-
-function toneCtor() {
-  const host = globalThis as typeof globalThis & {
-    AudioContext?: new () => ToneContext;
-    webkitAudioContext?: new () => ToneContext;
-  };
-  return host.AudioContext ?? host.webkitAudioContext ?? null;
-}
-
-function sharedContext(Ctx: new () => ToneContext) {
-  audioContext ??= new Ctx();
-  return audioContext;
 }

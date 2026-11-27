@@ -184,9 +184,9 @@ export function db(): Memory {
       {
         id: "asset-mia",
         kind: "image",
-        cdnUrl: null,
+        cdnUrl: "/art/mia.svg",
         tags: ["mia", "eng-starter-01"],
-        status: "draft",
+        status: "published",
         deletedAt: null,
       },
     ],

@@ -18,7 +18,7 @@
   "introScript": "水果要分一分。两边一样多才公平。",
   "introScriptZh": "水果要分一分。两边一样多才公平。",
   "listenTitle": "分水果",
-  "listenVisual": "/art/listen-fruit.svg",
+  "listenVisual": "/art/cover-math-life-01.svg",
   "steps": [
     {
       "id": "q1",
@@ -102,7 +102,7 @@
   "rewardStars": 3,
   "rewardCopy": "分得公平！均分小达人！",
   "rewardCopyZh": "分得公平！均分小达人！",
-  "assetsNote": "没有实拍素材。图用色块和字块代替，旁白用浏览器语音。",
+  "assetsNote": "插画是原创矢量图，不再用色块占位。旁白是站内音频，缺文件时才用系统朗读。",
   "nextLevelId": "math-life-02",
   "aDiff": "一样多和均分",
   "knowledgePointIds": [

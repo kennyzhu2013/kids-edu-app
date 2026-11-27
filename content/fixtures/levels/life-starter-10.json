@@ -18,7 +18,7 @@
   "introScript": "出门牵着大人的手。红灯停一停。",
   "introScriptZh": "出门牵着大人的手。红灯停一停。",
   "listenTitle": "户外",
-  "listenVisual": "/art/stop.svg",
+  "listenVisual": "/art/cover-life-starter-10.svg",
   "steps": [
     {
       "id": "q1",

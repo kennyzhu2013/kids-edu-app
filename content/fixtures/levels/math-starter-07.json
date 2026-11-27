@@ -19,7 +19,7 @@
   "introScript": "排队时，最前面是第 1，后面是第 2、第 3。",
   "introScriptZh": "排队时，最前面是第 1，后面是第 2、第 3。",
   "listenTitle": "第几",
-  "listenVisual": "/art/listen-queue.svg",
+  "listenVisual": "/art/cover-math-starter-07.svg",
   "nextLevelId": "math-starter-08",
   "steps": [
     {

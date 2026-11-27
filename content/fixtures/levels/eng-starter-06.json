@@ -19,7 +19,7 @@
   "introScript": "This is my family. Mom, dad, and a little baby.",
   "introScriptZh": "这是我的家人。妈妈、爸爸，还有小宝宝。",
   "listenTitle": "Family",
-  "listenVisual": "/art/listen-hello.svg",
+  "listenVisual": "/art/cover-eng-starter-06.svg",
   "nextLevelId": "eng-starter-07",
   "steps": [
     {

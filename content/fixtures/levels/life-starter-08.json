@@ -18,7 +18,7 @@
   "introScript": "想吃的时候说请，吃完说谢谢。",
   "introScriptZh": "想吃的时候说请，吃完说谢谢。",
   "listenTitle": "吃饭",
-  "listenVisual": "/art/listen-meal.svg",
+  "listenVisual": "/art/cover-life-starter-08.svg",
   "nextLevelId": "life-starter-09",
   "steps": [
     {

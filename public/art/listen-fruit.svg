@@ -1,5 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 168">
-<rect width="220" height="168" rx="31" fill="#fff3da"/>
-<circle cx="70" cy="84" r="16" fill="#ff5a5a"/><path d="M70 68c4-7 11-7 13-2-6 0-10 3-13 2z" fill="#3dcb7a"/><path d="M70 68c-1-6 3-8 4-8" stroke="#6b4638" stroke-width="2" fill="none"/><circle cx="120" cy="90" r="16" fill="#ffc83d"/><path d="M120 74c4-7 11-7 13-2-6 0-10 3-13 2z" fill="#3dcb7a"/><path d="M120 74c-1-6 3-8 4-8" stroke="#6b4638" stroke-width="2" fill="none"/><circle cx="168" cy="82" r="16" fill="#3dcb7a"/><path d="M168 66c4-7 11-7 13-2-6 0-10 3-13 2z" fill="#3dcb7a"/><path d="M168 66c-1-6 3-8 4-8" stroke="#6b4638" stroke-width="2" fill="none"/><ellipse cx="120" cy="128" rx="70" ry="14" fill="#f0c27a"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 168">
+<rect width="280" height="168" rx="32" fill="#fff3da"/>
+<rect y="122" width="280" height="46" fill="#f8e7cf"/>
+<ellipse cx="140" cy="124" rx="108" ry="10" fill="#f0d4b4"/>
+<g transform="translate(80 80) scale(0.7)"><g>
+<path d="M0 -20c16 0 26 14 26 28 0 16-12 26-26 26S-26 24-26 8C-26 -8-14-20 0-20z" fill="#ff5a5a" stroke="#c43c3c" stroke-width="2.5"/>
+<ellipse cx="-8" cy="0" rx="7" ry="10" fill="#fff" opacity="0.28"/>
+<path d="M-1 -20c2-10 9-14 13-11" stroke="#6b4638" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+<path d="M-1 -18c9-9 18-3 20 3-9 0-15 0-20-3z" fill="#2eaf68" stroke="#1a8a62" stroke-width="1.6" stroke-linejoin="round"/>
+</g></g><g transform="translate(140 96) scale(0.65)"><g>
+<path d="M0 -20c16 0 26 14 26 28 0 16-12 26-26 26S-26 24-26 8C-26 -8-14-20 0-20z" fill="#ffc83d" stroke="#e0a030" stroke-width="2.5"/>
+<ellipse cx="-8" cy="0" rx="7" ry="10" fill="#fff" opacity="0.28"/>
+<path d="M-1 -20c2-10 9-14 13-11" stroke="#6b4638" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+<path d="M-1 -18c9-9 18-3 20 3-9 0-15 0-20-3z" fill="#2eaf68" stroke="#1a8a62" stroke-width="1.6" stroke-linejoin="round"/>
+</g></g><g transform="translate(200 78) scale(0.6)"><g>
+<path d="M0 -20c16 0 26 14 26 28 0 16-12 26-26 26S-26 24-26 8C-26 -8-14-20 0-20z" fill="#ff5a5a" stroke="#c43c3c" stroke-width="2.5"/>
+<ellipse cx="-8" cy="0" rx="7" ry="10" fill="#fff" opacity="0.28"/>
+<path d="M-1 -20c2-10 9-14 13-11" stroke="#6b4638" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+<path d="M-1 -18c9-9 18-3 20 3-9 0-15 0-20-3z" fill="#2eaf68" stroke="#1a8a62" stroke-width="1.6" stroke-linejoin="round"/>
+</g></g>
 </svg>

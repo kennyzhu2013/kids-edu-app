@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 88 88">
 <rect width="88" height="88" rx="13" fill="#fff3da"/>
-<circle cx="44" cy="46" r="24" fill="#3dcb7a"/><path d="M32 46h24" stroke="#fff" stroke-width="5" stroke-linecap="round"/>
+<ellipse cx="44" cy="77" rx="21" ry="5" fill="#f0dcc4"/>
+<g transform="translate(44 45) scale(0.82)"><g>
+<g>
+<ellipse cy="10" rx="24" ry="12" fill="#fff" stroke="#5c4036" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<ellipse cy="6" rx="16" ry="7" fill="#f4e1b5"/>
+<path d="M-18 8c4 6 32 6 36 0" stroke="#f0dcc4" stroke-width="2" fill="none"/>
+</g>
+<path d="M8 -16l6 6 12-12" stroke="#1fa97a" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+</g></g>
 </svg>

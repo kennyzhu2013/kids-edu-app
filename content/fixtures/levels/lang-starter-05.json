@@ -20,7 +20,7 @@
   "introScript": "古人看太阳画出「日」，看月亮画出「月」。山、水、火也是这样来的。",
   "introScriptZh": "古人看太阳画出「日」，看月亮画出「月」。山、水、火也是这样来的。",
   "listenTitle": "象形字",
-  "listenVisual": "/art/sun.svg",
+  "listenVisual": "/art/cover-lang-starter-05.svg",
   "steps": [
     {
       "id": "q1",
@@ -135,7 +135,7 @@
   "rewardStars": 3,
   "rewardCopy": "汉字小考古家！",
   "rewardCopyZh": "汉字小考古家！",
-  "assetsNote": "没有实拍素材。图用色块和字块代替，旁白用浏览器语音。",
+  "assetsNote": "插画是原创矢量图，不再用色块占位。旁白是站内音频，缺文件时才用系统朗读。",
   "aDiff": "从图画认汉字",
   "nextLevelId": "lang-starter-06",
   "knowledgePointIds": [

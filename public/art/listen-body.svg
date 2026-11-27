@@ -1,10 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 168">
-<rect width="220" height="168" rx="31" fill="#fff3da"/>
-<circle cx="110" cy="58" r="36" fill="#ffd7bf"/>
-    <path d="M84.08 52.6c5.3999999999999995 -30.599999999999998 43.199999999999996 -32.4 52.199999999999996 -1.8" fill="#6b4638"/>
-    <circle cx="99.92" cy="58" r="3.6" fill="#3b2a24"/><circle cx="120.08" cy="58" r="3.6" fill="#3b2a24"/><path d="M97.76 69.52c7.2 10.080000000000002 17.28 10.080000000000002 24.48 0" stroke="#e07a62" stroke-width="4.32" fill="none" stroke-linecap="round"/>
-      <rect x="94" y="100" width="32" height="28" rx="12" fill="#ff8a5b"/>
-      <path d="M62 118h22M146 118h22" stroke="#ffd7bf" stroke-width="10" stroke-linecap="round"/>
-      <circle cx="96" cy="54" r="4" fill="#ff6b4a"/><circle cx="124" cy="54" r="4" fill="#ff6b4a"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 168">
+<rect width="280" height="168" rx="32" fill="#fff3da"/>
+<rect y="122" width="280" height="46" fill="#f8e7cf"/>
+<ellipse cx="140" cy="124" rx="108" ry="10" fill="#f0d4b4"/>
+<g transform="translate(90 84) scale(0.9)"><g>
+<circle r="26" fill="#ffd0b8" stroke="#5c4036" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M-22 -6c2-18 42-18 44 2-12-10-34-10-44-2z" fill="#6b4638"/>
+<ellipse cx="-7" cy="-2" rx="2.8" ry="3.3" fill="#3b2a24"/>
+<ellipse cx="7" cy="-2" rx="2.8" ry="3.3" fill="#3b2a24"/>
+<circle cx="-6.1" cy="-3.1" r="1" fill="#fff"/>
+<circle cx="7.9" cy="-3.1" r="1" fill="#fff"/><path d="M-7 8c4 5 10 5 14 0" stroke="#e07a62" stroke-width="2.3" fill="none" stroke-linecap="round"/><ellipse cx="-12" cy="4" rx="3" ry="1.8" fill="#ffb199"/><ellipse cx="12" cy="4" rx="3" ry="1.8" fill="#ffb199"/>
+</g></g><g transform="translate(190 70) scale(0.45)"><g>
+<ellipse rx="26" ry="16" fill="#fff" stroke="#5c4036" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<circle r="8" fill="#4aa3ff"/>
+<circle r="4.2" fill="#3b2a24"/>
+<circle cx="2.4" cy="-2.2" r="1.8" fill="#fff"/>
+</g></g><g transform="translate(230 100) scale(0.45)"><g>
+<path d="M-22 -6c8 22 36 22 44 0-6 8-38 8-44 0z" fill="#ff8a9a" stroke="#e07a62" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M-12 0c8 8 16 8 24 0" stroke="#fff" stroke-width="3" fill="none" opacity="0.75" stroke-linecap="round"/>
+</g></g>
 </svg>

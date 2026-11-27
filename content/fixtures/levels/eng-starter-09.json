@@ -18,7 +18,7 @@
   "introScript": "A hat for the sun. A coat when it is cold.",
   "introScriptZh": "太阳大，戴帽子。天冷了，穿外套。",
   "listenTitle": "Clothes",
-  "listenVisual": "/art/hat.svg",
+  "listenVisual": "/art/cover-eng-starter-09.svg",
   "nextLevelId": "eng-starter-10",
   "steps": [
     {
