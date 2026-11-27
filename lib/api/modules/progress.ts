@@ -2,6 +2,9 @@ import { HttpError, jsonOk, asNumber, asString } from "@/lib/api/http";
 import { currentChild, db, uid, type Memory, type ProgressRecord } from "@/lib/api/memory";
 import { requireUser } from "@/lib/api/modules/auth";
 import { persistProgress, persistTodayPlan } from "@/lib/api/persist";
+import { scoreMathStarter, stepAttemptListSchema } from "@/lib/content/score-math";
+import type { AgeBand } from "@/lib/age";
+import { isProduction } from "@/lib/api/secrets";
 
 const SUBJECT_ORDER = ["lang", "math", "eng", "life"] as const;
 const PACKS_BY_SUBJECT: Record<(typeof SUBJECT_ORDER)[number], string[]> = {
@@ -14,6 +17,9 @@ const START_ORDER = { A: 1, B: 2, C: 3 } as const;
 
 export async function getToday(request: Request, url: URL) {
   requireUser(request);
+  if (isProduction() && !db().user.guardianConsentAt) {
+    throw new HttpError(403, "CONSENT_REQUIRED", "请先由监护人同意隐私说明");
+  }
   const child = currentChild(db(), url.searchParams.get("childId"));
   if (!child) throw new HttpError(403, "FORBIDDEN", "还没有孩子档案");
   const state = db();
@@ -111,11 +117,20 @@ function dailyTask(state: Memory, subjectId: (typeof SUBJECT_ORDER)[number], age
   };
 }
 
+function childForCompletion(childId: string) {
+  if (childId) {
+    const found = db().children.find((item) => item.id === childId && item.userId === db().user.id);
+    if (!found) throw new HttpError(404, "NOT_FOUND", "找不到这个孩子");
+    return found;
+  }
+  const child = currentChild(db(), null);
+  if (!child) throw new HttpError(403, "FORBIDDEN", "还没有孩子档案");
+  return child;
+}
+
 export async function completeLevel(request: Request, levelId: string, body: Record<string, unknown>) {
   requireUser(request);
-  const urlChild = asString(body.childId);
-  const child = currentChild(db(), urlChild || null);
-  if (!child) throw new HttpError(403, "FORBIDDEN", "还没有孩子档案");
+  const child = childForCompletion(asString(body.childId));
   const level = db().levels.find((item) => item.id === levelId);
   if (!level) throw new HttpError(404, "NOT_FOUND", "找不到这一关");
   if (!level.playable) throw new HttpError(403, "LOCKED", "未解锁", { lockReason: "AD_OR_VIP" });
@@ -133,8 +148,9 @@ export async function completeLevel(request: Request, levelId: string, body: Rec
     }
   }
 
-  const score = clamp(asNumber(body.score), 0, 100);
-  const stars = clamp(asNumber(body.stars), 1, 3);
+  const scored = scoreForLevel(level.packId, levelId, child.ageBand, body);
+  const score = scored.score;
+  const stars = scored.stars;
   const duration = clamp(asNumber(body.duration), 0, 60 * 30);
   const previous = db().progress.find((item) => item.childId === child.id && item.levelId === levelId);
   const now = new Date().toISOString();
@@ -150,6 +166,7 @@ export async function completeLevel(request: Request, levelId: string, body: Rec
       progress: previous,
       rewards: { stars: previous.stars, copy: "Great job!" },
       nextHint: "可以去课程馆接着玩",
+      ...(scored.detail ? { scoring: scored.detail } : {}),
     });
   }
 
@@ -170,7 +187,38 @@ export async function completeLevel(request: Request, levelId: string, body: Rec
     progress: created,
     rewards: { stars, copy: "Great job!" },
     nextHint: "可以去课程馆接着玩",
+    ...(scored.detail ? { scoring: scored.detail } : {}),
   });
+}
+
+function scoreForLevel(packId: string, levelId: string, age: AgeBand, body: Record<string, unknown>) {
+  if (packId !== "math-starter") {
+    return {
+      score: clamp(asNumber(body.score), 0, 100),
+      stars: clamp(asNumber(body.stars), 1, 3),
+      detail: undefined,
+    };
+  }
+  const full = db().playableLevels[levelId];
+  if (!full) throw new HttpError(404, "NOT_FOUND", "找不到这一关");
+  const parsed = stepAttemptListSchema.safeParse(body.steps);
+  if (!parsed.success) {
+    throw new HttpError(400, "STEPS_REQUIRED", "math-starter 需要带上每道客观题的作答");
+  }
+  const result = scoreMathStarter(full, age, parsed.data);
+  if (!result.ok) throw new HttpError(400, "STEPS_REQUIRED", result.message);
+  return {
+    score: result.score,
+    stars: result.stars,
+    detail: {
+      packId: "math-starter",
+      source: "server",
+      stars: result.stars,
+      score: result.score,
+      objective: result.objective,
+      speak: result.speak,
+    },
+  };
 }
 
 export function progressSummary(request: Request, url: URL) {

@@ -1,7 +1,9 @@
 import type { ChildRecord, ProgressRecord } from "@/lib/api/memory";
 import { db } from "@/lib/api/memory";
 import { ensureDemoFamily, syncCatalog } from "@/lib/api/catalog-sync";
+import { isPinHash } from "@/lib/api/pin-hash";
 import { databaseEnabled, getPrisma } from "@/lib/api/prisma";
+import { isProduction } from "@/lib/api/secrets";
 
 const globalStore = globalThis as typeof globalThis & { __qimengReady?: Promise<void> };
 
@@ -24,7 +26,15 @@ async function loadFromDatabase() {
   await ensureDemoFamily(prisma);
   const state = db();
   const user = await prisma.user.findUnique({ where: { id: "user-demo" } });
-  if (user) state.user.phone = user.phone;
+  if (user) {
+    state.user.phone = user.phone;
+    state.user.guardianConsentAt = user.guardianConsentAt ? user.guardianConsentAt.toISOString() : null;
+  }
+  const lock = await prisma.parentLock.findUnique({ where: { userId: "user-demo" } });
+  if (lock && isPinHash(lock.pinHash)) {
+    state.parentLock.pinHash = lock.pinHash;
+    if (isProduction()) state.parentLock.pin = "";
+  }
   const children = await prisma.child.findMany({ where: { userId: "user-demo" }, orderBy: { createdAt: "asc" } });
   state.children = children.map(
     (child): ChildRecord => ({
@@ -128,6 +138,23 @@ export async function persistCurrentChild(userId: string, childId: string) {
   const prisma = getPrisma();
   await prisma.child.updateMany({ where: { userId }, data: { isCurrent: false } });
   await prisma.child.update({ where: { id: childId }, data: { isCurrent: true } });
+}
+
+export async function persistGuardianConsent(at: string) {
+  if (!databaseEnabled()) return;
+  await getPrisma().user.update({
+    where: { id: "user-demo" },
+    data: { guardianConsentAt: new Date(at) },
+  });
+}
+
+export async function persistParentPinHash(pinHash: string) {
+  if (!databaseEnabled()) return;
+  await getPrisma().parentLock.upsert({
+    where: { userId: "user-demo" },
+    create: { userId: "user-demo", pinHash },
+    update: { pinHash },
+  });
 }
 
 export async function persistPhone(phone: string) {

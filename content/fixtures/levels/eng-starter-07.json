@@ -86,5 +86,8 @@
     }
   ],
   "rewardCopy": "Yummy!",
-  "rewardCopyZh": "好吃！"
+  "rewardCopyZh": "好吃！",
+  "knowledgePointIds": [
+    "EN03-007"
+  ]
 }

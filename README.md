@@ -48,12 +48,14 @@ SEED_DATABASE=1 npm run seed
 
 | 变量 | 现在的作用 |
 | --- | --- |
-| `DATABASE_URL` | 设了就用 PostgreSQL 保存进度、今日任务和游戏次数。不设则只用内存 |
-| `PARENT_LOCK_PIN` | 家长锁演示密码，默认 `2580` |
-| `ADMIN_TOKEN` | 后台接口请求头 `x-admin-token`，默认 `dev-admin` |
+| `DATABASE_URL` | 设了就用 PostgreSQL 保存进度、今日任务、游戏次数和课程目录。开发环境不设则只用内存 |
+| `PARENT_LOCK_PIN` | 开发环境的家长锁密码，默认 `2580`。生产环境缺省或仍是 `2580` 时家长锁拒绝 |
+| `ADMIN_TOKEN` | 后台接口请求头 `x-admin-token`。开发环境默认 `dev-admin`。生产环境缺省或仍是 `dev-admin` 时后台拒绝 |
 | `SMS_*` / `WECHAT_*` / `PAY_*` / `AD_*` | 占位。未接入 |
 
-演示验证码固定 `000000`。家长登录页写了这句话。Bearer 令牌是 `stub-parent-token`。
+开发环境的演示验证码固定 `000000`。家长登录页会写这句话。Bearer 令牌是 `stub-parent-token`。
+
+生产环境（`NODE_ENV=production`）没有 `DATABASE_URL` 时进程不能对外服务，也不会用内存冒充已经保存。生产环境不接受演示 PIN、演示验证码和 `dev-admin`。监护人同意时间空着时，生产环境的今日页会先要求同意；开发环境可以跳过。
 
 ## 内测清单
 

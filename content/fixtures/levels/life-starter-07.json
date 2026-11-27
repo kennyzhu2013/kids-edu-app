@@ -89,5 +89,8 @@
     }
   ],
   "rewardCopy": "房间整齐啦！",
-  "rewardCopyZh": "房间整齐啦！"
+  "rewardCopyZh": "房间整齐啦！",
+  "knowledgePointIds": [
+    "HL05-001"
+  ]
 }

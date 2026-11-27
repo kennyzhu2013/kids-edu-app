@@ -1,8 +1,9 @@
 import { bearer, HttpError, jsonOk, asString } from "@/lib/api/http";
 import { activeEntitlements, currentChild, db } from "@/lib/api/memory";
 import { persistPhone } from "@/lib/api/persist";
+import { DEMO_ADMIN_TOKEN, DEMO_SMS_CODE, isProduction, logConfigOnce } from "@/lib/api/secrets";
 
-const DEMO_CODE = "000000";
+const DEMO_CODE = DEMO_SMS_CODE;
 const COOLDOWN_MS = 60_000;
 const CODE_TTL_MS = 5 * 60_000;
 const PHONE_RE = /^1[3-9]\d{9}$/;
@@ -17,7 +18,16 @@ export function requireUser(request: Request) {
 
 export function requireAdmin(request: Request) {
   const header = request.headers.get("x-admin-token") ?? "";
-  const expected = process.env.ADMIN_TOKEN || "dev-admin";
+  if (isProduction()) {
+    const configured = (process.env.ADMIN_TOKEN ?? "").trim();
+    if (!configured || configured === DEMO_ADMIN_TOKEN) {
+      logConfigOnce("admin", "生产环境的 ADMIN_TOKEN 未设置，或仍是演示值 dev-admin。后台接口已拒绝。");
+      throw new HttpError(403, "FORBIDDEN", "后台令牌未配置");
+    }
+    if (header !== configured) throw new HttpError(403, "FORBIDDEN", "需要后台令牌");
+    return;
+  }
+  const expected = process.env.ADMIN_TOKEN || DEMO_ADMIN_TOKEN;
   if (header !== expected && bearer(request) !== "admin-stub") {
     throw new HttpError(403, "FORBIDDEN", "需要后台令牌");
   }
@@ -31,10 +41,18 @@ function publicUser() {
     wechatOpenId: user.wechatOpenId,
     nickname: user.nickname,
     role: user.role,
+    guardianConsentAt: user.guardianConsentAt,
   };
 }
 
+function rejectDemoSms() {
+  if (!isProduction()) return;
+  logConfigOnce("sms", "生产环境未接入短信服务，拒绝发放或接受演示验证码 000000。");
+  throw new HttpError(503, "SMS_UNAVAILABLE", "短信登录在生产环境还不能用");
+}
+
 export function sendSms(body: Record<string, unknown>) {
+  rejectDemoSms();
   const phone = asString(body.phone);
   if (!PHONE_RE.test(phone)) {
     throw new HttpError(400, "PHONE_INVALID", "手机号非法");
@@ -60,6 +78,7 @@ export function sendSms(body: Record<string, unknown>) {
 }
 
 export async function loginSms(body: Record<string, unknown>) {
+  rejectDemoSms();
   const phone = asString(body.phone);
   const code = asString(body.code);
   if (!PHONE_RE.test(phone)) {
@@ -105,6 +124,8 @@ export function getMe(request: Request) {
   const child = currentChild(db());
   return jsonOk({
     user: publicUser(),
+    consentRequired: isProduction(),
+    demoCredentials: !isProduction(),
     currentChild: child,
     entitlements: activeEntitlements(db()).map((item) => ({
       type: item.type,

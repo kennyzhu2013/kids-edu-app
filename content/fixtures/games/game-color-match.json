@@ -40,5 +40,9 @@
       "labelEn": "green",
       "hex": "#3dcb7a"
     }
+  ],
+  "knowledgePointIds": [
+    "ZH04-002",
+    "EN03-003"
   ]
 }

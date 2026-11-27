@@ -137,5 +137,8 @@
   "rewardCopyZh": "汉字小考古家！",
   "assetsNote": "没有实拍素材。图用色块和字块代替，旁白用浏览器语音。",
   "aDiff": "从图画认汉字",
-  "nextLevelId": "lang-starter-06"
+  "nextLevelId": "lang-starter-06",
+  "knowledgePointIds": [
+    "ZH03-001"
+  ]
 }

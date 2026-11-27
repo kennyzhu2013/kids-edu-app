@@ -47,7 +47,10 @@
         }
       ],
       "answer": "8",
-      "promptAudio": "/audio/math-starter-06/q1.mp3"
+      "promptAudio": "/audio/math-starter-06/q1.mp3",
+      "knowledgePointIds": [
+        "MA01-002"
+      ]
     },
     {
       "id": "q2",
@@ -72,7 +75,10 @@
         }
       ],
       "answer": "10",
-      "promptAudio": "/audio/math-starter-06/q2.mp3"
+      "promptAudio": "/audio/math-starter-06/q2.mp3",
+      "knowledgePointIds": [
+        "MA01-002"
+      ]
     },
     {
       "id": "q3",
@@ -84,9 +90,15 @@
       "promptSpeak": "十",
       "speakText": "十",
       "answer": "spoken",
-      "promptAudio": "/audio/math-starter-06/q3.mp3"
+      "promptAudio": "/audio/math-starter-06/q3.mp3",
+      "knowledgePointIds": [
+        "MA01-002"
+      ]
     }
   ],
   "rewardCopy": "能数到十啦！",
-  "rewardCopyZh": "能数到十啦！"
+  "rewardCopyZh": "能数到十啦！",
+  "knowledgePointIds": [
+    "MA01-002"
+  ]
 }

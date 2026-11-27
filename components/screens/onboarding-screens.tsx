@@ -1,8 +1,9 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BigButton } from "@/components/big-button";
+import { GuardianConsentNotice } from "@/components/guardian-consent";
 import { Screen } from "@/components/screen";
 import { Input } from "@/components/ui/input";
 import { AGE_OPTIONS, type AgeBand } from "@/lib/age";
@@ -53,16 +54,43 @@ export function ProfileScreen() {
   const [nickname, setNickname] = useState("");
   const [error, setError] = useState("");
   const [pending, setPending] = useState(false);
+  const [accepted, setAccepted] = useState(false);
+  const [consentRequired, setConsentRequired] = useState<boolean | null>(null);
   const ageBand = readStore().pendingAge;
+  const waitingForConsent = consentRequired === null || (consentRequired && !accepted);
+
+  useEffect(() => {
+    let ignore = false;
+    api<{ consentRequired?: boolean }>("/api/me")
+      .then((data) => {
+        if (!ignore) setConsentRequired(Boolean(data.consentRequired));
+      })
+      .catch(() => {
+        if (!ignore) setConsentRequired(true);
+      });
+    return () => {
+      ignore = true;
+    };
+  }, []);
 
   async function create(name: string) {
     if (!ageBand) {
       router.replace("/onboarding/age");
       return;
     }
+    if (waitingForConsent) {
+      setError("请监护人先勾选同意");
+      return;
+    }
     setPending(true);
     setError("");
     try {
+      if (accepted) {
+        await api("/api/guardian-consent", {
+          method: "PATCH",
+          body: JSON.stringify({ accepted: true }),
+        });
+      }
       const data = await api<{ child: { id: string; nickname: string; ageBand: AgeBand } }>("/api/children", {
         method: "POST",
         body: JSON.stringify({ nickname: name, ageBand, avatar: "sprout" }),
@@ -91,14 +119,20 @@ export function ProfileScreen() {
         aria-label="小名"
       />
       {error ? <p className="mt-3 text-center font-bold text-primary">{error}</p> : null}
-      <div className="mt-auto space-y-3">
-        <BigButton disabled={!nickname.trim() || pending} onClick={() => void create(nickname.trim())}>
+      <div className="mt-6">
+        <GuardianConsentNotice checked={accepted} onChange={setAccepted} disabled={pending} />
+      </div>
+      <div className="mt-auto space-y-3 pt-6">
+        <BigButton
+          disabled={!nickname.trim() || pending || waitingForConsent}
+          onClick={() => void create(nickname.trim())}
+        >
           开始玩
         </BigButton>
         <button
           type="button"
           className="w-full py-2 text-sm font-bold text-muted-foreground"
-          disabled={pending}
+          disabled={pending || waitingForConsent}
           onClick={() => void create("宝宝")}
         >
           稍后设置

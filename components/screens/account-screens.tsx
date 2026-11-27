@@ -15,6 +15,7 @@ import { Input } from "@/components/ui/input";
 import { ageLabel } from "@/lib/age";
 import { SKUS } from "@/lib/billing/skus";
 import { Buddy } from "@/components/buddy";
+import { GuardianConsentNotice } from "@/components/guardian-consent";
 import { ApiError, api, failureKind, type FailureKind } from "@/lib/client/api";
 import {
   clearLocalProfile,
@@ -31,6 +32,7 @@ import {
   useSoundPreference,
 } from "@/lib/client/store";
 import { alignChildSession } from "@/lib/client/session";
+import { GUARDIAN_CONSENT_BODY } from "@/lib/privacy";
 
 function Row({ href, title, hint }: { href: string; title: string; hint?: string }) {
   return (
@@ -152,12 +154,29 @@ export function MineScreen() {
   );
 }
 
+function useDemoCredentials() {
+  const [demo, setDemo] = useState(false);
+  useEffect(() => {
+    let ignore = false;
+    api<{ demoCredentials?: boolean }>("/api/me")
+      .then((data) => {
+        if (!ignore) setDemo(Boolean(data.demoCredentials));
+      })
+      .catch(() => undefined);
+    return () => {
+      ignore = true;
+    };
+  }, []);
+  return demo;
+}
+
 export function LoginScreen() {
   const router = useRouter();
   const [phone, setPhone] = useState("13800138000");
   const [code, setCode] = useState("");
-  const [message, setMessage] = useState("短信尚未接入。演示验证码是 000000。");
+  const [message, setMessage] = useState("短信尚未接入。");
   const [pending, setPending] = useState(false);
+  const demoCredentials = useDemoCredentials();
 
   function finishLogin(token: string) {
     saveToken(token);
@@ -170,7 +189,9 @@ export function LoginScreen() {
     <Screen className="px-5 pt-4 pb-8">
       <BackLink href="/mine" />
       <h1 className="mt-6 text-3xl font-black">家长登录</h1>
-      <p className="mt-2 text-sm leading-6 text-muted-foreground">{message}</p>
+      <p className="mt-2 text-sm leading-6 text-muted-foreground">
+        {demoCredentials && message === "短信尚未接入。" ? "短信尚未接入。演示验证码是 000000。" : message}
+      </p>
       <label className="mt-6 block text-sm font-bold" htmlFor="phone">
         手机号
       </label>
@@ -185,7 +206,7 @@ export function LoginScreen() {
             method: "POST",
             body: JSON.stringify({ phone }),
           })
-            .then(() => setMessage("验证码已记下（桩）。请填写 000000。"))
+            .then(() => setMessage(demoCredentials ? "验证码已记下（桩）。请填写 000000。" : "验证码已记下。"))
             .catch((error: unknown) => setMessage(error instanceof ApiError ? error.message : "发送失败"))
             .finally(() => setPending(false));
         }}
@@ -195,7 +216,14 @@ export function LoginScreen() {
       <label className="mt-4 block text-sm font-bold" htmlFor="code">
         验证码
       </label>
-      <Input id="code" className="mt-2" inputMode="numeric" value={code} onChange={(event) => setCode(event.target.value)} placeholder="000000" />
+      <Input
+        id="code"
+        className="mt-2"
+        inputMode="numeric"
+        value={code}
+        onChange={(event) => setCode(event.target.value)}
+        placeholder={demoCredentials ? "000000" : "验证码"}
+      />
       <div className="mt-4 grid gap-3">
         <BigButton
           disabled={pending}
@@ -240,6 +268,25 @@ export function LoginScreen() {
 export function SettingsScreen() {
   const router = useRouter();
   const sound = useSoundPreference();
+  const [accepted, setAccepted] = useState(false);
+  const [recordedAt, setRecordedAt] = useState<string | null>(null);
+  const [consentNote, setConsentNote] = useState("");
+
+  useEffect(() => {
+    let ignore = false;
+    api<{ user?: { guardianConsentAt?: string | null } }>("/api/me")
+      .then((data) => {
+        if (ignore) return;
+        const at = data.user?.guardianConsentAt ?? null;
+        setRecordedAt(at);
+        setAccepted(Boolean(at));
+      })
+      .catch(() => undefined);
+    return () => {
+      ignore = true;
+    };
+  }, []);
+
   return (
     <Screen className="px-5 pt-4 pb-8">
       <BackLink href="/mine" />
@@ -257,9 +304,34 @@ export function SettingsScreen() {
         <Row href="/offline" title="网络不太好" hint="预览断网页" />
         <Row href="/preview/empty" title="今天任务稍后就来" hint="预览空状态" />
       </div>
-      <p className="mt-6 text-sm leading-6 text-muted-foreground">
-        隐私政策与儿童个人信息规则还没定稿。正式上线前需要勾选同意、可撤回授权。
-      </p>
+      <div className="mt-6">
+        <GuardianConsentNotice
+          checked={accepted}
+          recordedAt={recordedAt}
+          onChange={recordedAt ? undefined : setAccepted}
+        />
+        {recordedAt ? null : (
+          <BigButton
+            className="mt-3"
+            variant="secondary"
+            disabled={!accepted}
+            onClick={() => {
+              void api<{ guardianConsentAt: string }>("/api/guardian-consent", {
+                method: "PATCH",
+                body: JSON.stringify({ accepted: true }),
+              })
+                .then((data) => {
+                  setRecordedAt(data.guardianConsentAt);
+                  setConsentNote("");
+                })
+                .catch(() => setConsentNote("同意没记下，可以再试一次。"));
+            }}
+          >
+            记下同意
+          </BigButton>
+        )}
+        {consentNote ? <p className="mt-2 text-sm font-bold text-primary">{consentNote}</p> : null}
+      </div>
       <div className="mt-6">
         <BigButton
           variant="outline"
@@ -446,6 +518,7 @@ export function LockScreen() {
   const [message, setMessage] = useState("");
   const [shake, setShake] = useState(false);
   const [forgot, setForgot] = useState(false);
+  const demoCredentials = useDemoCredentials();
 
   useEffect(() => {
     if (pin.length < 4) return;
@@ -478,7 +551,9 @@ export function LockScreen() {
         <Shield className="text-primary" />
         <h1 className="text-2xl font-black">请输入家长密码</h1>
       </div>
-      <p className="mt-3 text-center text-sm text-muted-foreground">演示密码 2580。正式环境会改成哈希校验。</p>
+      <p className="mt-3 text-center text-sm text-muted-foreground">
+        {demoCredentials ? "演示密码 2580。" : "请输入 4 位家长密码。"}
+      </p>
       {message ? <p className="mt-3 text-center font-bold text-primary">{message}</p> : null}
       <div className="mt-6">
         <PinPad value={pin} shake={shake} onChange={setPin} />
@@ -489,7 +564,9 @@ export function LockScreen() {
       <Dialog open={forgot} onOpenChange={setForgot}>
         <DialogContent>
           <DialogTitle>忘记密码</DialogTitle>
-          <DialogDescription>客服重置还没做。这台演示机的密码是 2580。</DialogDescription>
+          <DialogDescription>
+            {demoCredentials ? "客服重置还没做。这台演示机的密码是 2580。" : "客服重置还没做。"}
+          </DialogDescription>
         </DialogContent>
       </Dialog>
     </Screen>
@@ -559,6 +636,7 @@ export function ParentScreen() {
       </section>
       <section className="mt-3 rounded-[24px] bg-white p-4 shadow-sm">
         <h2 className="font-black">隐私与注销</h2>
+        <p className="mt-2 text-sm leading-6 text-muted-foreground">{GUARDIAN_CONSENT_BODY}</p>
         <p className="mt-2 text-sm leading-6 text-muted-foreground">
           注销账号、撤回授权和日志脱敏都还是待办。清除本机档案只删这台浏览器里的演示数据。
         </p>

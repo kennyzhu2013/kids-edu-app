@@ -102,5 +102,8 @@
   "rewardCopyZh": "穿对啦！天气小精灵！",
   "assetsNote": "没有实拍素材。图用色块和字块代替，旁白用浏览器语音。",
   "nextLevelId": "life-starter-02",
-  "aDiff": "按天气选穿戴"
+  "aDiff": "按天气选穿戴",
+  "knowledgePointIds": [
+    "HL04-001"
+  ]
 }

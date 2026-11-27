@@ -104,5 +104,8 @@
   "rewardCopyZh": "排队小能手！",
   "assetsNote": "没有实拍素材。图用色块和字块代替，旁白用浏览器语音。",
   "nextLevelId": "math-life-04",
-  "aDiff": "认识第几"
+  "aDiff": "认识第几",
+  "knowledgePointIds": [
+    "MA09-003"
+  ]
 }

@@ -3,12 +3,21 @@ import { adminCreate, adminList, adminRemove, adminUpdate } from "@/lib/api/modu
 import { getMe, loginSms, loginWechat, sendSms } from "@/lib/api/modules/auth";
 import { createChild, listChildren, switchChild, updateChild } from "@/lib/api/modules/children";
 import { getGame, getLevel, getPack, listGames, listPacks, listSubjects } from "@/lib/api/modules/content";
+import {
+  getCurriculumCourse,
+  getCurriculumSubject,
+  getKnowledgePoint,
+  getLevelKnowledge,
+  listCurriculumSubjects,
+} from "@/lib/api/modules/curriculum";
 import { confirmOrder, createOrder, listOrders } from "@/lib/api/modules/orders";
 import { updateParentLock, verifyParentLock } from "@/lib/api/modules/parent-lock";
+import { acceptGuardianConsent } from "@/lib/api/modules/privacy";
 import { changeQuota, listQuota } from "@/lib/api/modules/quota";
 import { completeLevel, getToday, progressSummary } from "@/lib/api/modules/progress";
 import { listEntitlements, unlockWithAd } from "@/lib/api/modules/unlock";
 import { ensureReady } from "@/lib/api/persist";
+import { assertProductionDatabase, ProductionConfigError } from "@/lib/api/secrets";
 
 export async function dispatch(
   request: Request,
@@ -17,6 +26,7 @@ export async function dispatch(
   params: Record<string, string>,
 ) {
   try {
+    assertProductionDatabase();
     await ensureReady();
     const url = new URL(request.url);
     const key = `${method} ${path}`;
@@ -46,6 +56,18 @@ export async function dispatch(
         return progressSummary(request, url);
       case "GET /subjects":
         return listSubjects();
+      case "GET /curriculum/subjects":
+        return listCurriculumSubjects();
+      case "GET /curriculum/subjects/:id":
+        return getCurriculumSubject(params.id);
+      case "GET /curriculum/courses/:id":
+        return getCurriculumCourse(params.id);
+      case "GET /curriculum/points/:code":
+        return getKnowledgePoint(params.code);
+      case "GET /curriculum/levels/:levelId":
+        return getLevelKnowledge(params.levelId);
+      case "PATCH /guardian-consent":
+        return await acceptGuardianConsent(request, body);
       case "GET /packs":
         return listPacks(url);
       case "GET /packs/:id":
@@ -73,9 +95,9 @@ export async function dispatch(
       case "POST /orders/:id/confirm":
         return confirmOrder(request, params.id, body);
       case "POST /parent-lock/verify":
-        return verifyParentLock(request, body);
+        return await verifyParentLock(request, body);
       case "PATCH /parent-lock":
-        return updateParentLock(request, body);
+        return await updateParentLock(request, body);
       case "GET /admin/packs":
         return adminList(request, "packs", url);
       case "POST /admin/packs":
@@ -112,6 +134,9 @@ export async function dispatch(
         throw new HttpError(404, "NOT_FOUND", "没有这个接口");
     }
   } catch (error) {
+    if (error instanceof ProductionConfigError) {
+      return jsonError(new HttpError(503, "DATABASE_REQUIRED", error.message));
+    }
     if (error instanceof HttpError) return jsonError(error);
     console.error(error);
     return jsonError(new HttpError(500, "INTERNAL", "服务暂时不可用"));

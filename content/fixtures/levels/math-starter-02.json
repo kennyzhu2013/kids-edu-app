@@ -43,7 +43,10 @@
           "visual": "/art/mid.svg"
         }
       ],
-      "answer": "many"
+      "answer": "many",
+      "knowledgePointIds": [
+        "MA02-002"
+      ]
     },
     {
       "id": "q2",
@@ -68,7 +71,10 @@
           "visual": "/art/mid.svg"
         }
       ],
-      "answer": "few"
+      "answer": "few",
+      "knowledgePointIds": [
+        "MA02-002"
+      ]
     },
     {
       "id": "q3",
@@ -93,7 +99,10 @@
           "visual": "/art/ask.svg"
         }
       ],
-      "answer": "yes"
+      "answer": "yes",
+      "knowledgePointIds": [
+        "MA02-002"
+      ]
     }
   ],
   "rewardStars": 3,
@@ -101,5 +110,8 @@
   "rewardCopyZh": "厉害！你会比较啦！",
   "assetsNote": "没有实拍素材。图用色块和字块代替，旁白用浏览器语音。",
   "nextLevelId": "math-starter-03",
-  "aDiff": "比较多少"
+  "aDiff": "比较多少",
+  "knowledgePointIds": [
+    "MA02-002"
+  ]
 }

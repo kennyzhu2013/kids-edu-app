@@ -32,5 +32,9 @@
       "id": "fish",
       "label": "鱼"
     }
+  ],
+  "knowledgePointIds": [
+    "ZH04-001",
+    "EN03-001"
   ]
 }

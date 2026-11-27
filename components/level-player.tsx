@@ -15,17 +15,13 @@ import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/compone
 import { ApiError, api, failureKind, type FailureKind } from "@/lib/client/api";
 import { readChild, useChild } from "@/lib/client/store";
 import { playCue, playPrompt, playPromptAsync, stopSpeech, voiceCaption } from "@/lib/client/speech";
+import { stepsForAge } from "@/lib/content/level-steps";
+import type { StepAttempt } from "@/lib/content/score-math";
 import type { LevelDocument } from "@/lib/content/schemas";
-import type { AgeBand } from "@/lib/age";
 import { cn } from "@/lib/utils";
 
 type Phase = "listen" | "quiz" | "result" | "pack-done";
 type Step = LevelDocument["steps"][number];
-
-function stepsFor(level: LevelDocument, age: AgeBand) {
-  const matched = level.steps.filter((step) => !step.ages || step.ages.includes(age));
-  return matched.length > 0 ? matched : level.steps;
-}
 
 function answered(step: Step, choiceId: string) {
   return Array.isArray(step.answer) ? step.answer.includes(choiceId) : step.answer === choiceId;
@@ -52,11 +48,13 @@ export function LevelPlayer({ levelId }: { levelId: string }) {
   const [attempt, setAttempt] = useState(0);
   const advancing = useRef(false);
   const mistakes = useRef(0);
+  const attempts = useRef<StepAttempt[]>([]);
   const startedAt = useRef(0);
   const eventId = useRef("");
 
   useEffect(() => {
     mistakes.current = 0;
+    attempts.current = [];
     startedAt.current = Date.now();
     eventId.current = crypto.randomUUID();
     let ignore = false;
@@ -78,7 +76,7 @@ export function LevelPlayer({ levelId }: { levelId: string }) {
   }, [attempt, levelId]);
 
   const age = child?.ageBand ?? "A";
-  const steps = level ? stepsFor(level, age) : [];
+  const steps = level ? stepsForAge(level, age) : [];
   const step = steps[stepIndex];
 
   useEffect(() => {
@@ -126,20 +124,29 @@ export function LevelPlayer({ levelId }: { levelId: string }) {
     setVoiceNote(voiceCaption(result));
   }
 
+  function record(attempt: StepAttempt) {
+    attempts.current = [...attempts.current.filter((item) => item.id !== attempt.id), attempt];
+  }
+
   function finish(earned: number) {
     setStars(earned);
     const profile = readChild();
-    void api(`/api/progress/levels/${level!.id}/complete`, {
+    const payload: Record<string, unknown> = {
+      childId: profile?.id,
+      score: Math.round((1 - Math.min(mistakes.current, 2) / 2) * 100),
+      stars: earned,
+      duration: Math.max(1, Math.round((Date.now() - startedAt.current) / 1000)), // eslint-disable-line react-hooks/purity -- 只在答完一关时计算用时
+      clientEventId: eventId.current,
+    };
+    if (level!.packId === "math-starter") payload.steps = attempts.current;
+    void api<{ rewards?: { stars?: number } }>(`/api/progress/levels/${level!.id}/complete`, {
       method: "POST",
-      body: JSON.stringify({
-        childId: profile?.id,
-        score: Math.round((1 - Math.min(mistakes.current, 2) / 2) * 100),
-        stars: earned,
-        duration: Math.max(1, Math.round((Date.now() - startedAt.current) / 1000)), // eslint-disable-line react-hooks/purity -- 只在答完一关时计算用时
-        clientEventId: eventId.current,
-      }),
+      body: JSON.stringify(payload),
     })
-      .then(() => setSaveNote(""))
+      .then((data) => {
+        if (typeof data.rewards?.stars === "number") setStars(data.rewards.stars);
+        setSaveNote("");
+      })
       .catch(() => setSaveNote("成绩没记下。可以再玩一次。"))
       .finally(() => {
         setBusy(false);
@@ -163,6 +170,7 @@ export function LevelPlayer({ levelId }: { levelId: string }) {
       return;
     }
     playCue("ok");
+    record({ id: step.id, choice: choiceId });
     succeed();
   }
 
@@ -173,7 +181,11 @@ export function LevelPlayer({ levelId }: { levelId: string }) {
       setHinted(true);
       if (step?.type === "speak") {
         playPrompt(step.promptAudio, step.speakText || step.promptSpeak || "");
-        window.setTimeout(() => succeed(), 900);
+        const stepId = step.id;
+        window.setTimeout(() => {
+          record({ id: stepId, speak: "said_wrong" });
+          succeed();
+        }, 900);
       }
     }
   }
@@ -199,6 +211,7 @@ export function LevelPlayer({ levelId }: { levelId: string }) {
 
   function replay() {
     mistakes.current = 0;
+    attempts.current = [];
     startedAt.current = Date.now();
     eventId.current = crypto.randomUUID();
     setStars(3);
@@ -275,24 +288,45 @@ export function LevelPlayer({ levelId }: { levelId: string }) {
           step={step}
           busy={busy}
           hinted={hinted}
-          onPass={() => succeed()}
+          onPass={(result) => {
+            record({ id: step.id, speak: result });
+            succeed();
+          }}
           onMiss={() => miss()}
         />
       ) : null}
 
       {phase === "quiz" && step?.type === "drag" ? (
-        <DragBoard step={step} busy={busy} hinted={hinted} onPass={() => succeed()} onMiss={() => miss()} />
+        <DragBoard
+          step={step}
+          busy={busy}
+          hinted={hinted}
+          onPass={(placements) => {
+            record({ id: step.id, placements });
+            succeed();
+          }}
+          onMiss={() => miss()}
+        />
       ) : null}
 
       {phase === "quiz" && step?.type === "sort" ? (
-        <SortBoard step={step} busy={busy} hinted={hinted} onPass={() => succeed()} onMiss={() => miss()} />
+        <SortBoard
+          step={step}
+          busy={busy}
+          hinted={hinted}
+          onPass={(order) => {
+            record({ id: step.id, order });
+            succeed();
+          }}
+          onMiss={() => miss()}
+        />
       ) : null}
 
-      {phase === "quiz" && step && step.type === "tap" && tapChoices.length === 0 ? (
+      {phase === "quiz" && step && (step.type === "tap" || step.type === "count-tap") && tapChoices.length === 0 ? (
         <PlayerNotice title="这道题还没有选项" body="先回课程，这道题补好了再来。" href={`/courses/${level.packId}`} action="回课程" />
       ) : null}
 
-      {phase === "quiz" && step?.type === "tap" && tapChoices.length > 0 ? (
+      {phase === "quiz" && step && (step.type === "tap" || step.type === "count-tap") && tapChoices.length > 0 ? (
         <div className="flex flex-1 flex-col">
           <button
             type="button"

@@ -86,5 +86,8 @@
     }
   ],
   "rewardCopy": "数字字认识啦！",
-  "rewardCopyZh": "数字字认识啦！"
+  "rewardCopyZh": "数字字认识啦！",
+  "knowledgePointIds": [
+    "ZH03-002"
+  ]
 }

@@ -104,5 +104,8 @@
   "rewardCopyZh": "说得好！认字小芽芽！",
   "assetsNote": "没有实拍素材。图用色块和字块代替，旁白用浏览器语音。",
   "nextLevelId": "lang-starter-02",
-  "aDiff": "听懂身体和家人"
+  "aDiff": "听懂身体和家人",
+  "knowledgePointIds": [
+    "ZH01-001"
+  ]
 }

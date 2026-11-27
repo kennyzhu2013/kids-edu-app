@@ -28,5 +28,8 @@
       "id": "triangle",
       "label": "三角"
     }
+  ],
+  "knowledgePointIds": [
+    "MA04-001"
   ]
 }

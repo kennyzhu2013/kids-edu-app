@@ -20,6 +20,8 @@ const nextConfig: NextConfig = {
       { source: "/children/:path*", destination: "/api/children/:path*" },
       { source: "/progress/:path*", destination: "/api/progress/:path*" },
       { source: "/subjects", destination: "/api/subjects" },
+      { source: "/curriculum/:path*", destination: "/api/curriculum/:path*" },
+      { source: "/guardian-consent", destination: "/api/guardian-consent" },
       { source: "/packs", destination: "/api/packs" },
       { source: "/packs/:path*", destination: "/api/packs/:path*" },
       { source: "/levels/:path*", destination: "/api/levels/:path*" },

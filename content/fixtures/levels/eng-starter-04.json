@@ -133,5 +133,8 @@
   "aDiff": "听数点数量图",
   "bDiff": "数字卡片改成点选，拖拽还没做",
   "cDiff": "听 two cats，点两只猫",
-  "assetsNote": "数量用重复的小图形表示。没有手数动画，开场用语音数到 five。"
+  "assetsNote": "数量用重复的小图形表示。没有手数动画，开场用语音数到 five。",
+  "knowledgePointIds": [
+    "EN03-004"
+  ]
 }

@@ -63,5 +63,8 @@
     }
   ],
   "rewardCopy": "会求助，真勇敢！",
-  "rewardCopyZh": "会求助，真勇敢！"
+  "rewardCopyZh": "会求助，真勇敢！",
+  "knowledgePointIds": [
+    "HL06-001"
+  ]
 }

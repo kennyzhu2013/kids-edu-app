@@ -87,5 +87,8 @@
     }
   ],
   "rewardCopy": "有礼貌！",
-  "rewardCopyZh": "有礼貌！"
+  "rewardCopyZh": "有礼貌！",
+  "knowledgePointIds": [
+    "SE02-001"
+  ]
 }

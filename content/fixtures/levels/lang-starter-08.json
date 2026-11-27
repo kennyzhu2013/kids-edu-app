@@ -87,5 +87,8 @@
     }
   ],
   "rewardCopy": "小诗读完啦！",
-  "rewardCopyZh": "小诗读完啦！"
+  "rewardCopyZh": "小诗读完啦！",
+  "knowledgePointIds": [
+    "ZH07-001"
+  ]
 }

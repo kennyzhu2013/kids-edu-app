@@ -75,5 +75,8 @@
     }
   ],
   "rewardCopy": "Nice clothes!",
-  "rewardCopyZh": "穿对啦！"
+  "rewardCopyZh": "穿对啦！",
+  "knowledgePointIds": [
+    "EN03-009"
+  ]
 }
