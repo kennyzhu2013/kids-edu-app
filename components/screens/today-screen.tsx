@@ -31,6 +31,9 @@ type TodayPayload = {
     subject?: string;
     status: "todo" | "done" | "locked";
     href: string;
+    kind?: "review" | "level" | "game";
+    label?: "复习" | "新课" | "再练" | "游戏";
+    knowledgePointId?: string | null;
   }>;
 };
 
@@ -158,7 +161,7 @@ export function TodayScreen() {
         <h2 className="mt-8 text-lg font-black">今日任务</h2>
         <ul className="mt-3 grid gap-3">
           {data.tasks.map((task) => (
-            <li key={task.id}>
+            <li key={`${task.kind ?? "level"}-${task.id}-${task.knowledgePointId ?? ""}`}>
               <button
                 type="button"
                 className="flex w-full items-center gap-3 rounded-[22px] bg-white p-3 text-left shadow-sm"
@@ -169,10 +172,13 @@ export function TodayScreen() {
                 }}
               >
                 <span className="grid size-12 place-items-center rounded-2xl bg-accent text-lg font-black text-primary">
-                  {task.title.slice(0, 1)}
+                  {task.label === "复习" ? "复" : task.title.slice(0, 1)}
                 </span>
                 <span className="min-w-0 flex-1">
-                  <span className="block truncate font-black">{task.title}</span>
+                  <span className="block truncate font-black">
+                    {task.label ? <span className="mr-2 text-primary">{task.label}</span> : null}
+                    {task.title}
+                  </span>
                   <span className="text-sm text-muted-foreground">
                     {task.subject ? `${task.subject} · ` : ""}约{task.minutes}分钟
                   </span>
@@ -181,7 +187,7 @@ export function TodayScreen() {
                   <LockBadge />
                 ) : (
                   <span className={cn("text-sm font-black", task.status === "done" ? "text-leaf" : "text-muted-foreground")}>
-                    {task.status === "done" ? "完成" : "未完成"}
+                    {task.status === "done" ? "完成" : "还没玩"}
                   </span>
                 )}
               </button>

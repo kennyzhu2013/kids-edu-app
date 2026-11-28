@@ -44,6 +44,8 @@ model Child {
   gameQuotas GameQuota[]
   learningEvents LearningEvent[]
   quotaCharges GameQuotaCharge[]
+  knowledgeMastery KnowledgeMastery[]
+  reviewPlans ReviewPlan[]
 
   @@index([userId])
 }
@@ -264,6 +266,8 @@ model TodayPlan {
   day       String
   ageBand   String
   levelIds  String[]
+  /// 当天任务快照。空着表示这一天已经按旧的四科关卡记下，不要当天重抽。
+  tasks     Json?
   updatedAt DateTime @updatedAt
 
   @@unique([childId, day])
@@ -309,7 +313,37 @@ model GameQuotaCharge {
   @@index([childId, day])
 }
 
-/// 游戏每日次数。按孩子、游戏和本地日期计。
+/// 规则掌握度。没有 DATABASE_URL 时只在内存里，重启会丢，和学习事件一样。
+/// 样本不够时 status=insufficient，score 为空，不要写成 0。
+model KnowledgeMastery {
+  id               String   @id @default(cuid())
+  childId          String
+  child            Child    @relation(fields: [childId], references: [id], onDelete: Cascade)
+  knowledgePointId String
+  score            Int?
+  status           String
+  updatedAt        DateTime @updatedAt
+
+  @@unique([childId, knowledgePointId])
+  @@index([childId])
+}
+
+/// 复习计划。dueOn 是补零的 UTC 日。1/3/7/14 天的间隔在代码常量里，不在这张表。
+/// 没有 DATABASE_URL 时只在内存里，重启会丢。
+model ReviewPlan {
+  id               String   @id @default(cuid())
+  childId          String
+  child            Child    @relation(fields: [childId], references: [id], onDelete: Cascade)
+  knowledgePointId String
+  dueOn            String
+  status           String
+  updatedAt        DateTime @updatedAt
+
+  @@unique([childId, knowledgePointId, dueOn])
+  @@index([childId, dueOn])
+}
+
+/// 游戏每日次数。day 存补零的 UTC 日。读到旧的不补零日期时合并到同一天。
 model GameQuota {
   id        String   @id @default(cuid())
   childId   String

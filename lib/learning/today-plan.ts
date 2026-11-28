@@ -1,7 +1,5 @@
 /** 今日任务按 UTC 日期取。和 tasksForToday 用的是同一天，避免昨天的行盖住今天。 */
-export function utcDayKey(date = new Date()) {
-  return date.toISOString().slice(0, 10);
-}
+export { utcDayKey } from "@/lib/learning/dates";
 
 export function todayPlanLoadArgs(day: string) {
   return {

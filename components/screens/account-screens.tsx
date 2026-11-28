@@ -347,12 +347,42 @@ export function SettingsScreen() {
   );
 }
 
+type ReportPoint = {
+  knowledgePointId: string;
+  title: string;
+  topic: string;
+  status: string;
+  score: number | null;
+  label: string;
+  assessment: string;
+  speak?: { correct: number; total: number } | null;
+};
+
 type ReportPayload = {
   nickname?: string;
   minutes: number;
   completedLevels: number;
+  streakDays?: number;
   suggestion: string;
+  weakAreaTip?: string;
   subjects?: Array<{ id: string; name: string; completed: number }>;
+  habit?: {
+    minutes: number;
+    completedLevels: number;
+    streakDays: number;
+    weekLabel: string;
+  };
+  mastery?: {
+    ready: boolean;
+    emptyCopy: string;
+    points: ReportPoint[];
+  };
+  trend?: {
+    state: "empty" | "ready";
+    emptyCopy: string;
+    copy: string;
+  };
+  suggestions?: string[];
 };
 
 export function ReportScreen() {
@@ -411,28 +441,72 @@ export function ReportScreen() {
     <Screen className="px-5 pt-4 pb-8">
       <BackLink href="/mine" />
       <h1 className="mt-6 text-3xl font-black">学习报告</h1>
-      <p className="mt-2 text-sm font-bold text-muted-foreground">{name} · 本周</p>
+      <p className="mt-2 text-sm font-bold text-muted-foreground">{name} · 给家长看</p>
       {!report ? (
         <p className="mt-8 font-bold text-muted-foreground">正在整理这周的记录…</p>
       ) : (
         <div className="mt-6 grid gap-3">
           <article className="rounded-[24px] bg-white p-5 shadow-sm">
-            <p className="text-sm font-bold text-muted-foreground">学习时长</p>
-            <p className="mt-1 text-3xl font-black">本周学了 {report.minutes} 分钟</p>
-          </article>
-          <article className="rounded-[24px] bg-white p-5 shadow-sm">
-            <p className="text-sm font-bold text-muted-foreground">完成关卡</p>
-            <p className="mt-1 text-3xl font-black">完成 {report.completedLevels} 关</p>
+            <h2 className="text-sm font-bold text-muted-foreground">学习习惯</h2>
+            <p className="mt-1 text-3xl font-black">本周学了 {report.habit?.minutes ?? report.minutes} 分钟</p>
+            <p className="mt-2 text-sm font-bold text-muted-foreground">
+              完成 {report.habit?.completedLevels ?? report.completedLevels} 关 · 连续 {report.habit?.streakDays ?? report.streakDays ?? 0} 天
+            </p>
+            {report.habit?.weekLabel ? <p className="mt-1 text-sm text-muted-foreground">{report.habit.weekLabel}</p> : null}
             {report.subjects && report.subjects.length > 0 ? (
               <p className="mt-2 text-sm font-bold text-muted-foreground">
                 {report.subjects.map((item) => `${item.name} ${item.completed}`).join(" · ")}
               </p>
             ) : null}
           </article>
-          <article className="rounded-[24px] bg-[#fff3da] p-5">
-            <p className="text-xl font-black leading-8">{report.suggestion}</p>
+          <article className="rounded-[24px] bg-white p-5 shadow-sm">
+            <h2 className="text-sm font-bold text-muted-foreground">知识掌握</h2>
+            {report.mastery?.ready ? (
+              <ul className="mt-3 grid gap-2">
+                {report.mastery.points.map((point) => (
+                  <li key={point.knowledgePointId} className="flex items-center justify-between gap-3">
+                    <span className="min-w-0">
+                      <span className="block truncate font-black">{point.title}</span>
+                      {point.topic ? <span className="block text-sm text-muted-foreground">{point.topic}</span> : null}
+                      {point.speak && point.speak.total > 0 ? (
+                        <span className="block text-sm text-muted-foreground">跟读参考 {point.speak.correct}/{point.speak.total}，不计入掌握</span>
+                      ) : null}
+                    </span>
+                    <span className="shrink-0 text-sm font-black text-primary">{point.label}</span>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="mt-2 text-xl font-black">{report.mastery?.emptyCopy ?? "数据不足"}</p>
+            )}
           </article>
-          {report.completedLevels === 0 ? (
+          <article className="rounded-[24px] bg-white p-5 shadow-sm">
+            <h2 className="text-sm font-bold text-muted-foreground">成长趋势</h2>
+            <p className="mt-2 text-xl font-black leading-8">
+              {report.trend?.state === "ready" ? report.trend.copy : (report.trend?.emptyCopy ?? "数据不足")}
+            </p>
+          </article>
+          <article className="rounded-[24px] bg-white p-5 shadow-sm">
+            <h2 className="text-sm font-bold text-muted-foreground">学习建议</h2>
+            {report.suggestions && report.suggestions.length > 0 ? (
+              <ul className="mt-2 grid gap-2">
+                {report.suggestions.map((line) => (
+                  <li key={line} className="font-black leading-7">
+                    {line}
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="mt-2 text-xl font-black">数据不足</p>
+            )}
+          </article>
+          {!report.mastery?.ready && report.weakAreaTip ? (
+            <article className="rounded-[24px] bg-[#fff3da] p-5">
+              <p className="text-sm font-bold text-muted-foreground">这周可以这样玩</p>
+              <p className="mt-2 text-xl font-black leading-8">{report.weakAreaTip}</p>
+            </article>
+          ) : null}
+          {(report.habit?.completedLevels ?? report.completedLevels) === 0 ? (
             <article className="rounded-[24px] bg-white p-5 text-center shadow-sm">
               <Buddy pose="comfort" className="mx-auto size-20" />
               <p className="mt-3 font-black">这周还没开始</p>

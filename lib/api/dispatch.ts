@@ -14,6 +14,7 @@ import { confirmOrder, createOrder, listOrders } from "@/lib/api/modules/orders"
 import { updateParentLock, verifyParentLock } from "@/lib/api/modules/parent-lock";
 import { acceptGuardianConsent } from "@/lib/api/modules/privacy";
 import { listEvents, postEvents } from "@/lib/api/modules/events";
+import { listMastery, listReviews } from "@/lib/api/modules/mastery";
 import { changeQuota, listQuota } from "@/lib/api/modules/quota";
 import { completeLevel, getToday, progressSummary } from "@/lib/api/modules/progress";
 import { listEntitlements, unlockWithAd } from "@/lib/api/modules/unlock";
@@ -81,6 +82,10 @@ export async function dispatch(
         return await postEvents(request, body);
       case "GET /events":
         return listEvents(request, url);
+      case "GET /mastery":
+        return listMastery(request, url);
+      case "GET /reviews":
+        return listReviews(request, url);
       case "GET /games/quota":
         return listQuota(request, url);
       case "POST /games/:id/consume":

@@ -4,12 +4,24 @@ import { requireUser } from "@/lib/api/modules/auth";
 import { requireOwnedChild } from "@/lib/api/modules/events";
 import { isUniqueConflict, persistQuota, persistQuotaCharge, quotaKey } from "@/lib/api/persist";
 import { databaseEnabled } from "@/lib/api/prisma";
+import { mergeQuotaRows, parseDayKey, utcDayKey } from "@/lib/learning/dates";
 
 const END_REASONS = new Set(["win", "timeout", "exit", "aborted"]);
 
 function dayFor(value: string | null) {
-  if (value && /^\d{4}-\d{1,2}-\d{1,2}$/.test(value)) return value;
-  return new Date().toISOString().slice(0, 10);
+  if (value) {
+    const parsed = parseDayKey(value);
+    if (parsed) return parsed;
+  }
+  return utcDayKey();
+}
+
+function canonicalizeChildQuotas(childId: string) {
+  const state = db();
+  const rows = Object.entries(state.gameQuotas).filter(([, row]) => row.childId === childId);
+  const merged = mergeQuotaRows(rows.map(([, row]) => row));
+  for (const [key] of rows) delete state.gameQuotas[key];
+  for (const row of merged) state.gameQuotas[quotaKey(row.childId, row.gameId, row.day)] = row;
 }
 
 function rowFor(childId: string, gameId: string, day: string) {
@@ -31,6 +43,7 @@ export function listQuota(request: Request, url: URL) {
   const child = currentChild(db(), url.searchParams.get("childId"));
   if (!child) throw new HttpError(403, "FORBIDDEN", "还没有孩子档案");
   const day = dayFor(url.searchParams.get("day"));
+  canonicalizeChildQuotas(child.id);
   const quotas = Object.values(db().gameQuotas).filter((item) => item.childId === child.id && item.day === day);
   return jsonOk({
     persisted: databaseEnabled(),
@@ -55,6 +68,7 @@ export async function changeQuota(request: Request, gameId: string, body: Record
     throw new HttpError(404, "NOT_FOUND", "找不到这个游戏");
   }
   const day = dayFor(asString(body.day) || null);
+  canonicalizeChildQuotas(child.id);
   if (!databaseEnabled()) {
     if (clientEventId) {
       if (db().quotaCharges[clientEventId]) return quotaBody(false, true, day, gameId, 0, 0);
