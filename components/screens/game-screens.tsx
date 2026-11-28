@@ -1,14 +1,11 @@
 "use client";
 
 import { useParams, useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
-import { ColorMatch } from "@/components/color-match";
+import { useEffect, useState } from "react";
 import { BigButton } from "@/components/big-button";
-import { CountDash } from "@/components/games/count-dash";
 import { playsLabel } from "@/components/games/chrome";
-import { HabitOrder } from "@/components/games/habit-order";
-import { ShapeFit } from "@/components/games/shape-fit";
-import { SpotAnimal } from "@/components/games/spot-animal";
+import { GAME_VIEWS } from "@/components/games/registry";
+import { useGameRound } from "@/components/games/use-game-round";
 import { EmptyPanel } from "@/components/empty-panel";
 import { LoadingScreen } from "@/components/loading-screen";
 import { OfflineState } from "@/components/offline-state";
@@ -17,12 +14,10 @@ import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/compone
 import { ApiError, api, failureKind, type FailureKind } from "@/lib/client/api";
 import {
   applyServerQuotas,
-  consumePlay,
   grantBonusPlay,
   localDayKey,
   mergeServerQuota,
   readChild,
-  readStore,
   remainingPlays,
   saveEntitlementFlags,
   useRemainingPlays,
@@ -185,7 +180,6 @@ export function GameScreen() {
   const [outline, setOutline] = useState<GameCard | null>(null);
   const [problem, setProblem] = useState<FailureKind | null>(null);
   const [attempt, setAttempt] = useState(0);
-  const spent = useRef(false);
   const vip = useVip();
   const left = useRemainingPlays(params.gameId, game?.dailyFree ?? 3, vip);
 
@@ -259,27 +253,7 @@ export function GameScreen() {
     );
   }
   if (game) {
-    return (
-      <GamePlayer
-        game={game}
-        remaining={playsLabel(left)}
-        onExit={() => router.push("/games")}
-        onFinish={() => {
-          if (spent.current || readStore().vip) return;
-          spent.current = true;
-          const childId = readChild()?.id;
-          void api<{ persisted: boolean; day: string; gameId: string; used: number; bonus: number }>(`/api/games/${game.gameId}/consume`, {
-            method: "POST",
-            body: JSON.stringify({ childId, day: localDayKey() }),
-          })
-            .then((quota) => {
-              if (quota.persisted) mergeServerQuota(quota.day, quota);
-              else consumePlay(game.gameId);
-            })
-            .catch(() => consumePlay(game.gameId));
-        }}
-      />
-    );
+    return <GamePlayer key={game.gameId} game={game} remaining={playsLabel(left)} onExit={() => router.push("/games")} />;
   }
   if (!outline && !problem) return <LoadingScreen />;
   return (
@@ -297,19 +271,23 @@ export function GameScreen() {
 function GamePlayer({
   game,
   remaining,
-  onFinish,
   onExit,
 }: {
   game: GameDocument;
   remaining: string;
-  onFinish: () => void;
   onExit: () => void;
 }) {
-  if (game.kind === "color-match") return <ColorMatch game={game} remaining={remaining} onFinish={onFinish} onExit={onExit} />;
-  if (game.kind === "spot-animal") return <SpotAnimal game={game} remaining={remaining} onFinish={onFinish} onExit={onExit} />;
-  if (game.kind === "count-dash") return <CountDash game={game} remaining={remaining} onFinish={onFinish} onExit={onExit} />;
-  if (game.kind === "shape-fit") return <ShapeFit game={game} remaining={remaining} onFinish={onFinish} onExit={onExit} />;
-  return <HabitOrder game={game} remaining={remaining} onFinish={onFinish} onExit={onExit} />;
+  const round = useGameRound(game);
+  const View = GAME_VIEWS[game.kind];
+  return (
+    <View
+      game={game}
+      remaining={remaining}
+      onPlay={round.onPlay}
+      onEnd={round.onEnd}
+      onExit={() => round.onExit(onExit)}
+    />
+  );
 }
 
 function OutOfPlaysDialog({ open, onClose, onAd }: { open: boolean; onClose: () => void; onAd: () => void }) {

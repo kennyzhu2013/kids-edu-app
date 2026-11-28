@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Noto_Sans_SC, Nunito } from "next/font/google";
 import { Suspense } from "react";
+import { EventFlush } from "@/components/event-flush";
 import { LoadingScreen } from "@/components/loading-screen";
 import { NativeShell } from "@/components/native-shell";
 import "./globals.css";
@@ -37,6 +38,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="min-h-dvh">
         <div className="mx-auto min-h-dvh w-full max-w-[430px] bg-background pt-[env(safe-area-inset-top)] pr-[env(safe-area-inset-right)] pl-[env(safe-area-inset-left)] md:shadow-[0_0_0_1px_#f0dcc8]">
           <NativeShell />
+          <EventFlush />
           <Suspense fallback={<LoadingScreen />}>{children}</Suspense>
         </div>
       </body>

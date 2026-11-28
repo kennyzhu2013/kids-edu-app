@@ -1,6 +1,7 @@
 import { HttpError, jsonOk, asNumber, asString } from "@/lib/api/http";
 import { currentChild, db, uid, type Memory, type ProgressRecord } from "@/lib/api/memory";
 import { requireUser } from "@/lib/api/modules/auth";
+import { recordServerMathEvents } from "@/lib/api/modules/events";
 import { persistProgress, persistTodayPlan } from "@/lib/api/persist";
 import { scoreMathStarter, stepAttemptListSchema } from "@/lib/content/score-math";
 import type { AgeBand } from "@/lib/age";
@@ -162,6 +163,15 @@ export async function completeLevel(request: Request, levelId: string, body: Rec
     previous.completedAt = now;
     previous.clientEventId = clientEventId ?? previous.clientEventId;
     await persistProgress(previous);
+    if (scored.detail) {
+      await recordServerMathEvents({
+        childId: child.id,
+        levelId,
+        attemptId: clientEventId ?? uid("math"),
+        durationMs: duration * 1000,
+        objective: scored.detail.objective,
+      });
+    }
     return jsonOk({
       progress: previous,
       rewards: { stars: previous.stars, copy: "Great job!" },
@@ -183,6 +193,15 @@ export async function completeLevel(request: Request, levelId: string, body: Rec
   };
   db().progress.push(created);
   await persistProgress(created);
+  if (scored.detail) {
+    await recordServerMathEvents({
+      childId: child.id,
+      levelId,
+      attemptId: clientEventId ?? uid("math"),
+      durationMs: duration * 1000,
+      objective: scored.detail.objective,
+    });
+  }
   return jsonOk({
     progress: created,
     rewards: { stars, copy: "Great job!" },

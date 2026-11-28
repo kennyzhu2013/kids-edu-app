@@ -3,6 +3,7 @@
 import { useRef, useState } from "react";
 import { TokenArt } from "@/components/illustrations";
 import { GameChrome, GameDone, GameReady, useRoundTimer } from "@/components/games/chrome";
+import { gameResult, type GameResult } from "@/components/games/plugin";
 import { playCue } from "@/lib/client/speech";
 import { useChild } from "@/lib/client/store";
 import type { GameDocument } from "@/lib/content/schemas";
@@ -24,12 +25,14 @@ function boardFor(target: number, distract: boolean): Piece[] {
 export function CountDash({
   game,
   remaining,
-  onFinish,
+  onPlay,
+  onEnd,
   onExit,
 }: {
   game: CountGame;
   remaining: string;
-  onFinish: () => void;
+  onPlay: () => void;
+  onEnd: (result: GameResult) => void;
   onExit: () => void;
 }) {
   const child = useChild();
@@ -41,17 +44,29 @@ export function CountDash({
   const [shake, setShake] = useState(false);
   const [won, setWon] = useState(false);
   const ended = useRef(false);
+  const startedAt = useRef(0);
   const target = game.targets[round] ?? game.targets[0];
   const pieces = boardFor(target, distract);
   const apples = picked.length;
-  const left = useRoundTimer(phase === "play", game.durationSec, () => end(false));
+  const left = useRoundTimer(phase === "play", game.durationSec, () => end(false, round));
 
-  function end(success: boolean) {
+  function begin() {
+    startedAt.current = Date.now();
+    setPhase("play");
+    onPlay();
+  }
+
+  function end(success: boolean, scoreOverride?: number) {
     if (ended.current) return;
     ended.current = true;
     setWon(success);
     setPhase("done");
-    onFinish();
+    onEnd(
+      gameResult(success, {
+        score: scoreOverride ?? round,
+        durationMs: startedAt.current > 0 ? Math.max(0, Date.now() - startedAt.current) : 0,
+      }),
+    );
   }
 
   function tap(piece: Piece) {
@@ -70,7 +85,7 @@ export function CountDash({
       if (nextRound >= game.targets.length) {
         playCue("ok");
         setRound(nextRound);
-        end(true);
+        end(true, nextRound);
         return;
       }
       playCue("ok");
@@ -85,7 +100,7 @@ export function CountDash({
   return (
     <GameChrome title={game.title} phase={phase} seconds={left} progress={`${Math.min(round, game.targets.length)}/${game.targets.length}`} onExit={onExit}>
       {phase === "ready" ? (
-        <GameReady title={game.title} titleEn={game.titleEn} howTo={game.howTo} remaining={remaining} onStart={() => setPhase("play")} />
+        <GameReady title={game.title} titleEn={game.titleEn} howTo={game.howTo} remaining={remaining} onStart={begin} />
       ) : null}
       {phase === "play" ? (
         <div className={cn("flex flex-1 flex-col", shake && "shake")}>

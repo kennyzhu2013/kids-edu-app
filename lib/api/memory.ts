@@ -8,6 +8,7 @@ import type {
 } from "@/lib/content/curriculum";
 import { loadCatalog, loadGameConfigs, loadPlayableLevels } from "@/lib/content/load";
 import type { GameDocument, LevelDocument } from "@/lib/content/schemas";
+import type { LearningEventRecord } from "@/lib/learning/events";
 
 export type ChildRecord = {
   id: string;
@@ -106,6 +107,12 @@ export type Memory = {
   assets: AssetRecord[];
   todayPlans: Record<string, { day: string; ageBand: "A" | "B" | "C"; levelIds: string[] }>;
   gameQuotas: Record<string, { childId: string; gameId: string; day: string; used: number; bonus: number }>;
+  /**
+   * 学习事件和配额幂等键。没有 DATABASE_URL 时只存在这里，进程重启就没了，和 progress 一样。
+   * 有库时以 clientEventId 的唯一约束为准，重启后从库装回，补发队列不会写成第二行。
+   */
+  learningEvents: LearningEventRecord[];
+  quotaCharges: Record<string, { childId: string; gameId: string; day: string }>;
 };
 
 const globalStore = globalThis as typeof globalThis & { __qimengMemory?: Memory };
@@ -135,6 +142,8 @@ export function db(): Memory {
     if (globalStore.__qimengMemory.contentRev !== CONTENT_REV) applyContent(globalStore.__qimengMemory);
     if (!globalStore.__qimengMemory.todayPlans) globalStore.__qimengMemory.todayPlans = {};
     if (!globalStore.__qimengMemory.gameQuotas) globalStore.__qimengMemory.gameQuotas = {};
+    if (!globalStore.__qimengMemory.learningEvents) globalStore.__qimengMemory.learningEvents = [];
+    if (!globalStore.__qimengMemory.quotaCharges) globalStore.__qimengMemory.quotaCharges = {};
     return globalStore.__qimengMemory;
   }
   if (memory) return memory;
@@ -192,6 +201,8 @@ export function db(): Memory {
     ],
     todayPlans: {},
     gameQuotas: {},
+    learningEvents: [],
+    quotaCharges: {},
   };
   applyContent(memory);
   globalStore.__qimengMemory = memory;

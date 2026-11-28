@@ -13,7 +13,9 @@ import { OfflineState } from "@/components/offline-state";
 import { StarResult } from "@/components/star-result";
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import { ApiError, api, failureKind, type FailureKind } from "@/lib/client/api";
+import { reportLevelComplete, reportLevelEnter, reportLevelPause, reportStep } from "@/lib/client/report-learning";
 import { readChild, useChild } from "@/lib/client/store";
+import { errorCauseForStep } from "@/lib/learning/events";
 import { playCue, playPrompt, playPromptAsync, stopSpeech, voiceCaption } from "@/lib/client/speech";
 import { stepsForAge } from "@/lib/content/level-steps";
 import type { StepAttempt } from "@/lib/content/score-math";
@@ -50,13 +52,17 @@ export function LevelPlayer({ levelId }: { levelId: string }) {
   const mistakes = useRef(0);
   const attempts = useRef<StepAttempt[]>([]);
   const startedAt = useRef(0);
+  const stepStartedAt = useRef(0);
   const eventId = useRef("");
+  const completedRef = useRef(false);
+  const levelRef = useRef<LevelDocument | null>(null);
 
   useEffect(() => {
     mistakes.current = 0;
     attempts.current = [];
     startedAt.current = Date.now();
     eventId.current = crypto.randomUUID();
+    completedRef.current = false;
     let ignore = false;
     api<{ level: LevelDocument }>(`/api/levels/${levelId}`)
       .then((data) => {
@@ -74,6 +80,32 @@ export function LevelPlayer({ levelId }: { levelId: string }) {
       stopSpeech();
     };
   }, [attempt, levelId]);
+
+  useEffect(() => {
+    levelRef.current = level;
+  }, [level]);
+
+  useEffect(() => {
+    if (phase === "quiz") stepStartedAt.current = Date.now();
+  }, [phase, stepIndex]);
+
+  useEffect(() => {
+    if (!level) return;
+    reportLevelEnter(level, eventId.current);
+  }, [level]);
+
+  useEffect(() => {
+    const onHide = () => {
+      const current = levelRef.current;
+      if (!current || completedRef.current || !eventId.current) return;
+      reportLevelPause(current, eventId.current);
+    };
+    window.addEventListener("pagehide", onHide);
+    return () => {
+      window.removeEventListener("pagehide", onHide);
+      onHide();
+    };
+  }, [levelId]);
 
   const age = child?.ageBand ?? "A";
   const steps = level ? stepsForAge(level, age) : [];
@@ -128,14 +160,43 @@ export function LevelPlayer({ levelId }: { levelId: string }) {
     attempts.current = [...attempts.current.filter((item) => item.id !== attempt.id), attempt];
   }
 
+  function stepPoints(current: Step) {
+    if (current.knowledgePointIds.length > 0) return current.knowledgePointIds;
+    return level?.knowledgePointIds ?? [];
+  }
+
+  function stepDuration() {
+    // eslint-disable-next-line react-hooks/purity -- 只在作答、提示和空听时计算这一步用了多久
+    return stepStartedAt.current > 0 ? Math.max(0, Date.now() - stepStartedAt.current) : 0;
+  }
+
+  function revealHint() {
+    if (step && !hinted) {
+      reportStep({
+        attemptId: eventId.current,
+        levelId: level!.id,
+        stepId: step.id,
+        knowledgePointIds: stepPoints(step),
+        type: "hint_requested",
+        correct: null,
+        errorCause: null,
+        durationMs: stepDuration(),
+      });
+    }
+    setHinted(true);
+  }
+
   function finish(earned: number) {
+    completedRef.current = true;
+    const duration = Math.max(1, Math.round((Date.now() - startedAt.current) / 1000)); // eslint-disable-line react-hooks/purity -- 只在答完一关时计算用时
+    reportLevelComplete(level!, eventId.current, duration * 1000);
     setStars(earned);
     const profile = readChild();
     const payload: Record<string, unknown> = {
       childId: profile?.id,
       score: Math.round((1 - Math.min(mistakes.current, 2) / 2) * 100),
       stars: earned,
-      duration: Math.max(1, Math.round((Date.now() - startedAt.current) / 1000)), // eslint-disable-line react-hooks/purity -- 只在答完一关时计算用时
+      duration,
       clientEventId: eventId.current,
     };
     if (level!.packId === "math-starter") payload.steps = attempts.current;
@@ -158,11 +219,22 @@ export function LevelPlayer({ levelId }: { levelId: string }) {
     if (!step || busy || feedback === "good") return;
     if (!answered(step, choiceId)) {
       mistakes.current += 1;
+      reportStep({
+        attemptId: eventId.current,
+        levelId: level!.id,
+        stepId: step.id,
+        knowledgePointIds: stepPoints(step),
+        type: "question_failed",
+        correct: false,
+        errorCause: errorCauseForStep(step.type),
+        durationMs: stepDuration(),
+        nonce: crypto.randomUUID(),
+      });
       playCue("again");
       setFeedback("again");
       setMissedId(choiceId);
       setShake(true);
-      if (mistakes.current >= 2) setHinted(true);
+      if (mistakes.current >= 2) revealHint();
       window.setTimeout(() => {
         setShake(false);
         setMissedId(null);
@@ -170,15 +242,38 @@ export function LevelPlayer({ levelId }: { levelId: string }) {
       return;
     }
     playCue("ok");
+    reportStep({
+      attemptId: eventId.current,
+      levelId: level!.id,
+      stepId: step.id,
+      knowledgePointIds: stepPoints(step),
+      type: "question_answered",
+      correct: true,
+      errorCause: null,
+      durationMs: stepDuration(),
+    });
     record({ id: step.id, choice: choiceId });
     succeed();
   }
 
   function miss() {
+    if (step) {
+      reportStep({
+        attemptId: eventId.current,
+        levelId: level!.id,
+        stepId: step.id,
+        knowledgePointIds: stepPoints(step),
+        type: "question_failed",
+        correct: false,
+        errorCause: errorCauseForStep(step.type),
+        durationMs: stepDuration(),
+        nonce: crypto.randomUUID(),
+      });
+    }
     mistakes.current += 1;
     setFeedback("again");
     if (mistakes.current >= 2) {
-      setHinted(true);
+      revealHint();
       if (step?.type === "speak") {
         playPrompt(step.promptAudio, step.speakText || step.promptSpeak || "");
         const stepId = step.id;
@@ -214,6 +309,8 @@ export function LevelPlayer({ levelId }: { levelId: string }) {
     attempts.current = [];
     startedAt.current = Date.now();
     eventId.current = crypto.randomUUID();
+    completedRef.current = false;
+    reportLevelEnter(level!, eventId.current);
     setStars(3);
     setSaveNote("");
     setStepIndex(0);
@@ -289,10 +386,35 @@ export function LevelPlayer({ levelId }: { levelId: string }) {
           busy={busy}
           hinted={hinted}
           onPass={(result) => {
+            if (result === "said_right") {
+              reportStep({
+                attemptId: eventId.current,
+                levelId: level.id,
+                stepId: step.id,
+                knowledgePointIds: stepPoints(step),
+                type: "question_answered",
+                correct: true,
+                errorCause: null,
+                durationMs: stepDuration(),
+              });
+            }
             record({ id: step.id, speak: result });
             succeed();
           }}
           onMiss={() => miss()}
+          onNoHearing={() => {
+            reportStep({
+              attemptId: eventId.current,
+              levelId: level.id,
+              stepId: step.id,
+              knowledgePointIds: stepPoints(step),
+              type: "no_hearing",
+              correct: null,
+              errorCause: null,
+              durationMs: stepDuration(),
+              nonce: crypto.randomUUID(),
+            });
+          }}
         />
       ) : null}
 
@@ -302,6 +424,16 @@ export function LevelPlayer({ levelId }: { levelId: string }) {
           busy={busy}
           hinted={hinted}
           onPass={(placements) => {
+            reportStep({
+              attemptId: eventId.current,
+              levelId: level.id,
+              stepId: step.id,
+              knowledgePointIds: stepPoints(step),
+              type: "question_answered",
+              correct: true,
+              errorCause: null,
+              durationMs: stepDuration(),
+            });
             record({ id: step.id, placements });
             succeed();
           }}
@@ -315,6 +447,16 @@ export function LevelPlayer({ levelId }: { levelId: string }) {
           busy={busy}
           hinted={hinted}
           onPass={(order) => {
+            reportStep({
+              attemptId: eventId.current,
+              levelId: level.id,
+              stepId: step.id,
+              knowledgePointIds: stepPoints(step),
+              type: "question_answered",
+              correct: true,
+              errorCause: null,
+              durationMs: stepDuration(),
+            });
             record({ id: step.id, order });
             succeed();
           }}
@@ -385,7 +527,7 @@ export function LevelPlayer({ levelId }: { levelId: string }) {
               );
             })}
           </div>
-          <button type="button" className="mt-4 text-sm font-bold text-muted-foreground" onClick={() => setHinted(true)}>
+          <button type="button" className="mt-4 text-sm font-bold text-muted-foreground" onClick={revealHint}>
             提示
           </button>
         </div>
@@ -434,7 +576,15 @@ export function LevelPlayer({ levelId }: { levelId: string }) {
             <BigButton variant="secondary" onClick={() => setConfirmExit(false)}>
               留下
             </BigButton>
-            <BigButton href="/today">离开</BigButton>
+            <BigButton
+              onClick={() => {
+                if (level && !completedRef.current) reportLevelPause(level, eventId.current);
+                setConfirmExit(false);
+                router.push("/today");
+              }}
+            >
+              离开
+            </BigButton>
           </div>
         </DialogContent>
       </Dialog>

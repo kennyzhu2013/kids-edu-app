@@ -3,6 +3,7 @@
 import { useRef, useState } from "react";
 import { TokenArt } from "@/components/illustrations";
 import { GameChrome, GameDone, GameReady, useRoundTimer } from "@/components/games/chrome";
+import { gameResult, type GameResult } from "@/components/games/plugin";
 import { playCue } from "@/lib/client/speech";
 import type { GameDocument } from "@/lib/content/schemas";
 import { cn } from "@/lib/utils";
@@ -25,12 +26,14 @@ function buildRounds(animals: Animal[]) {
 export function SpotAnimal({
   game,
   remaining,
-  onFinish,
+  onPlay,
+  onEnd,
   onExit,
 }: {
   game: SpotGame;
   remaining: string;
-  onFinish: () => void;
+  onPlay: () => void;
+  onEnd: (result: GameResult) => void;
   onExit: () => void;
 }) {
   const [rounds] = useState(() => buildRounds(game.animals));
@@ -40,16 +43,28 @@ export function SpotAnimal({
   const [shake, setShake] = useState(false);
   const [won, setWon] = useState(false);
   const ended = useRef(false);
+  const startedAt = useRef(0);
   const cells = rounds[round] ?? rounds[0];
-  const left = useRoundTimer(phase === "play", game.durationSec, () => end(false));
+  const left = useRoundTimer(phase === "play", game.durationSec, () => end(false, round));
 
-  function end(success: boolean) {
+  function begin() {
+    startedAt.current = Date.now();
+    setPhase("play");
+    onPlay();
+  }
+
+  function end(success: boolean, scoreOverride?: number) {
     if (ended.current) return;
     ended.current = true;
     setWon(success);
     setPhase("done");
     setNote(success ? "真棒" : "");
-    onFinish();
+    onEnd(
+      gameResult(success, {
+        score: scoreOverride ?? round,
+        durationMs: startedAt.current > 0 ? Math.max(0, Date.now() - startedAt.current) : 0,
+      }),
+    );
   }
 
   function pick(index: number) {
@@ -66,7 +81,7 @@ export function SpotAnimal({
     if (next >= game.winTarget) {
       playCue("ok");
       setRound(next);
-      end(true);
+      end(true, next);
       return;
     }
     playCue("ok");
@@ -77,7 +92,7 @@ export function SpotAnimal({
   return (
     <GameChrome title={game.title} phase={phase} seconds={left} progress={`${Math.min(round, game.winTarget)}/${game.winTarget}`} onExit={onExit}>
       {phase === "ready" ? (
-        <GameReady title={game.title} titleEn={game.titleEn} howTo={game.howTo} remaining={remaining} onStart={() => setPhase("play")} />
+        <GameReady title={game.title} titleEn={game.titleEn} howTo={game.howTo} remaining={remaining} onStart={begin} />
       ) : null}
       {phase === "play" && cells ? (
         <div className={cn("flex flex-1 flex-col", shake && "shake")}>

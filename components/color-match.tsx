@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useRef, useState } from "react";
 import { GameChrome, GameDone, GameReady, useRoundTimer } from "@/components/games/chrome";
+import { gameResult, type GameResult } from "@/components/games/plugin";
 import { playCue } from "@/lib/client/speech";
 import type { GameDocument } from "@/lib/content/schemas";
 import { cn } from "@/lib/utils";
@@ -12,12 +13,14 @@ type ColorGame = Extract<GameDocument, { kind: "color-match" }>;
 export function ColorMatch({
   game,
   remaining,
-  onFinish,
+  onPlay,
+  onEnd,
   onExit,
 }: {
   game: ColorGame;
   remaining: string;
-  onFinish: () => void;
+  onPlay: () => void;
+  onEnd: (result: GameResult) => void;
   onExit: () => void;
 }) {
   const [phase, setPhase] = useState<"ready" | "play" | "done">("ready");
@@ -27,15 +30,27 @@ export function ColorMatch({
   const [shake, setShake] = useState(false);
   const [note, setNote] = useState("");
   const ended = useRef(false);
+  const startedAt = useRef(0);
   const color = game.colors[colorIndex % game.colors.length];
-  const left = useRoundTimer(phase === "play", game.durationSec, () => end(false));
+  const left = useRoundTimer(phase === "play", game.durationSec, () => end(false, score));
 
-  function end(success: boolean) {
+  function begin() {
+    startedAt.current = Date.now();
+    setPhase("play");
+    onPlay();
+  }
+
+  function end(success: boolean, scoreOverride?: number) {
     if (ended.current) return;
     ended.current = true;
     setWon(success);
     setPhase("done");
-    onFinish();
+    onEnd(
+      gameResult(success, {
+        score: scoreOverride ?? score,
+        durationMs: startedAt.current > 0 ? Math.max(0, Date.now() - startedAt.current) : 0,
+      }),
+    );
   }
 
   function pick(id: string) {
@@ -52,7 +67,7 @@ export function ColorMatch({
     setScore(nextScore);
     setNote("真棒");
     if (nextScore >= game.winTarget) {
-      end(true);
+      end(true, nextScore);
       return;
     }
     setColorIndex((value) => value + 1);
@@ -61,7 +76,7 @@ export function ColorMatch({
   return (
     <GameChrome title={game.title} phase={phase} seconds={left} progress={`${score}/${game.winTarget}`} onExit={onExit}>
       {phase === "ready" ? (
-        <GameReady title={game.title} titleEn={game.titleEn} howTo={game.howTo} remaining={remaining} onStart={() => setPhase("play")} />
+        <GameReady title={game.title} titleEn={game.titleEn} howTo={game.howTo} remaining={remaining} onStart={begin} />
       ) : null}
       {phase === "play" && color ? (
         <div className={cn("flex flex-1 flex-col", shake && "shake")}>
