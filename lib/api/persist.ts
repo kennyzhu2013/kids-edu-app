@@ -4,6 +4,8 @@ import { ensureDemoFamily, syncCatalog } from "@/lib/api/catalog-sync";
 import { isPinHash } from "@/lib/api/pin-hash";
 import { databaseEnabled, getPrisma } from "@/lib/api/prisma";
 import { isProduction } from "@/lib/api/secrets";
+import type { ErrorCause, LearningEventRecord, LearningEventType } from "@/lib/learning/events";
+import { selectTodayPlans, todayPlanLoadArgs, utcDayKey } from "@/lib/learning/today-plan";
 
 const globalStore = globalThis as typeof globalThis & { __qimengReady?: Promise<void> };
 
@@ -60,9 +62,10 @@ async function loadFromDatabase() {
       completedAt: row.completedAt ? row.completedAt.toISOString() : null,
     }),
   );
-  const plans = await prisma.todayPlan.findMany({ where: { child: { userId: "user-demo" } } });
+  const today = utcDayKey();
+  const plans = await prisma.todayPlan.findMany(todayPlanLoadArgs(today));
   state.todayPlans = {};
-  for (const plan of plans) {
+  for (const plan of selectTodayPlans(plans, today)) {
     const ageBand = plan.ageBand === "B" || plan.ageBand === "C" ? plan.ageBand : "A";
     state.todayPlans[plan.childId] = { day: plan.day, ageBand, levelIds: plan.levelIds };
   }
@@ -76,6 +79,16 @@ async function loadFromDatabase() {
       used: quota.used,
       bonus: quota.bonus,
     };
+  }
+  const events = await prisma.learningEvent.findMany({
+    where: { child: { userId: "user-demo" } },
+    orderBy: { createdAt: "asc" },
+  });
+  state.learningEvents = events.map(mapLearningEvent);
+  const charges = await prisma.gameQuotaCharge.findMany({ where: { child: { userId: "user-demo" } } });
+  state.quotaCharges = {};
+  for (const charge of charges) {
+    state.quotaCharges[charge.clientEventId] = { childId: charge.childId, gameId: charge.gameId, day: charge.day };
   }
 }
 
@@ -169,4 +182,69 @@ export async function persistQuota(row: { childId: string; gameId: string; day: 
     create: row,
     update: { used: row.used, bonus: row.bonus },
   });
+}
+
+export function isUniqueConflict(error: unknown) {
+  return typeof error === "object" && error !== null && "code" in error && (error as { code: unknown }).code === "P2002";
+}
+
+export async function persistLearningEvent(row: LearningEventRecord) {
+  if (!databaseEnabled()) return;
+  await getPrisma().learningEvent.create({
+    data: {
+      id: row.id,
+      childId: row.childId,
+      sessionId: row.sessionId,
+      type: row.type,
+      knowledgePointId: row.knowledgePointId,
+      levelId: row.levelId,
+      gameId: row.gameId,
+      stepId: row.stepId,
+      correct: row.correct,
+      durationMs: row.durationMs,
+      errorCause: row.errorCause,
+      source: row.source,
+      clientEventId: row.clientEventId,
+      createdAt: new Date(row.createdAt),
+    },
+  });
+}
+
+export async function persistQuotaCharge(row: { id: string; clientEventId: string; childId: string; gameId: string; day: string }) {
+  if (!databaseEnabled()) return;
+  await getPrisma().gameQuotaCharge.create({ data: row });
+}
+
+function mapLearningEvent(row: {
+  id: string;
+  childId: string;
+  sessionId: string;
+  type: string;
+  knowledgePointId: string | null;
+  levelId: string | null;
+  gameId: string | null;
+  stepId: string | null;
+  correct: boolean | null;
+  durationMs: number;
+  errorCause: string | null;
+  source: string;
+  clientEventId: string;
+  createdAt: Date;
+}): LearningEventRecord {
+  return {
+    id: row.id,
+    childId: row.childId,
+    sessionId: row.sessionId,
+    type: row.type as LearningEventType,
+    knowledgePointId: row.knowledgePointId,
+    levelId: row.levelId,
+    gameId: row.gameId,
+    stepId: row.stepId,
+    correct: row.correct,
+    durationMs: row.durationMs,
+    errorCause: row.errorCause as ErrorCause | null,
+    source: row.source === "server" ? "server" : "device",
+    clientEventId: row.clientEventId,
+    createdAt: row.createdAt.toISOString(),
+  };
 }

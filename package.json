@@ -9,6 +9,7 @@
     "lint": "eslint",
     "seed": "tsx scripts/seed.ts",
     "check:sprint1": "tsx scripts/check-sprint1.ts",
+    "check:sprint2": "tsx scripts/check-sprint2.ts",
     "assets": "node scripts/generate-art.mjs && node scripts/generate-audio.mjs",
     "db:generate": "prisma generate",
     "postinstall": "prisma generate"

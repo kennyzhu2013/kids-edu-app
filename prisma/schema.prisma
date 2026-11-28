@@ -42,6 +42,8 @@ model Child {
   progress  Progress[]
   todayPlans TodayPlan[]
   gameQuotas GameQuota[]
+  learningEvents LearningEvent[]
+  quotaCharges GameQuotaCharge[]
 
   @@index([userId])
 }
@@ -266,6 +268,45 @@ model TodayPlan {
 
   @@unique([childId, day])
   @@index([childId])
+}
+
+/// 可查询的学习事件。sessionId 只是字符串，不建 LearningSession 表。
+/// type、errorCause、source 的取值在应用层校验。createdAt 用 UTC。
+/// 没有数据库时事件只在内存里，重启会丢，和现有进度一样。
+/// 有库时 clientEventId 唯一，挡住重复写入和关页后的补发。
+model LearningEvent {
+  id               String   @id
+  childId          String
+  child            Child    @relation(fields: [childId], references: [id], onDelete: Cascade)
+  sessionId        String
+  type             String
+  knowledgePointId String?
+  levelId          String?
+  gameId           String?
+  stepId           String?
+  correct          Boolean?
+  durationMs       Int
+  errorCause       String?
+  source           String
+  clientEventId    String   @unique
+  createdAt        DateTime @default(now())
+
+  @@index([childId, createdAt])
+  @@index([childId, type])
+}
+
+/// 游戏次数的幂等键。不改变 GameQuota.used / bonus 的含义。
+/// 同一个 clientEventId 只把 used 或 bonus 加一。
+model GameQuotaCharge {
+  id            String   @id
+  clientEventId String   @unique
+  childId       String
+  child         Child    @relation(fields: [childId], references: [id], onDelete: Cascade)
+  gameId        String
+  day           String
+  createdAt     DateTime @default(now())
+
+  @@index([childId, day])
 }
 
 /// 游戏每日次数。按孩子、游戏和本地日期计。

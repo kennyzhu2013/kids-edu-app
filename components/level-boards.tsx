@@ -8,6 +8,7 @@ import { BigButton } from "@/components/big-button";
 import { canListen, listenForSpeech } from "@/lib/client/listen-mic";
 import { playCue, playPromptAsync, stopSpeech, voiceLang } from "@/lib/client/speech";
 import { speechMatches } from "@/lib/client/speech-match";
+import { classifyListen } from "@/lib/learning/events";
 import type { LevelDocument } from "@/lib/content/schemas";
 import { cn } from "@/lib/utils";
 
@@ -23,12 +24,14 @@ export function SpeakBoard({
   hinted,
   onPass,
   onMiss,
+  onNoHearing,
 }: {
   step: Step;
   busy: boolean;
   hinted: boolean;
   onPass: (result: "said_right" | "unanswered") => void;
   onMiss: () => void;
+  onNoHearing: () => void;
 }) {
   const [listening, setListening] = useState(false);
   const [ready, setReady] = useState(false);
@@ -63,11 +66,13 @@ export function SpeakBoard({
     if (attempt.current !== id) return;
     setListening(false);
     if (!result.ok) {
-      if (result.reason === "denied" || result.reason === "unavailable") {
+      if (classifyListen(result.reason) === "blocked") {
         setBlocked(true);
         setNote(result.reason === "denied" ? "麦克风没有打开。可以点「我说完了」。" : "这台浏览器听不了你说话。可以点「我说完了」。");
       } else {
+        // 空听不是答错：不加 mistakes，不降星，只记 no_hearing。
         setNote("没听清，再试一次。");
+        onNoHearing();
       }
       return;
     }

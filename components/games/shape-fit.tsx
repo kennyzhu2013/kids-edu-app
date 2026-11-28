@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useRef, useState } from "react";
 import { GameChrome, GameDone, GameReady, useRoundTimer } from "@/components/games/chrome";
+import { gameResult, type GameResult } from "@/components/games/plugin";
 import { playCue } from "@/lib/client/speech";
 import type { GameDocument } from "@/lib/content/schemas";
 import { cn } from "@/lib/utils";
@@ -17,12 +18,14 @@ function ShapeGlyph({ id, className }: { id: ShapeId; className?: string }) {
 export function ShapeFit({
   game,
   remaining,
-  onFinish,
+  onPlay,
+  onEnd,
   onExit,
 }: {
   game: ShapeGame;
   remaining: string;
-  onFinish: () => void;
+  onPlay: () => void;
+  onEnd: (result: GameResult) => void;
   onExit: () => void;
 }) {
   const [phase, setPhase] = useState<"ready" | "play" | "done">("ready");
@@ -33,15 +36,27 @@ export function ShapeFit({
   const [won, setWon] = useState(false);
   const ended = useRef(false);
   const moved = useRef(false);
+  const startedAt = useRef(0);
   const target = game.shapes[round % game.shapes.length];
-  const left = useRoundTimer(phase === "play", game.durationSec, () => end(false));
+  const left = useRoundTimer(phase === "play", game.durationSec, () => end(false, round));
 
-  function end(success: boolean) {
+  function begin() {
+    startedAt.current = Date.now();
+    setPhase("play");
+    onPlay();
+  }
+
+  function end(success: boolean, scoreOverride?: number) {
     if (ended.current) return;
     ended.current = true;
     setWon(success);
     setPhase("done");
-    onFinish();
+    onEnd(
+      gameResult(success, {
+        score: scoreOverride ?? round,
+        durationMs: startedAt.current > 0 ? Math.max(0, Date.now() - startedAt.current) : 0,
+      }),
+    );
   }
 
   function place(id: ShapeId) {
@@ -60,7 +75,7 @@ export function ShapeFit({
     window.setTimeout(() => {
       if (next >= game.winTarget) {
         setRound(next);
-        end(true);
+        end(true, next);
         return;
       }
       setRound(next);
@@ -71,7 +86,7 @@ export function ShapeFit({
   return (
     <GameChrome title={game.title} phase={phase} seconds={left} progress={`${Math.min(round, game.winTarget)}/${game.winTarget}`} onExit={onExit}>
       {phase === "ready" ? (
-        <GameReady title={game.title} titleEn={game.titleEn} howTo={game.howTo} remaining={remaining} onStart={() => setPhase("play")} />
+        <GameReady title={game.title} titleEn={game.titleEn} howTo={game.howTo} remaining={remaining} onStart={begin} />
       ) : null}
       {phase === "play" && target ? (
         <div className={cn("flex flex-1 flex-col", shake && "shake")}>

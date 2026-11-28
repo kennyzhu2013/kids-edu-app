@@ -3,6 +3,7 @@
 import { useRef, useState } from "react";
 import { TokenArt } from "@/components/illustrations";
 import { GameChrome, GameDone, GameReady, useRoundTimer } from "@/components/games/chrome";
+import { gameResult, type GameResult } from "@/components/games/plugin";
 import { playCue } from "@/lib/client/speech";
 import type { GameDocument } from "@/lib/content/schemas";
 import { cn } from "@/lib/utils";
@@ -29,12 +30,14 @@ function shuffled(steps: Step[]) {
 export function HabitOrder({
   game,
   remaining,
-  onFinish,
+  onPlay,
+  onEnd,
   onExit,
 }: {
   game: HabitGame;
   remaining: string;
-  onFinish: () => void;
+  onPlay: () => void;
+  onEnd: (result: GameResult) => void;
   onExit: () => void;
 }) {
   const [pool, setPool] = useState<Step[]>(() => shuffled(game.steps));
@@ -45,14 +48,26 @@ export function HabitOrder({
   const [won, setWon] = useState(false);
   const ended = useRef(false);
   const moved = useRef(false);
+  const startedAt = useRef(0);
   const left = useRoundTimer(phase === "play", game.durationSec, () => end(false));
+
+  function begin() {
+    startedAt.current = Date.now();
+    setPhase("play");
+    onPlay();
+  }
 
   function end(success: boolean) {
     if (ended.current) return;
     ended.current = true;
     setWon(success);
     setPhase("done");
-    onFinish();
+    onEnd(
+      gameResult(success, {
+        score: success ? 1 : 0,
+        durationMs: startedAt.current > 0 ? Math.max(0, Date.now() - startedAt.current) : 0,
+      }),
+    );
   }
 
   function resetWrong() {
@@ -92,7 +107,7 @@ export function HabitOrder({
   return (
     <GameChrome title={game.title} phase={phase} seconds={left} progress={`${won ? 1 : 0}/${game.winTarget}`} onExit={onExit}>
       {phase === "ready" ? (
-        <GameReady title={game.title} titleEn={game.titleEn} howTo={game.howTo} remaining={remaining} onStart={() => setPhase("play")} />
+        <GameReady title={game.title} titleEn={game.titleEn} howTo={game.howTo} remaining={remaining} onStart={begin} />
       ) : null}
       {phase === "play" ? (
         <div className={cn("flex flex-1 flex-col", shake && "shake")}>
