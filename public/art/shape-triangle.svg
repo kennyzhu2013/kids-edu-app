@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 88 88">
 <rect width="88" height="88" rx="13" fill="#fff3da"/>
-<polygon points="44,16 74,70 14,70" fill="#3dcb7a"/>
+<ellipse cx="44" cy="77" rx="21" ry="5" fill="#f0dcc4"/>
+<g transform="translate(44 45) scale(0.82)"><g><polygon points="0,-28 30,24 -30,24" fill="#3dcb7a" stroke="#5c4036" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/><ellipse cx="-6" cy="4" rx="6" ry="4" fill="#fff" opacity="0.3"/></g></g>
 </svg>

@@ -14,31 +14,41 @@
   "winTarget": 5,
   "howTo": "上方掉落色块，点下方同色篮子接住",
   "guide": "广告+1或会员无限",
-  "assetsNote": "色块与篮子",
+  "assetsNote": "彩色皮球是矢量插画。开场和每一种颜色都有中文语音。",
+  "audioIntro": "/audio/games/game-color-match/intro.mp3",
+  "introScript": "颜色配对。看上面的球，点下面一样的颜色。",
   "colors": [
     {
       "id": "red",
       "label": "红色",
       "labelEn": "red",
-      "hex": "#ff5a5a"
+      "hex": "#ff5a5a",
+      "audio": "/audio/games/game-color-match/red.mp3",
+      "speak": "红色"
     },
     {
       "id": "yellow",
       "label": "黄色",
       "labelEn": "yellow",
-      "hex": "#ffc83d"
+      "hex": "#ffc83d",
+      "audio": "/audio/games/game-color-match/yellow.mp3",
+      "speak": "黄色"
     },
     {
       "id": "blue",
       "label": "蓝色",
       "labelEn": "blue",
-      "hex": "#4aa3ff"
+      "hex": "#4aa3ff",
+      "audio": "/audio/games/game-color-match/blue.mp3",
+      "speak": "蓝色"
     },
     {
       "id": "green",
       "label": "绿色",
       "labelEn": "green",
-      "hex": "#3dcb7a"
+      "hex": "#3dcb7a",
+      "audio": "/audio/games/game-color-match/green.mp3",
+      "speak": "绿色"
     }
   ],
   "knowledgePointIds": [

@@ -19,7 +19,7 @@
   "introScript": "下雨要带伞，冷了穿棉袄，热了戴帽子遮太阳。",
   "introScriptZh": "下雨要带伞，冷了穿棉袄，热了戴帽子遮太阳。",
   "listenTitle": "天气与穿衣",
-  "listenVisual": "/art/umbrella.svg",
+  "listenVisual": "/art/cover-life-starter-01.svg",
   "steps": [
     {
       "id": "q1",
@@ -100,7 +100,7 @@
   "rewardStars": 3,
   "rewardCopy": "穿对啦！天气小精灵！",
   "rewardCopyZh": "穿对啦！天气小精灵！",
-  "assetsNote": "没有实拍素材。图用色块和字块代替，旁白用浏览器语音。",
+  "assetsNote": "插画是原创矢量图，不再用色块占位。旁白是站内音频，缺文件时才用系统朗读。",
   "nextLevelId": "life-starter-02",
   "aDiff": "按天气选穿戴",
   "knowledgePointIds": [

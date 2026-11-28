@@ -18,7 +18,7 @@
   "introScript": "刷牙要挤一点牙膏，上上下下刷干净。",
   "introScriptZh": "刷牙要挤一点牙膏，上上下下刷干净。",
   "listenTitle": "刷牙",
-  "listenVisual": "/art/tooth.svg",
+  "listenVisual": "/art/cover-life-starter-06.svg",
   "nextLevelId": "life-starter-07",
   "steps": [
     {

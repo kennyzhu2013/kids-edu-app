@@ -18,7 +18,7 @@
   "introScript": "Hi! I'm Mia. When we meet friends, we say Hello! Wave your hand — Hello! When we leave, we say Bye-bye! Wave — Bye-bye!",
   "introScriptZh": "嗨！我是 Mia。见到朋友说 Hello，挥挥手。离开的时候说 Bye-bye，再挥挥手。",
   "listenTitle": "Hello",
-  "listenVisual": "/art/listen-hello.svg",
+  "listenVisual": "/art/cover-eng-starter-01.svg",
   "nextLevelId": "eng-starter-02",
   "steps": [
     {
@@ -78,7 +78,7 @@
   "aDiff": "仅听词点图，无跟读",
   "bDiff": "增加跟读 Hello；可选二次练习 Bye-bye",
   "cDiff": "跟读 Hello, I'm Mia；结算前可再听一次完整问候",
-  "assetsNote": "角色 Mia 立绘；挥手 / 离开两张场景图；Hello / Bye-bye 音频。跟读麦克风尚未接入。",
+  "assetsNote": "Mia 立绘在 /art/mia.svg，英语第一关直接使用。打招呼、再见、坐好是同一角色的三张场景。旁白是站内英文音频。跟读麦克风尚未接入。",
   "knowledgePointIds": [
     "EN04-001"
   ]

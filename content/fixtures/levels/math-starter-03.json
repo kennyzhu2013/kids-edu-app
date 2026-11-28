@@ -18,7 +18,7 @@
   "introScript": "圆圆的像皮球，方方的像积木，尖尖的是三角形。",
   "introScriptZh": "圆圆的像皮球，方方的像积木，尖尖的是三角形。",
   "listenTitle": "形状",
-  "listenVisual": "/art/listen-shapes.svg",
+  "listenVisual": "/art/cover-math-starter-03.svg",
   "steps": [
     {
       "id": "q1",
@@ -139,7 +139,7 @@
   "rewardStars": 3,
   "rewardCopy": "形状小专家！",
   "rewardCopyZh": "形状小专家！",
-  "assetsNote": "没有实拍素材。图用色块和字块代替，旁白用浏览器语音。",
+  "assetsNote": "插画是原创矢量图，不再用色块占位。旁白是站内音频，缺文件时才用系统朗读。",
   "nextLevelId": "math-starter-04",
   "aDiff": "听名字找形状",
   "knowledgePointIds": [

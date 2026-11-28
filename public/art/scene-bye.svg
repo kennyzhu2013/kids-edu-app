@@ -1,10 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 88 88">
-<rect width="88" height="88" rx="13" fill="#fff3da"/>
-<circle cx="40" cy="36" r="18" fill="#ffd7bf"/>
-    <path d="M27.04 33.3c2.6999999999999997 -15.299999999999999 21.599999999999998 -16.2 26.099999999999998 -0.9" fill="#6b4638"/>
-    <circle cx="34.96" cy="36" r="1.8" fill="#3b2a24"/><circle cx="45.04" cy="36" r="1.8" fill="#3b2a24"/><path d="M33.88 41.76c3.6 5.040000000000001 8.64 5.040000000000001 12.24 0" stroke="#e07a62" stroke-width="2.16" fill="none" stroke-linecap="round"/>
-      <rect x="24" y="56" width="32" height="28" rx="12" fill="#3d94f5"/>
-      <path d="M58 58c10-8 16-4 16 4" stroke="#ffd7bf" stroke-width="7" stroke-linecap="round"/>
-      <rect x="62" y="22" width="16" height="40" rx="3" fill="#f3d2b0"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 112">
+<rect width="160" height="112" rx="23" fill="#fff3da"/>
+<rect y="86" width="160" height="26" fill="#f8e7cf"/>
+<g transform="translate(128 58) scale(0.55)"><g>
+<rect x="-18" y="-28" width="36" height="56" rx="4" fill="#f3d2b0" stroke="#5c4036" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="10" cy="2" r="2.6" fill="#c9895a"/>
+</g></g>
+<g transform="translate(62 62) scale(0.95)"><g><path d="M-6 26c-1 14-1 20-1 24M8 26c1 14 1 20 1 24" stroke="#ffd0b8" stroke-width="7" stroke-linecap="round"/>
+<path d="M-6 26c-1 14-1 20-1 24M8 26c1 14 1 20 1 24" stroke="#5c4036" stroke-width="2.2" stroke-linecap="round"/>
+<path d="M-18 0c-16 8-18 18-10 24" stroke="#ffd0b8" stroke-width="7" fill="none" stroke-linecap="round"/>
+<circle cx="-28" cy="26" r="6" fill="#ffd0b8" stroke="#5c4036" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M16 6c10-2 14 4 12 10" stroke="#ffd0b8" stroke-width="6.5" fill="none" stroke-linecap="round"/><path d="M-16 -2c-1 18 4 28 16 28s17-10 16-28c-8 7-26 7-32 0z" fill="#ff6b4a" stroke="#5c4036" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="-7" cy="12" r="2.2" fill="#ffc44d"/>
+<circle cx="6" cy="16" r="2.2" fill="#ffc44d"/><circle cx="0" cy="-18" r="18" fill="#ffd0b8" stroke="#5c4036" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M-16 -24c2-14 32-16 34 0-10-8-26-8-34 0z" fill="#6b4638"/>
+<path d="M-10 -30c8-6 16-4 20 0" stroke="#6b4638" stroke-width="6" fill="none" stroke-linecap="round"/>
+<g transform="translate(16 -42)">
+<path d="M0 2c-9-7-15-2-15 2s7 7 15 2z" fill="#ff8ad4" stroke="#5c4036" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M0 2c9-7 15-2 15 2s-7 7-15 2z" fill="#ffb0e4" stroke="#5c4036" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<circle r="3.2" cy="2" fill="#ff6b4a" stroke="#5c4036" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/>
+</g>
+<ellipse cx="-6.5" cy="-18" rx="2.8" ry="3.4" fill="#3b2a24"/>
+<ellipse cx="6.5" cy="-18" rx="2.8" ry="3.4" fill="#3b2a24"/>
+<circle cx="-5.6" cy="-19.2" r="1.05" fill="#fff"/>
+<circle cx="7.4" cy="-19.2" r="1.05" fill="#fff"/>
+<path d="M-5 -11c3 4 8 4 11 0" stroke="#e07a62" stroke-width="2.1" fill="none" stroke-linecap="round"/>
+<ellipse cx="-12" cy="-14" rx="2.8" ry="1.7" fill="#ffb199"/>
+<ellipse cx="12" cy="-14" rx="2.8" ry="1.7" fill="#ffb199"/></g></g>
 </svg>

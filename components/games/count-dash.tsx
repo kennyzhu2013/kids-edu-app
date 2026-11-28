@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import { TokenArt } from "@/components/illustrations";
 import { GameChrome, GameDone, GameReady, useRoundTimer } from "@/components/games/chrome";
 import { gameResult, type GameResult } from "@/components/games/plugin";
+import { HearButton, speakLine } from "@/components/games/voice";
 import { playCue } from "@/lib/client/speech";
 import { useChild } from "@/lib/client/store";
 import type { GameDocument } from "@/lib/content/schemas";
@@ -46,6 +47,8 @@ export function CountDash({
   const ended = useRef(false);
   const startedAt = useRef(0);
   const target = game.targets[round] ?? game.targets[0];
+  const cue = game.cues?.[String(target)];
+  const cueSpeak = cue?.speak ?? `点${target}个苹果`;
   const pieces = boardFor(target, distract);
   const apples = picked.length;
   const left = useRoundTimer(phase === "play", game.durationSec, () => end(false, round));
@@ -92,6 +95,9 @@ export function CountDash({
       setNote("真棒");
       setRound(nextRound);
       setPicked([]);
+      const nextTarget = game.targets[nextRound];
+      const nextCue = game.cues?.[String(nextTarget)];
+      speakLine(nextCue?.audio, nextCue?.speak ?? `点${nextTarget}个苹果`);
       return;
     }
     setNote("");
@@ -100,12 +106,28 @@ export function CountDash({
   return (
     <GameChrome title={game.title} phase={phase} seconds={left} progress={`${Math.min(round, game.targets.length)}/${game.targets.length}`} onExit={onExit}>
       {phase === "ready" ? (
-        <GameReady title={game.title} titleEn={game.titleEn} howTo={game.howTo} remaining={remaining} onStart={begin} />
+        <GameReady
+          title={game.title}
+          titleEn={game.titleEn}
+          howTo={game.howTo}
+          remaining={remaining}
+          audioIntro={game.audioIntro}
+          introScript={game.introScript}
+          onStart={() => {
+            begin();
+            const first = game.targets[0];
+            const firstCue = game.cues?.[String(first)];
+            speakLine(firstCue?.audio, firstCue?.speak ?? `点${first}个苹果`);
+          }}
+        />
       ) : null}
       {phase === "play" ? (
         <div className={cn("flex flex-1 flex-col", shake && "shake")}>
           <p className="mt-6 text-center text-5xl font-black text-primary">{target}</p>
           <p className="mt-1 text-center font-bold">点 {target} 个苹果 · 已点 {apples}</p>
+          <div className="mt-3 flex justify-center">
+            <HearButton audio={cue?.audio} speak={cueSpeak} label="再听一次" />
+          </div>
           <div className="mx-auto mt-4 grid w-full max-w-[320px] grid-cols-3 gap-2">
             {pieces.map((piece) => {
               const on = picked.includes(piece.id);
@@ -119,7 +141,7 @@ export function CountDash({
                   onClick={() => tap(piece)}
                   className={cn("grid place-items-center rounded-[20px] bg-white py-2 shadow-sm", on && "opacity-40")}
                 >
-                  <TokenArt token={piece.kind === "apple" ? "/art/apple.svg" : "/art/star.svg"} />
+                  <TokenArt token={piece.kind === "apple" ? "/art/apple-red.svg" : "/art/star.svg"} />
                 </button>
               );
             })}

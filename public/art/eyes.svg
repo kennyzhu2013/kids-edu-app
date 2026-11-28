@@ -1,5 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 88 88">
 <rect width="88" height="88" rx="13" fill="#fff3da"/>
-<ellipse cx="28" cy="46" rx="16" ry="10" fill="#fff" stroke="#3b2a24" stroke-width="2"/><ellipse cx="60" cy="46" rx="16" ry="10" fill="#fff" stroke="#3b2a24" stroke-width="2"/><circle cx="28" cy="46" r="4" fill="#3b2a24"/><circle cx="60" cy="46" r="4" fill="#3b2a24"/>
+<ellipse cx="44" cy="77" rx="21" ry="5" fill="#f0dcc4"/>
+<g transform="translate(44 45) scale(0.82)"><g>
+<g transform="translate(-16 0) scale(0.62)"><g>
+<ellipse rx="26" ry="16" fill="#fff" stroke="#5c4036" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<circle r="8" fill="#4aa3ff"/>
+<circle r="4.2" fill="#3b2a24"/>
+<circle cx="2.4" cy="-2.2" r="1.8" fill="#fff"/>
+</g></g>
+<g transform="translate(16 0) scale(0.62)"><g>
+<ellipse rx="26" ry="16" fill="#fff" stroke="#5c4036" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<circle r="8" fill="#4aa3ff"/>
+<circle r="4.2" fill="#3b2a24"/>
+<circle cx="2.4" cy="-2.2" r="1.8" fill="#fff"/>
+</g></g>
+</g></g>
 </svg>

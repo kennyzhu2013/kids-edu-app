@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useRef, useState } from "react";
 import { GameChrome, GameDone, GameReady, useRoundTimer } from "@/components/games/chrome";
 import { gameResult, type GameResult } from "@/components/games/plugin";
+import { HearButton, speakLine } from "@/components/games/voice";
 import { playCue } from "@/lib/client/speech";
 import type { GameDocument } from "@/lib/content/schemas";
 import { cn } from "@/lib/utils";
@@ -72,6 +73,8 @@ export function ShapeFit({
     playCue("ok");
     setNote("真棒");
     const next = round + 1;
+    const upcoming = game.shapes[next % game.shapes.length];
+    if (next < game.winTarget && upcoming) speakLine(upcoming.audio, upcoming.speak ?? upcoming.label);
     window.setTimeout(() => {
       if (next >= game.winTarget) {
         setRound(next);
@@ -86,11 +89,26 @@ export function ShapeFit({
   return (
     <GameChrome title={game.title} phase={phase} seconds={left} progress={`${Math.min(round, game.winTarget)}/${game.winTarget}`} onExit={onExit}>
       {phase === "ready" ? (
-        <GameReady title={game.title} titleEn={game.titleEn} howTo={game.howTo} remaining={remaining} onStart={begin} />
+        <GameReady
+          title={game.title}
+          titleEn={game.titleEn}
+          howTo={game.howTo}
+          remaining={remaining}
+          audioIntro={game.audioIntro}
+          introScript={game.introScript}
+          onStart={() => {
+            begin();
+            const first = game.shapes[0];
+            if (first) speakLine(first.audio, first.speak ?? first.label);
+          }}
+        />
       ) : null}
       {phase === "play" && target ? (
         <div className={cn("flex flex-1 flex-col", shake && "shake")}>
           <p className="mt-6 text-center text-xl font-black">把{target.label}放进来</p>
+          <div className="mt-3 flex justify-center">
+            <HearButton audio={target.audio} speak={target.speak ?? target.label} label="再听一次" />
+          </div>
           <div
             data-slot="shape"
             className="mx-auto mt-4 grid size-36 place-items-center rounded-[28px] border-4 border-dashed border-primary/40 bg-white"

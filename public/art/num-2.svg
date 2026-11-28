@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 88 88">
 <rect width="88" height="88" rx="13" fill="#fff3da"/>
-<text x="44" y="58" text-anchor="middle" font-size="42" font-family="Nunito, sans-serif" font-weight="800" fill="#ff6b4a">2</text>
+<ellipse cx="44" cy="77" rx="21" ry="5" fill="#f0dcc4"/>
+<g transform="translate(44 45) scale(0.82)"><g>
+<circle r="22" fill="#fff" stroke="#ff6b4a" stroke-width="3.5"/>
+<text x="0" y="8" text-anchor="middle" font-family="Verdana, Trebuchet MS, sans-serif" font-size="26" font-weight="700" fill="#ff6b4a">2</text>
+
+</g></g>
 </svg>

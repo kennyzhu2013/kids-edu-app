@@ -19,7 +19,7 @@
   "introScript": "复习小猫、红色和太阳。",
   "introScriptZh": "复习小猫、红色和太阳。",
   "listenTitle": "语文复习",
-  "listenVisual": "/art/listen-animals.svg",
+  "listenVisual": "/art/cover-lang-starter-10.svg",
   "steps": [
     {
       "id": "q1",

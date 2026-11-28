@@ -18,7 +18,7 @@
   "introScript": "玩具该回家啦。球进圆形盒，大的小的分两箱。",
   "introScriptZh": "玩具该回家啦。球进圆形盒，大的小的分两箱。",
   "listenTitle": "整理玩具",
-  "listenVisual": "/art/toybox.svg",
+  "listenVisual": "/art/cover-math-life-05.svg",
   "steps": [
     {
       "id": "q1",
@@ -136,7 +136,7 @@
   "rewardStars": 3,
   "rewardCopy": "整理小能手！房间好整齐！",
   "rewardCopyZh": "整理小能手！房间好整齐！",
-  "assetsNote": "没有实拍素材。图用色块和字块代替，旁白用浏览器语音。",
+  "assetsNote": "插画是原创矢量图，不再用色块占位。旁白是站内音频，缺文件时才用系统朗读。",
   "aDiff": "按形状和大小整理",
   "knowledgePointIds": [
     "MA09-004"

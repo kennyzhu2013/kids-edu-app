@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import { TokenArt } from "@/components/illustrations";
 import { GameChrome, GameDone, GameReady, useRoundTimer } from "@/components/games/chrome";
 import { gameResult, type GameResult } from "@/components/games/plugin";
+import { HearButton, speakLine } from "@/components/games/voice";
 import { playCue } from "@/lib/client/speech";
 import type { GameDocument } from "@/lib/content/schemas";
 import { cn } from "@/lib/utils";
@@ -107,11 +108,25 @@ export function HabitOrder({
   return (
     <GameChrome title={game.title} phase={phase} seconds={left} progress={`${won ? 1 : 0}/${game.winTarget}`} onExit={onExit}>
       {phase === "ready" ? (
-        <GameReady title={game.title} titleEn={game.titleEn} howTo={game.howTo} remaining={remaining} onStart={begin} />
+        <GameReady
+          title={game.title}
+          titleEn={game.titleEn}
+          howTo={game.howTo}
+          remaining={remaining}
+          audioIntro={game.audioIntro}
+          introScript={game.introScript}
+          onStart={() => {
+            begin();
+            speakLine(game.promptAudio, game.promptSpeak ?? "按顺序排一排");
+          }}
+        />
       ) : null}
       {phase === "play" ? (
         <div className={cn("flex flex-1 flex-col", shake && "shake")}>
           <p className="mt-4 text-center font-bold">先打湿，再搓皂，冲干净，最后擦干</p>
+          <div className="mt-3 flex justify-center">
+            <HearButton audio={game.promptAudio} speak={game.promptSpeak ?? "按顺序排一排"} label="再听一次" />
+          </div>
           <ol className="mt-3 grid gap-2">
             {placed.map((step, index) => (
               <li

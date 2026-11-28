@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import { TokenArt } from "@/components/illustrations";
 import { GameChrome, GameDone, GameReady, useRoundTimer } from "@/components/games/chrome";
 import { gameResult, type GameResult } from "@/components/games/plugin";
+import { HearButton, speakLine } from "@/components/games/voice";
 import { playCue } from "@/lib/client/speech";
 import type { GameDocument } from "@/lib/content/schemas";
 import { cn } from "@/lib/utils";
@@ -78,25 +79,39 @@ export function SpotAnimal({
       return;
     }
     const next = round + 1;
+    playCue("ok");
     if (next >= game.winTarget) {
-      playCue("ok");
       setRound(next);
       end(true, next);
       return;
     }
-    playCue("ok");
     setNote("真棒");
     setRound(next);
+    speakLine(game.promptAudio, game.promptSpeak ?? "哪个不一样？");
   }
 
   return (
     <GameChrome title={game.title} phase={phase} seconds={left} progress={`${Math.min(round, game.winTarget)}/${game.winTarget}`} onExit={onExit}>
       {phase === "ready" ? (
-        <GameReady title={game.title} titleEn={game.titleEn} howTo={game.howTo} remaining={remaining} onStart={begin} />
+        <GameReady
+          title={game.title}
+          titleEn={game.titleEn}
+          howTo={game.howTo}
+          remaining={remaining}
+          audioIntro={game.audioIntro}
+          introScript={game.introScript}
+          onStart={() => {
+            begin();
+            speakLine(game.promptAudio, game.promptSpeak ?? "哪个不一样？");
+          }}
+        />
       ) : null}
       {phase === "play" && cells ? (
         <div className={cn("flex flex-1 flex-col", shake && "shake")}>
           <p className="mt-6 text-center text-xl font-black">哪个不一样？</p>
+          <div className="mt-3 flex justify-center">
+            <HearButton audio={game.promptAudio} speak={game.promptSpeak ?? "哪个不一样？"} label="再听一次" />
+          </div>
           <div className="mx-auto mt-4 grid w-full max-w-[320px] grid-cols-3 gap-2">
             {cells.map((animal, index) => (
               <button
