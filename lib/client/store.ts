@@ -2,6 +2,7 @@
 
 import { useSyncExternalStore } from "react";
 import type { AgeBand } from "@/lib/age";
+import { parseDayKey, playsFromStorage, sameDayKey, utcDayKey } from "@/lib/learning/dates";
 
 const KEY = "qimeng:v1";
 
@@ -172,18 +173,17 @@ export function clearLocalProfile() {
 
 type Quota = { date: string; used: Record<string, number>; bonus: Record<string, number> };
 
-export function localDayKey() {
-  const now = new Date();
-  return `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`;
+/** 配额按补零的 UTC 日存储。旧的不补零 qimeng:plays 会在读取时写回。 */
+export function localDayKey(now = new Date()) {
+  return utcDayKey(now);
 }
 
 function readQuota(): Quota {
   if (typeof window === "undefined") return { date: localDayKey(), used: {}, bonus: {} };
   try {
-    const raw = localStorage.getItem("qimeng:plays");
-    const parsed = raw ? (JSON.parse(raw) as Quota) : null;
-    if (!parsed || parsed.date !== localDayKey()) return { date: localDayKey(), used: {}, bonus: {} };
-    return parsed;
+    const loaded = playsFromStorage(localStorage.getItem("qimeng:plays"), new Date());
+    if (loaded.rewritten) writeQuota(loaded.quota);
+    return loaded.quota;
   } catch {
     return { date: localDayKey(), used: {}, bonus: {} };
   }
@@ -223,11 +223,12 @@ export function applyServerQuotas(day: string, rows: Array<{ gameId: string; use
 
 export function mergeServerQuota(day: string, row: { gameId: string; used: number; bonus: number }) {
   const quota = readQuota();
-  if (quota.date !== day) {
-    quota.date = day;
+  const canonical = parseDayKey(day) ?? localDayKey();
+  if (!sameDayKey(quota.date, canonical)) {
     quota.used = {};
     quota.bonus = {};
   }
+  quota.date = canonical;
   quota.used[row.gameId] = row.used;
   quota.bonus[row.gameId] = row.bonus;
   writeQuota(quota);

@@ -42,17 +42,17 @@ type NewLearningEvent = {
 export async function appendLearningEvent(input: NewLearningEvent) {
   const state = db();
   const existing = state.learningEvents.find((item) => item.clientEventId === input.clientEventId);
-  if (existing) return { event: existing, idempotent: true };
+  if (existing) return finish({ event: existing, idempotent: true });
   const row: LearningEventRecord = {
     id: uid("evt"),
     createdAt: new Date().toISOString(),
     ...input,
   };
   state.learningEvents.push(row);
-  if (!databaseEnabled()) return { event: row, idempotent: false };
+  if (!databaseEnabled()) return finish({ event: row, idempotent: false });
   try {
     await persistLearningEvent(row);
-    return { event: row, idempotent: false };
+    return finish({ event: row, idempotent: false });
   } catch (error) {
     if (!isUniqueConflict(error)) {
       state.learningEvents = state.learningEvents.filter((item) => item.id !== row.id);
@@ -60,7 +60,7 @@ export async function appendLearningEvent(input: NewLearningEvent) {
     }
     const saved = await getPrisma().learningEvent.findUnique({ where: { clientEventId: input.clientEventId } });
     state.learningEvents = state.learningEvents.filter((item) => item.clientEventId !== input.clientEventId);
-    if (!saved) return { event: row, idempotent: true };
+    if (!saved) return finish({ event: row, idempotent: true });
     const loaded: LearningEventRecord = {
       id: saved.id,
       childId: saved.childId,
@@ -78,8 +78,16 @@ export async function appendLearningEvent(input: NewLearningEvent) {
       createdAt: saved.createdAt.toISOString(),
     };
     state.learningEvents.push(loaded);
-    return { event: loaded, idempotent: true };
+    return finish({ event: loaded, idempotent: true });
   }
+}
+
+async function finish(result: { event: LearningEventRecord; idempotent: boolean }) {
+  if (!result.idempotent) {
+    const { applyLearningEvent } = await import("@/lib/api/modules/learning-state");
+    await applyLearningEvent(result.event);
+  }
+  return result;
 }
 
 export async function postEvents(request: Request, body: Record<string, unknown>) {

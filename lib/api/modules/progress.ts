@@ -1,22 +1,18 @@
 import { HttpError, jsonOk, asNumber, asString } from "@/lib/api/http";
-import { currentChild, db, uid, type Memory, type ProgressRecord } from "@/lib/api/memory";
+import { currentChild, db, uid, type ProgressRecord } from "@/lib/api/memory";
 import { requireUser } from "@/lib/api/modules/auth";
 import { recordServerMathEvents } from "@/lib/api/modules/events";
+import { settleLevelReview } from "@/lib/api/modules/learning-state";
 import { persistProgress, persistTodayPlan } from "@/lib/api/persist";
 import { scoreMathStarter, stepAttemptListSchema } from "@/lib/content/score-math";
 import type { AgeBand } from "@/lib/age";
 import { isProduction } from "@/lib/api/secrets";
+import { sameDayKey, shiftUtcDay, utcDayKey } from "@/lib/learning/dates";
+import { buildProgressReport } from "@/lib/learning/report";
+import { reviewPassed } from "@/lib/learning/review";
+import { buildTodayTasks, describeTodayTasks, frozenTasks } from "@/lib/learning/today-tasks";
 
-const SUBJECT_ORDER = ["lang", "math", "eng", "life"] as const;
-const PACKS_BY_SUBJECT: Record<(typeof SUBJECT_ORDER)[number], string[]> = {
-  lang: ["lang-starter"],
-  math: ["math-starter", "math-life"],
-  eng: ["eng-starter"],
-  life: ["life-starter"],
-};
-const START_ORDER = { A: 1, B: 2, C: 3 } as const;
-
-export async function getToday(request: Request, url: URL) {
+export async function getToday(request: Request, url: URL, now = new Date()) {
   requireUser(request);
   if (isProduction() && !db().user.guardianConsentAt) {
     throw new HttpError(403, "CONSENT_REQUIRED", "请先由监护人同意隐私说明");
@@ -24,19 +20,14 @@ export async function getToday(request: Request, url: URL) {
   const child = currentChild(db(), url.searchParams.get("childId"));
   if (!child) throw new HttpError(403, "FORBIDDEN", "还没有孩子档案");
   const state = db();
-  const done = new Set(
-    state.progress
-      .filter((item) => item.childId === child.id && item.status === "completed")
-      .map((item) => item.levelId),
-  );
-  const tasks = tasksForToday(state, child.id, child.ageBand, done);
+  const tasks = tasksForToday(child.id, child.ageBand, now);
   await persistTodayPlan(child.id);
   const finished = tasks.filter((task) => task.status === "done").length;
   const continueTask = tasks.find((task) => task.status !== "done") ?? tasks[0];
   const childRows = state.progress.filter((item) => item.childId === child.id);
   return jsonOk({
     child,
-    streakDays: streakDaysFor(childRows),
+    streakDays: streakDaysFor(childRows, now),
     continueLevel: continueTask
       ? {
           id: continueTask.id,
@@ -52,70 +43,24 @@ export async function getToday(request: Request, url: URL) {
   });
 }
 
-type DailyTask = {
-  id: string;
-  kind: "level";
-  title: string;
-  minutes: number;
-  status: "todo" | "done";
-  href: string;
-  subject: string;
-  subjectId: string;
-};
-
-function tasksForToday(state: Memory, childId: string, age: "A" | "B" | "C", done: Set<string>) {
+function tasksForToday(childId: string, age: "A" | "B" | "C", now: Date) {
+  const state = db();
   if (!state.todayPlans) state.todayPlans = {};
-  const day = utcDayKey(new Date());
+  const day = utcDayKey(now);
   let plan = state.todayPlans[childId];
-  if (!plan || plan.day !== day || plan.ageBand !== age) {
+  if (!plan || !sameDayKey(plan.day, day)) {
+    const tasks = buildTodayTasks({ state, childId, age, day });
     plan = {
       day,
       ageBand: age,
-      levelIds: SUBJECT_ORDER.map((subjectId) => dailyTask(state, subjectId, age, done)?.id).filter((id): id is string => Boolean(id)),
+      levelIds: tasks.filter((task) => task.kind !== "game").map((task) => task.id),
+      tasks,
     };
     state.todayPlans[childId] = plan;
+  } else if (plan.day !== day) {
+    plan.day = day;
   }
-  return plan.levelIds
-    .map((id) => {
-      const level = state.levels.find((item) => item.id === id);
-      if (!level) return null;
-      const subjectId = state.packs.find((pack) => pack.id === level.packId)?.subjectId ?? "";
-      const subject = state.subjects.find((item) => item.id === subjectId)?.name ?? subjectId;
-      const task: DailyTask = {
-        id: level.id,
-        kind: "level",
-        title: level.title,
-        minutes: level.minutes,
-        status: done.has(level.id) ? "done" : "todo",
-        href: `/play/${level.id}`,
-        subject,
-        subjectId,
-      };
-      return task;
-    })
-    .filter((task): task is DailyTask => task !== null);
-}
-
-function dailyTask(state: Memory, subjectId: (typeof SUBJECT_ORDER)[number], age: "A" | "B" | "C", done: Set<string>): DailyTask | null {
-  const packIds = PACKS_BY_SUBJECT[subjectId].filter((packId) => !(age === "A" && packId === "math-life"));
-  const levels = packIds.flatMap((packId) =>
-    state.levels.filter((level) => level.packId === packId && level.playable).sort((a, b) => a.order - b.order),
-  );
-  if (levels.length === 0) return null;
-  const start = START_ORDER[age];
-  const incomplete = levels.filter((level) => !done.has(level.id));
-  const chosen = incomplete.find((level) => level.order >= start) ?? incomplete[0] ?? levels[0];
-  const subject = state.subjects.find((item) => item.id === subjectId)?.name ?? subjectId;
-  return {
-    id: chosen.id,
-    kind: "level",
-    title: chosen.title,
-    minutes: chosen.minutes,
-    status: done.has(chosen.id) ? "done" : "todo",
-    href: `/play/${chosen.id}`,
-    subject,
-    subjectId,
-  };
+  return describeTodayTasks({ state, childId, day, tasks: frozenTasks(plan) });
 }
 
 function childForCompletion(childId: string) {
@@ -163,15 +108,23 @@ export async function completeLevel(request: Request, levelId: string, body: Rec
     previous.completedAt = now;
     previous.clientEventId = clientEventId ?? previous.clientEventId;
     await persistProgress(previous);
+    const attemptId = clientEventId ?? uid("math");
     if (scored.detail) {
       await recordServerMathEvents({
         childId: child.id,
         levelId,
-        attemptId: clientEventId ?? uid("math"),
+        attemptId,
         durationMs: duration * 1000,
         objective: scored.detail.objective,
       });
     }
+    await settleLevelReview({
+      childId: child.id,
+      levelId,
+      attemptId,
+      passed: reviewPassed(scored.detail?.objective ?? null, scored.stars),
+      durationMs: duration * 1000,
+    });
     return jsonOk({
       progress: previous,
       rewards: { stars: previous.stars, copy: "Great job!" },
@@ -193,15 +146,23 @@ export async function completeLevel(request: Request, levelId: string, body: Rec
   };
   db().progress.push(created);
   await persistProgress(created);
+  const attemptId = clientEventId ?? uid("math");
   if (scored.detail) {
     await recordServerMathEvents({
       childId: child.id,
       levelId,
-      attemptId: clientEventId ?? uid("math"),
+      attemptId,
       durationMs: duration * 1000,
       objective: scored.detail.objective,
     });
   }
+  await settleLevelReview({
+    childId: child.id,
+    levelId,
+    attemptId,
+      passed: reviewPassed(scored.detail?.objective ?? null, scored.stars),
+    durationMs: duration * 1000,
+  });
   return jsonOk({
     progress: created,
     rewards: { stars, copy: "Great job!" },
@@ -240,74 +201,22 @@ function scoreForLevel(packId: string, levelId: string, age: AgeBand, body: Reco
   };
 }
 
-export function progressSummary(request: Request, url: URL) {
+export function progressSummary(request: Request, url: URL, now = new Date()) {
   requireUser(request);
   const state = db();
   const child = currentChild(state, url.searchParams.get("childId"));
   if (!child) throw new HttpError(403, "FORBIDDEN", "还没有孩子档案");
-  const rows = state.progress.filter((item) => item.childId === child.id && item.status === "completed");
-  const weekRows = rows.filter((item) => item.completedAt && isSameWeek(item.completedAt));
-  const seconds = weekRows.reduce((sum, item) => sum + item.durationSec, 0);
-  const subjects = subjectStats(state, weekRows);
+  const report = buildProgressReport(state, child.id, now);
   return jsonOk({
     childId: child.id,
     nickname: child.nickname,
-    minutes: seconds <= 0 ? 0 : Math.max(1, Math.round(seconds / 60)),
-    completedLevels: weekRows.length,
-    streakDays: streakDaysFor(rows),
-    suggestion: weakAreaTip(subjects),
-    subjects: subjects.map((item) => ({ id: item.id, name: item.name, completed: item.levels })),
+    ...report,
   });
-}
-
-function subjectStats(state: Memory, rows: ProgressRecord[]) {
-  const stats = SUBJECT_ORDER.map((id) => ({
-    id,
-    name: state.subjects.find((item) => item.id === id)?.name ?? id,
-    levels: 0,
-    stars: 0,
-  }));
-  const byId = new Map(stats.map((item) => [item.id, item]));
-  for (const row of rows) {
-    const level = state.levels.find((item) => item.id === row.levelId);
-    const subjectId = level ? state.packs.find((pack) => pack.id === level.packId)?.subjectId : undefined;
-    if (!subjectId || !isSubjectId(subjectId)) continue;
-    const bucket = byId.get(subjectId);
-    if (!bucket) continue;
-    bucket.levels += 1;
-    bucket.stars += row.stars;
-  }
-  return stats;
-}
-
-function isSubjectId(value: string): value is (typeof SUBJECT_ORDER)[number] {
-  return (SUBJECT_ORDER as readonly string[]).includes(value);
-}
-
-function weakAreaTip(subjects: Array<{ name: string; levels: number; stars: number }>) {
-  const played = subjects.filter((item) => item.levels > 0);
-  if (played.length === 0) {
-    const first = subjects[0]?.name ?? "语言";
-    return `先从${first}开始，听一听再点一点。`;
-  }
-  const missing = subjects.find((item) => item.levels === 0);
-  if (missing) return `这周还没碰${missing.name}，抽一关练练。`;
-  const weakest = played.reduce((low, item) => (item.stars / item.levels < low.stars / low.levels ? item : low));
-  return `${weakest.name}的星星最少，再玩一关会更稳。`;
 }
 
 function clamp(value: number, min: number, max: number) {
   if (!Number.isFinite(value)) return min;
   return Math.min(max, Math.max(min, Math.round(value)));
-}
-
-function utcDayKey(date: Date) {
-  return date.toISOString().slice(0, 10);
-}
-
-function shiftUtcDay(key: string, delta: number) {
-  const [year, month, day] = key.split("-").map(Number);
-  return new Date(Date.UTC(year, month - 1, day + delta)).toISOString().slice(0, 10);
 }
 
 function streakDaysFor(rows: Array<{ status: string; completedAt: string | null }>, now = new Date()) {
@@ -325,12 +234,4 @@ function streakDaysFor(rows: Array<{ status: string; completedAt: string | null 
     cursor = shiftUtcDay(cursor, -1);
   }
   return count;
-}
-
-function isSameWeek(iso: string, now = new Date()) {
-  const date = new Date(iso);
-  const start = new Date(now);
-  start.setDate(now.getDate() - ((now.getDay() + 6) % 7));
-  start.setHours(0, 0, 0, 0);
-  return date >= start;
 }

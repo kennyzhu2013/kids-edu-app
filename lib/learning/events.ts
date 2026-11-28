@@ -98,6 +98,9 @@ export function parseIncomingEvents(body: unknown): { ok: true; events: StoredDe
   }
   const events: StoredDeviceEvent[] = [];
   for (const item of parsed.data) {
+    if (item.type === "review_completed") {
+      return { ok: false, message: "review_completed 只能在复习完成时由服务端写入" };
+    }
     if (item.source !== "device") {
       return { ok: false, message: "source=server 只由服务端计分写入" };
     }

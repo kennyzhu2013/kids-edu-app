@@ -9,6 +9,7 @@ import type {
 import { loadCatalog, loadGameConfigs, loadPlayableLevels } from "@/lib/content/load";
 import type { GameDocument, LevelDocument } from "@/lib/content/schemas";
 import type { LearningEventRecord } from "@/lib/learning/events";
+import type { KnowledgeMasteryRecord, ReviewPlanRecord } from "@/lib/learning/records";
 
 export type ChildRecord = {
   id: string;
@@ -105,13 +106,28 @@ export type Memory = {
   playableLevels: Record<string, LevelDocument>;
   gameConfigs: Record<string, GameDocument>;
   assets: AssetRecord[];
-  todayPlans: Record<string, { day: string; ageBand: "A" | "B" | "C"; levelIds: string[] }>;
+  todayPlans: Record<
+    string,
+    {
+      day: string;
+      ageBand: "A" | "B" | "C";
+      levelIds: string[];
+      tasks: Array<{
+        kind: "review" | "level" | "game";
+        slot: "review" | "weak" | "new" | "game";
+        id: string;
+        knowledgePointId: string | null;
+      }> | null;
+    }
+  >;
   gameQuotas: Record<string, { childId: string; gameId: string; day: string; used: number; bonus: number }>;
   /**
-   * 学习事件和配额幂等键。没有 DATABASE_URL 时只存在这里，进程重启就没了，和 progress 一样。
-   * 有库时以 clientEventId 的唯一约束为准，重启后从库装回，补发队列不会写成第二行。
+   * 学习事件、掌握度和复习计划。没有 DATABASE_URL 时只存在这里，进程重启就没了，和 progress 一样。
+   * 有库时以唯一约束为准，重启后从库装回。
    */
   learningEvents: LearningEventRecord[];
+  knowledgeMastery: KnowledgeMasteryRecord[];
+  reviewPlans: ReviewPlanRecord[];
   quotaCharges: Record<string, { childId: string; gameId: string; day: string }>;
 };
 
@@ -143,6 +159,8 @@ export function db(): Memory {
     if (!globalStore.__qimengMemory.todayPlans) globalStore.__qimengMemory.todayPlans = {};
     if (!globalStore.__qimengMemory.gameQuotas) globalStore.__qimengMemory.gameQuotas = {};
     if (!globalStore.__qimengMemory.learningEvents) globalStore.__qimengMemory.learningEvents = [];
+    if (!globalStore.__qimengMemory.knowledgeMastery) globalStore.__qimengMemory.knowledgeMastery = [];
+    if (!globalStore.__qimengMemory.reviewPlans) globalStore.__qimengMemory.reviewPlans = [];
     if (!globalStore.__qimengMemory.quotaCharges) globalStore.__qimengMemory.quotaCharges = {};
     return globalStore.__qimengMemory;
   }
@@ -202,6 +220,8 @@ export function db(): Memory {
     todayPlans: {},
     gameQuotas: {},
     learningEvents: [],
+    knowledgeMastery: [],
+    reviewPlans: [],
     quotaCharges: {},
   };
   applyContent(memory);
